@@ -2,6 +2,8 @@ package com.example.tesi.entity;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -11,6 +13,7 @@ public class User {
 	private String password;
 	private UUID id;
 	private String indirizzo;
+	private List<Prodotto> prodotti;
 
 	public User(String email, String username, String password, String indirizzo) {
 		this.email = email;
@@ -18,6 +21,7 @@ public class User {
 		this.password = password;
 		this.id = UUID.randomUUID();
 		this.indirizzo =indirizzo;
+		prodotti=new ArrayList<>();
 	}
 
 	public String getEmail() {
@@ -58,6 +62,14 @@ public class User {
 
 	public void setIndirizzo(String indirizzo) {
 		this.indirizzo = indirizzo;
+	}
+
+	public List<Prodotto> getProdotti() {
+		return prodotti;
+	}
+
+	public void setProdotti(List<Prodotto> prodotti) {
+		this.prodotti = prodotti;
 	}
 
 	@NonNull

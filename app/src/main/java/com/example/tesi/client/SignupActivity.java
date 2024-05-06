@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -61,7 +60,8 @@ public class SignupActivity extends AppCompatActivity {
 				} else {
 					if (password.equals(confPassword)) {
 						User user = new User(email, username, password, indirizzo);
-
+						//TODO completa signup con inserimento in database e salvataggio utente in sessione
+						goToLogin();
 					} else {
 						signupErrorMessage.setVisibility(View.VISIBLE);
 						signupErrorMessage.setText("Inserisci la stessa password");
@@ -96,9 +96,14 @@ public class SignupActivity extends AppCompatActivity {
 		toLogin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent i=new Intent(SignupActivity.this, LoginActivity.class);
-				startActivity(i);
+				goToLogin();
 			}
 		});
+	}
+
+	private void goToLogin() {
+		Intent i=new Intent(SignupActivity.this, LoginActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivity(i);
 	}
 }

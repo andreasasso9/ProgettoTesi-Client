@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				Intent i=new Intent(LoginActivity.this, SignupActivity.class);
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				startActivity(i);
 			}
 		});

@@ -57,13 +57,14 @@
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal">
 
-        <TextView android:id="@+id/toSignup"
+        <TextView
+            android:id="@+id/toSignup"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Sign-up"
+            android:textColor="#002CCC"
             android:textSize="18dp"
-            android:textStyle="italic"
-            android:textColor="#002CCC"/>
+            android:textStyle="italic" />
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
