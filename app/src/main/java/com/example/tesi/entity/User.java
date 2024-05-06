@@ -1,5 +1,8 @@
 package com.example.tesi.entity;
 
+import androidx.annotation.NonNull;
+
+import java.util.Locale;
 import java.util.UUID;
 
 public class User {
@@ -9,11 +12,11 @@ public class User {
 	private UUID id;
 	private String indirizzo;
 
-	public User(String email, String username, String password, UUID id, String indirizzo) {
+	public User(String email, String username, String password, String indirizzo) {
 		this.email = email;
 		this.username = username;
 		this.password = password;
-		this.id = id;
+		this.id = UUID.randomUUID();
 		this.indirizzo =indirizzo;
 	}
 
@@ -55,5 +58,11 @@ public class User {
 
 	public void setIndirizzo(String indirizzo) {
 		this.indirizzo = indirizzo;
+	}
+
+	@NonNull
+	@Override
+	public String toString() {
+		return String.format(Locale.ITALIAN, "%s %s", username, id);
 	}
 }
