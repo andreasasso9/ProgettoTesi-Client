@@ -7,12 +7,14 @@ public class User {
 	private String username;
 	private String password;
 	private UUID id;
+	private String indirizzo;
 
-	public User(String email, String username, String password, UUID id) {
+	public User(String email, String username, String password, UUID id, String indirizzo) {
 		this.email = email;
 		this.username = username;
 		this.password = password;
 		this.id = id;
+		this.indirizzo =indirizzo;
 	}
 
 	public String getEmail() {
@@ -45,5 +47,13 @@ public class User {
 
 	public void setId(UUID id) {
 		this.id = id;
+	}
+
+	public String getIndirizzo() {
+		return indirizzo;
+	}
+
+	public void setIndirizzo(String indirizzo) {
+		this.indirizzo = indirizzo;
 	}
 }
