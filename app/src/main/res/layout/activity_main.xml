@@ -4,21 +4,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:gravity="center">
+    tools:context=".activities.MainActivity"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Prova"
-        android:textSize="30dp"
-        android:onClick="prova"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="premi"
-        android:textSize="100dp"
-        android:onClick="prova"/>
 
 </LinearLayout>

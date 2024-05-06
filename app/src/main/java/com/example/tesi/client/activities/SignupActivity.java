@@ -1,4 +1,4 @@
-package com.example.tesi.client;
+package com.example.tesi.client.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tesi.checkValidity.CheckNotEmptyStrings;
+import com.example.tesi.client.R;
 import com.example.tesi.entity.User;
 
 public class SignupActivity extends AppCompatActivity {

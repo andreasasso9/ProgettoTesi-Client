@@ -1,4 +1,4 @@
-package com.example.tesi.client;
+package com.example.tesi.client.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.tesi.client.R;
 
 public class LoginActivity extends AppCompatActivity {
 	private EditText loginUsername;
