@@ -1,6 +1,6 @@
 package com.example.tesi.entity.entityenum;
 
-public enum Brand {
+public enum Brand implements Option{
 	GUCCI("Gucci"),
 	PRADA("Prada"),
 	VERSACE("Versace"),

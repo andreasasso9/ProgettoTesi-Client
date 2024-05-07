@@ -1,6 +1,6 @@
 package com.example.tesi.entity.entityenum;
 
-public enum Condizioni {
+public enum Condizioni implements Option{
 	NUOVO_CON_CARTELLINO("Nuovo con cartellino"),
 	NUOVO_SENZA_CARTELLINO("Nuovo senza cartellino"),
 	OTTIME("Ottime"),

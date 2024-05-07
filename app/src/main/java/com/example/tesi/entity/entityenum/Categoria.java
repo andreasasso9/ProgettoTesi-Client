@@ -1,6 +1,6 @@
 package com.example.tesi.entity.entityenum;
 
-public enum Categoria {
+public enum Categoria implements Option{
 	VESTITI("Vestiti"),
 	SCARPE("Scarpe"),
 	ACCESSORI("Accessori"),

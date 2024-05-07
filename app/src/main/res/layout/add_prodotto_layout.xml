@@ -4,22 +4,151 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Scegli foto"
-        android:textSize="30dp"
-        android:onClick="scegliFoto"/>
 
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="50dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <LinearLayout android:id="@+id/layoutFoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+                <LinearLayout android:id="@+id/containerFoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+            </HorizontalScrollView>
 
-    </HorizontalScrollView>
+            <Button
+                android:id="@+id/buttonCaricaFoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Carica foto"
+                android:textSize="30dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Titolo"
+                        android:textSize="25dp"/>
+
+                    <TextView android:id="@+id/contatoreTitolo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Caratteri: 0"
+                        android:textSize="15dp"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+
+                <EditText android:id="@+id/formTitolo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="es. maglione bianco (max 30 caratteri)"
+                    android:maxLength="30"
+                    android:maxLines="1"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Descrivi il tuo articolo"
+                        android:textSize="25dp"/>
+
+                    <TextView android:id="@+id/contatoreDescrizione"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Caratteri: 0"
+                        android:textSize="15dp"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <EditText android:id="@+id/formDescrizione"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:hint="es. indossato poche volte, condizione ottime,... (max 150 caratteri)"
+                    android:gravity="start"
+                    android:maxLength="150"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/sceltaCategoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Categoria"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <RadioGroup android:id="@+id/opzioniCategoria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <LinearLayout android:id="@+id/sceltaBrand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Brand"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <RadioGroup android:id="@+id/opzioniBrand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <LinearLayout android:id="@+id/sceltaCondizioni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Condizioni"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <RadioGroup android:id="@+id/opzioniCondizioni"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
