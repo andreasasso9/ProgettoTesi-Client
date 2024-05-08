@@ -8,7 +8,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,7 +24,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.tesi.client.R;
 import com.example.tesi.entity.Prodotto;
@@ -36,33 +38,34 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AddProdottoActivity extends AppCompatActivity {
+public class AddProdottoFragment extends Fragment {
 	private ActivityResultLauncher<Intent> scegliImmaginiLauncher;
 	private List<Bitmap> foto;
-	private LinearLayout containerFoto, sceltaCategoria, sceltaBrand, sceltaCondizioni, sceltaPrezzo;
+	private LinearLayout containerFoto;
+	private LinearLayout sceltaPrezzo;
 	private EditText formTitolo, formDescrizione, formPrezzo;
 	private TextView contatoreTitolo, contatoreDescrizione;
 	private RadioGroup opzioniCategoria, opzioniBrand, opzioniCondizioni;
+	private View v;
 
-	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_prodotto_layout);
+		v=inflater.inflate(R.layout.add_prodotto_layout, container, false);
 
 		foto=new LinkedList<>();
-		containerFoto=findViewById(R.id.containerFoto);
-		formTitolo=findViewById(R.id.formTitolo);
-		formDescrizione=findViewById(R.id.formDescrizione);
-		contatoreTitolo=findViewById(R.id.contatoreTitolo);
-		contatoreDescrizione=findViewById(R.id.contatoreDescrizione);
-		sceltaCategoria=findViewById(R.id.sceltaCategoria);
-		sceltaBrand=findViewById(R.id.sceltaBrand);
-		sceltaCondizioni=findViewById(R.id.sceltaCondizioni);
-		opzioniCategoria=findViewById(R.id.opzioniCategoria);
-		opzioniBrand=findViewById(R.id.opzioniBrand);
-		opzioniCondizioni=findViewById(R.id.opzioniCondizioni);
-		sceltaPrezzo=findViewById(R.id.sceltaPrezzo);
-		formPrezzo=findViewById(R.id.formPrezzo);
+		containerFoto=v.findViewById(R.id.containerFoto);
+		formTitolo=v.findViewById(R.id.formTitolo);
+		formDescrizione=v.findViewById(R.id.formDescrizione);
+		contatoreTitolo=v.findViewById(R.id.contatoreTitolo);
+		contatoreDescrizione=v.findViewById(R.id.contatoreDescrizione);
+		LinearLayout sceltaCategoria = v.findViewById(R.id.sceltaCategoria);
+		LinearLayout sceltaBrand = v.findViewById(R.id.sceltaBrand);
+		LinearLayout sceltaCondizioni = v.findViewById(R.id.sceltaCondizioni);
+		opzioniCategoria=v.findViewById(R.id.opzioniCategoria);
+		opzioniBrand=v.findViewById(R.id.opzioniBrand);
+		opzioniCondizioni=v.findViewById(R.id.opzioniCondizioni);
+		sceltaPrezzo=v.findViewById(R.id.sceltaPrezzo);
+		formPrezzo=v.findViewById(R.id.formPrezzo);
 
 		createLauncher();
 
@@ -73,14 +76,15 @@ public class AddProdottoActivity extends AppCompatActivity {
 		createScelte(sceltaBrand, opzioniBrand, Brand.values());
 		createScelte(sceltaCondizioni, opzioniCondizioni, Condizioni.values());
 
-		Button buttonCaricaFoto = findViewById(R.id.buttonCaricaFoto);
-		buttonCaricaFoto.setOnClickListener(v -> scegliImmaginiLauncher.launch(new Intent()));
+		Button buttonCaricaFoto = v.findViewById(R.id.buttonCaricaFoto);
+		buttonCaricaFoto.setOnClickListener(l -> scegliImmaginiLauncher.launch(new Intent()));
 
 		createSceltaPrezzo();
 
-		Button uploadButton=findViewById(R.id.uploadButton);
+		Button uploadButton=v.findViewById(R.id.uploadButton);
 		upload(uploadButton);
 
+		return v;
 	}
 
 	private void createLauncher() {
@@ -106,7 +110,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 				List<Bitmap> list=new ArrayList<>();
 				for (int i = 0; i < clipData.getItemCount(); i++) {
 					try {
-						list.add(BitmapFactory.decodeStream(getContentResolver().openInputStream(clipData.getItemAt(i).getUri())));
+						list.add(BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(clipData.getItemAt(i).getUri())));
 					} catch (FileNotFoundException e) {
 						throw new RuntimeException(e);
 					}
@@ -114,7 +118,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 				foto.addAll(list);
 				containerFoto.removeAllViews();
 				for (Bitmap b:foto) {
-					ImageView image=new ImageView(AddProdottoActivity.this);
+					ImageView image=new ImageView(getContext());
 					image.setImageBitmap(b);
 					image.setLayoutParams(new LinearLayout.LayoutParams(
 							500,500
@@ -171,7 +175,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 		layout.addView(t);
 
 		for (Option o:opzioni) {
-			RadioButton rb=new RadioButton(AddProdottoActivity.this);
+			RadioButton rb=new RadioButton(getContext());
 			rb.setText(o.getNome());
 			optionsGroup.addView(rb);
 		}
@@ -188,7 +192,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 	}
 
 	private TextView createTextView(String text, int size, int leftPadding, int topPadding, int rightPadding, int bottomPadding) {
-		TextView t=new TextView(this);
+		TextView t=new TextView(getContext());
 		t.setText(text);
 		t.setTextSize(size);
 		t.setPadding(leftPadding, topPadding, rightPadding, bottomPadding);
@@ -213,7 +217,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 	}
 
 	private void upload(Button b) {
-		//TODO implementa upload prodotto
+		//TODO implementa upload prodotto sul server
 		b.setOnClickListener(l->{
 			//ottengo titolo e descrizione
 			String titolo=formTitolo.getText()+"";
@@ -221,9 +225,9 @@ public class AddProdottoActivity extends AppCompatActivity {
 
 			//ottengo categoria, brand e condizione
 			RadioButton rbCategoria, rbBrand, rbCondizione;
-			rbCategoria=findViewById(opzioniCategoria.getCheckedRadioButtonId());
-			rbBrand=findViewById(opzioniBrand.getCheckedRadioButtonId());
-			rbCondizione=findViewById(opzioniCondizioni.getCheckedRadioButtonId());
+			rbCategoria=v.findViewById(opzioniCategoria.getCheckedRadioButtonId());
+			rbBrand=v.findViewById(opzioniBrand.getCheckedRadioButtonId());
+			rbCondizione=v.findViewById(opzioniCondizioni.getCheckedRadioButtonId());
 
 			String categoria=rbCategoria.getText()+"";
 			String brand=rbBrand.getText()+"";
@@ -232,7 +236,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 			//ottengo prezzo
 			double prezzo= Double.parseDouble(formPrezzo.getText()+"");
 
-			Prodotto p=new Prodotto(titolo, descrizione, Categoria.valueOf(categoria), Brand.valueOf(brand), Condizioni.valueOf(condizione), prezzo, foto);
+			Prodotto p=new Prodotto(titolo, descrizione, Categoria.valueOf(categoria.toUpperCase()), Brand.valueOf(brand.toUpperCase()), Condizioni.valueOf(condizione.toUpperCase()), prezzo, foto);
 		});
 	}
 }

@@ -28,7 +28,7 @@
 
         <activity android:name=".activities.SignupActivity"/>
         <activity android:name=".activities.LoginActivity"/>
-        <activity android:name=".activities.AddProdottoActivity"/>
+        <activity android:name=".activities.AddProdottoFragment"/>
     </application>
 
 </manifest>

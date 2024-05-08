@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item android:id="@+id/nav_home"
+            android:title="Home"
+            android:icon="@drawable/casa_selected"/>
+
+        <item android:id="@+id/nav_cerca"
+            android:title="Cerca"
+            android:icon="@drawable/ricerca_unselected"/>
+
+        <item android:id="@+id/nav_add"
+           android:icon="@drawable/piu_unselectd"
+            android:title=""/>
+
+        <item android:id="@+id/nav_notifiche"
+            android:title="Notifiche"
+            android:icon="@drawable/notifica_unselected"/>
+
+        <item android:id="@+id/nav_profilo"
+            android:title="Profilo"
+            android:icon="@drawable/profilo_unselected"/>
+    </group>
+</menu>

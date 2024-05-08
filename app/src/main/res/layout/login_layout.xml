@@ -15,7 +15,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/icona_avatar"
+            android:src="@drawable/profilo_selected"
             android:layout_gravity="center"/>
 
         <TextView
