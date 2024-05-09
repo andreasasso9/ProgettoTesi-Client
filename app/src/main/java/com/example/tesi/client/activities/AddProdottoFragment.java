@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
@@ -32,6 +33,7 @@ import com.example.tesi.entity.entityenum.Brand;
 import com.example.tesi.entity.entityenum.Categoria;
 import com.example.tesi.entity.entityenum.Condizioni;
 import com.example.tesi.entity.entityenum.Option;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
