@@ -48,8 +48,8 @@ public class AddProdottoFragment extends Fragment {
 	private RadioGroup opzioniCategoria, opzioniBrand, opzioniCondizioni;
 	private View v;
 
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
+		super.onCreateView(inflater, container, savedInstanceState);
 		v=inflater.inflate(R.layout.add_prodotto_layout, container, false);
 
 		foto=new LinkedList<>();
