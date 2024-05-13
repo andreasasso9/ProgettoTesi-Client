@@ -25,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tesi.client.R;
+import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 import com.example.tesi.entity.entityoptions.Brand;
@@ -40,7 +41,7 @@ import java.util.List;
 
 public class AddProdottoActivity extends AppCompatActivity {
 	private ActivityResultLauncher<Intent> scegliImmaginiLauncher;
-	private List<byte[]> foto;
+	private List<FotoByteArray> foto;
 	private LinearLayout containerFoto;
 	private LinearLayout sceltaPrezzo;
 	private EditText formTitolo, formDescrizione, formPrezzo;
@@ -110,22 +111,22 @@ public class AddProdottoActivity extends AppCompatActivity {
 
 		ActivityResultCallback<ClipData> callback= clipData -> {
 			if (clipData!=null) {
-				List<byte[]> list=new ArrayList<>();
+				List<FotoByteArray> list=new ArrayList<>();
 				ByteArrayOutputStream stream=new ByteArrayOutputStream();
 				for (int i = 0; i < clipData.getItemCount(); i++) {
 					try {
 						Bitmap b=BitmapFactory.decodeStream(getContentResolver().openInputStream(clipData.getItemAt(i).getUri()));
 						b.compress(Bitmap.CompressFormat.PNG, 100, stream);
-						list.add(stream.toByteArray());
+						list.add(new FotoByteArray(stream.toByteArray()));
 					} catch (FileNotFoundException e) {
 						throw new RuntimeException(e);
 					}
 				}
 				foto.addAll(list);
 				containerFoto.removeAllViews();
-				for (byte[] b:foto) {
+				for (FotoByteArray b:foto) {
 					ImageView image=new ImageView(AddProdottoActivity.this);
-					image.setImageBitmap(BitmapFactory.decodeByteArray(b, 0, b.length));
+					image.setImageBitmap(BitmapFactory.decodeByteArray(b.getValue(), 0, b.getValue().length));
 					image.setLayoutParams(new LinearLayout.LayoutParams(
 							500,500
 					));

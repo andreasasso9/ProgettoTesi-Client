@@ -14,11 +14,12 @@ public class Prodotto implements Serializable {
 	private Brand brand;
 	private Condizioni condizioni;
 	private double prezzo;
-	private List<byte[]> foto;
+	private List<FotoByteArray> foto;
 	private int nPreferiti;
 	private User proprietario;
+	private Long id;
 
-	public Prodotto(User proprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo, List<byte[]> foto) {
+	public Prodotto(User proprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo, List<FotoByteArray> foto) {
 		this.proprietario = proprietario;
 		this.titolo = titolo;
 		this.descrizione = descrizione;
@@ -29,6 +30,8 @@ public class Prodotto implements Serializable {
 		this.foto = foto;
 		nPreferiti=0;
 	}
+
+	public Prodotto() {}
 
 	public User getProprietario() {
 		return proprietario;
@@ -86,11 +89,11 @@ public class Prodotto implements Serializable {
 		this.prezzo = prezzo;
 	}
 
-	public List<byte[]> getFoto() {
+	public List<FotoByteArray> getFoto() {
 		return foto;
 	}
 
-	public void setFoto(List<byte[]> foto) {
+	public void setFoto(List<FotoByteArray> foto) {
 		this.foto = foto;
 	}
 
@@ -100,5 +103,13 @@ public class Prodotto implements Serializable {
 
 	public void setPreferiti(int nPreferiti) {
 		this.nPreferiti = nPreferiti;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
 	}
 }
