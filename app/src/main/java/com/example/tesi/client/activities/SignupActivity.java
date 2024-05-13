@@ -41,6 +41,8 @@ public class SignupActivity extends AppCompatActivity {
 
 		createToLoginListener();
 		createSignupListener();
+
+
 	}
 
 	private void createSignupListener() {

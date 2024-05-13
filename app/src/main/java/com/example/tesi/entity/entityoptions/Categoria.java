@@ -1,4 +1,4 @@
-package com.example.tesi.entity.entityenum;
+package com.example.tesi.entity.entityoptions;
 
 public enum Categoria implements Option{
 	VESTITI("Vestiti"),

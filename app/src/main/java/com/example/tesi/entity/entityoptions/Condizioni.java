@@ -1,4 +1,4 @@
-package com.example.tesi.entity.entityenum;
+package com.example.tesi.entity.entityoptions;
 
 public enum Condizioni implements Option{
 	NUOVO_CON_CARTELLINO("Nuovo con cartellino"),

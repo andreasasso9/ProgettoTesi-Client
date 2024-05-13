@@ -1,7 +1,5 @@
 package com.example.tesi.entity;
 
-import androidx.annotation.NonNull;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +73,6 @@ public class User implements Serializable {
 		this.prodotti = prodotti;
 	}
 
-	@NonNull
 	@Override
 	public String toString() {
 		return String.format(Locale.ITALIAN, "%s %s", username, id);

@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -28,11 +27,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.tesi.client.R;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
-import com.example.tesi.entity.entityenum.Brand;
-import com.example.tesi.entity.entityenum.Categoria;
-import com.example.tesi.entity.entityenum.Condizioni;
-import com.example.tesi.entity.entityenum.Option;
+import com.example.tesi.entity.entityoptions.Brand;
+import com.example.tesi.entity.entityoptions.Categoria;
+import com.example.tesi.entity.entityoptions.Condizioni;
+import com.example.tesi.entity.entityoptions.Option;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class AddProdottoActivity extends AppCompatActivity {
 	private ActivityResultLauncher<Intent> scegliImmaginiLauncher;
-	private List<Bitmap> foto;
+	private List<byte[]> foto;
 	private LinearLayout containerFoto;
 	private LinearLayout sceltaPrezzo;
 	private EditText formTitolo, formDescrizione, formPrezzo;
@@ -110,19 +110,22 @@ public class AddProdottoActivity extends AppCompatActivity {
 
 		ActivityResultCallback<ClipData> callback= clipData -> {
 			if (clipData!=null) {
-				List<Bitmap> list=new ArrayList<>();
+				List<byte[]> list=new ArrayList<>();
+				ByteArrayOutputStream stream=new ByteArrayOutputStream();
 				for (int i = 0; i < clipData.getItemCount(); i++) {
 					try {
-						list.add(BitmapFactory.decodeStream(getContentResolver().openInputStream(clipData.getItemAt(i).getUri())));
+						Bitmap b=BitmapFactory.decodeStream(getContentResolver().openInputStream(clipData.getItemAt(i).getUri()));
+						b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+						list.add(stream.toByteArray());
 					} catch (FileNotFoundException e) {
 						throw new RuntimeException(e);
 					}
 				}
 				foto.addAll(list);
 				containerFoto.removeAllViews();
-				for (Bitmap b:foto) {
+				for (byte[] b:foto) {
 					ImageView image=new ImageView(AddProdottoActivity.this);
-					image.setImageBitmap(b);
+					image.setImageBitmap(BitmapFactory.decodeByteArray(b, 0, b.length));
 					image.setLayoutParams(new LinearLayout.LayoutParams(
 							500,500
 					));

@@ -1,10 +1,8 @@
 package com.example.tesi.entity;
 
-import android.graphics.Bitmap;
-
-import com.example.tesi.entity.entityenum.Brand;
-import com.example.tesi.entity.entityenum.Categoria;
-import com.example.tesi.entity.entityenum.Condizioni;
+import com.example.tesi.entity.entityoptions.Brand;
+import com.example.tesi.entity.entityoptions.Categoria;
+import com.example.tesi.entity.entityoptions.Condizioni;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,11 +14,11 @@ public class Prodotto implements Serializable {
 	private Brand brand;
 	private Condizioni condizioni;
 	private double prezzo;
-	private List<Bitmap> foto;
+	private List<byte[]> foto;
 	private int nPreferiti;
 	private User proprietario;
 
-	public Prodotto(User proprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo, List<Bitmap> foto) {
+	public Prodotto(User proprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo, List<byte[]> foto) {
 		this.proprietario = proprietario;
 		this.titolo = titolo;
 		this.descrizione = descrizione;
@@ -88,11 +86,11 @@ public class Prodotto implements Serializable {
 		this.prezzo = prezzo;
 	}
 
-	public List<Bitmap> getFoto() {
+	public List<byte[]> getFoto() {
 		return foto;
 	}
 
-	public void setFoto(List<Bitmap> foto) {
+	public void setFoto(List<byte[]> foto) {
 		this.foto = foto;
 	}
 
