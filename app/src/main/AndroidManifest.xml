@@ -14,8 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProgettoTesiClient"
-        tools:targetApi="31"
-        android:usesCleartextTraffic="true">
+        tools:targetApi="tiramisu"
+        android:usesCleartextTraffic="true"
+        android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".activities.MainActivity"
             android:exported="true">
@@ -28,7 +29,7 @@
 
         <activity android:name=".activities.SignupActivity"/>
         <activity android:name=".activities.LoginActivity"/>
-        <activity android:name=".activities.AddProdottoFragment"/>
+        <activity android:name=".activities.AddProdottoActivity"/>
     </application>
 
 </manifest>

@@ -2,18 +2,21 @@ package com.example.tesi.entity;
 
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
 	private String email;
 	private String username;
 	private String password;
 	private UUID id;
 	private String indirizzo;
 	private List<Prodotto> prodotti;
+
+	public User(){}
 
 	public User(String email, String username, String password, String indirizzo) {
 		this.email = email;

@@ -7,7 +7,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Cerca articoli o animali"
+        android:hint="Cerca articoli o utenti"
         android:maxLines="1"
         android:inputType="textMultiLine"/>
 

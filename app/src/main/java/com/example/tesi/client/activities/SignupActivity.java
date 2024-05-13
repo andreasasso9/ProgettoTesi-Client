@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.tesi.checkValidity.CheckNotEmptyStrings;
+import com.example.tesi.utility.CheckNotEmptyStrings;
 import com.example.tesi.client.R;
 import com.example.tesi.entity.User;
 

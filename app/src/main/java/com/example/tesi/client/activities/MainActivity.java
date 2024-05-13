@@ -1,5 +1,6 @@
 package com.example.tesi.client.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -17,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
 	private Fragment currentFragment;
 	private BottomNavigationView navbar;
 	private SearchFragment searchFragment;
-	private AddProdottoFragment addProdottoFragment;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,10 +48,16 @@ public class MainActivity extends AppCompatActivity {
 			switch (item.getTitle()+"") {
 				case "Home":
 					iconHome.setIcon(R.drawable.casa_selected);
+					iconSearch.setIcon(R.drawable.ricerca_unselected);
+					iconNotifiche.setIcon(R.drawable.notifica_unselected);
+					iconProfilo.setIcon(R.drawable.profilo_unselected);
 					return true;
 
 				case "Cerca":
+					iconHome.setIcon(R.drawable.casa_unselected);
 					iconSearch.setIcon(R.drawable.ricerca_selected);
+					iconNotifiche.setIcon(R.drawable.notifica_unselected);
+					iconProfilo.setIcon(R.drawable.profilo_unselected);
 					if (searchFragment == null)
 						searchFragment=new SearchFragment();
 					currentFragment=searchFragment;
@@ -59,18 +65,21 @@ public class MainActivity extends AppCompatActivity {
 					return true;
 
 				case ""://addProdotto
-					iconAdd.setIcon(R.drawable.piu_selected);
-					if (addProdottoFragment == null)
-						addProdottoFragment=new AddProdottoFragment();
-					currentFragment=addProdottoFragment;
-					fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
+					Intent i=new Intent(this, AddProdottoActivity.class);
+					startActivity(i);
 					return true;
 
 				case "Notifiche":
+					iconHome.setIcon(R.drawable.casa_unselected);
+					iconSearch.setIcon(R.drawable.ricerca_unselected);
 					iconNotifiche.setIcon(R.drawable.notifica_selected);
+					iconProfilo.setIcon(R.drawable.profilo_unselected);
 					return true;
 
 				case "Profilo":
+					iconHome.setIcon(R.drawable.casa_unselected);
+					iconSearch.setIcon(R.drawable.ricerca_unselected);
+					iconNotifiche.setIcon(R.drawable.notifica_unselected);
 					iconProfilo.setIcon(R.drawable.profilo_selected);
 					return true;
 

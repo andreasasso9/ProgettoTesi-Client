@@ -10,7 +10,7 @@
             android:icon="@drawable/ricerca_unselected"/>
 
         <item android:id="@+id/nav_add"
-           android:icon="@drawable/piu_unselectd"
+           android:icon="@drawable/piu_selected"
             android:title=""/>
 
         <item android:id="@+id/nav_notifiche"

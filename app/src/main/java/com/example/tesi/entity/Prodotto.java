@@ -6,9 +6,10 @@ import com.example.tesi.entity.entityenum.Brand;
 import com.example.tesi.entity.entityenum.Categoria;
 import com.example.tesi.entity.entityenum.Condizioni;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Prodotto {
+public class Prodotto implements Serializable {
 	private String titolo;
 	private String descrizione;
 	private Categoria categoria;
@@ -17,8 +18,10 @@ public class Prodotto {
 	private double prezzo;
 	private List<Bitmap> foto;
 	private int nPreferiti;
+	private User proprietario;
 
-	public Prodotto(String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo, List<Bitmap> foto) {
+	public Prodotto(User proprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo, List<Bitmap> foto) {
+		this.proprietario = proprietario;
 		this.titolo = titolo;
 		this.descrizione = descrizione;
 		this.categoria = categoria;
@@ -27,6 +30,14 @@ public class Prodotto {
 		this.prezzo = prezzo;
 		this.foto = foto;
 		nPreferiti=0;
+	}
+
+	public User getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(User proprietario) {
+		this.proprietario = proprietario;
 	}
 
 	public String getTitolo() {
