@@ -20,7 +20,6 @@ public class User implements Serializable {
 		this.email = email;
 		this.username = username;
 		this.password = password;
-		this.id = UUID.randomUUID();
 		this.indirizzo =indirizzo;
 		prodotti=new ArrayList<>();
 	}

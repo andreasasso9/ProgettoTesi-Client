@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tesi.control.UserController;
 import com.example.tesi.utility.CheckNotEmptyStrings;
 import com.example.tesi.client.R;
 import com.example.tesi.entity.User;
@@ -25,10 +26,13 @@ public class SignupActivity extends AppCompatActivity {
 	private Button signupButton;
 	private TextView toLogin;
 	private TextView signupErrorMessage;
+	private UserController userController;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.signup_layout);
+
+		userController=new UserController();
 
 		signupEmail=findViewById(R.id.signupEmail);
 		signupUsername=findViewById(R.id.signupUsername);
@@ -62,8 +66,10 @@ public class SignupActivity extends AppCompatActivity {
 					signupErrorMessage.setText("Riempi tutti i campi");
 				} else {
 					if (password.equals(confPassword)) {
+						//TODO cifra password
 						User user = new User(email, username, password, indirizzo);
-						//TODO completa signup con inserimento in database e salvataggio utente in sessione
+						userController.saveUser(user);
+						//TODO salvataggio utente in sessione
 						goToLogin();
 					} else {
 						signupErrorMessage.setVisibility(View.VISIBLE);
