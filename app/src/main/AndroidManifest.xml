@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProgettoTesiClient"
-        tools:targetApi="tiramisu"
+        tools:targetApi="33"
         android:usesCleartextTraffic="true"
         android:enableOnBackInvokedCallback="true">
         <activity
