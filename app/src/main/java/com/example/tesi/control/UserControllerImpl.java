@@ -22,23 +22,29 @@ public class UserControllerImpl implements UserController{
 	}
 
 	public boolean saveUser(User user) {
-		Call<User> call= userServiceRetrofit.saveUser(user);
+		Call<User> call=userServiceRetrofit.saveUser(user);
 		final boolean[] isSuccessful=new boolean[1];
-		call.enqueue(new Callback<User>() {
-			@Override
-			public void onResponse(Call<User> call, Response<User> response) {
-				isSuccessful[0]=response.isSuccessful();
-				if (isSuccessful[0])
-					Log.println(Log.DEBUG, "SAVE USER", "Save successful");
-				else
-					Log.println(Log.DEBUG, "SAVE USER", "Save error");
-			}
 
+		Thread t=new Thread() {
 			@Override
-			public void onFailure(Call<User> call, Throwable throwable) {
-				Log.println(Log.ERROR, "SAVE USER", "Save failed");
+			public void run() {
+				try {
+					if (call.execute().body() != null) {
+						isSuccessful[0] = true;
+						Log.println(Log.INFO, "SAVE USER", "Save successful");
+					}
+				} catch (IOException e) {
+					Log.println(Log.ERROR, "SAVE USER", "Save failed");
+				}
 			}
-		});
+		};
+		t.start();
+		try {
+			t.join();
+		} catch (InterruptedException e) {
+			return isSuccessful[0];
+		}
+
 		return isSuccessful[0];
 	}
 

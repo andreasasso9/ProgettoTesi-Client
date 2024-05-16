@@ -19,6 +19,7 @@ import com.example.tesi.control.UserControllerImpl;
 import com.example.tesi.utility.CheckNotEmptyStrings;
 import com.example.tesi.client.R;
 import com.example.tesi.entity.User;
+import com.example.tesi.utility.EmailRegex;
 
 public class SignupActivity extends AppCompatActivity {
 	private EditText signupEmail, signupUsername, signupIndirizzo, signupPassword, signupConfPassword;
@@ -40,6 +41,7 @@ public class SignupActivity extends AppCompatActivity {
 		signupButton=findViewById(R.id.signupButton);
 		toLogin=findViewById(R.id.toLogin);
 		signupErrorMessage=findViewById(R.id.signupErrorMessage);
+
 
 		createToLoginListener();
 		createSignupListener();
@@ -65,24 +67,30 @@ public class SignupActivity extends AppCompatActivity {
 			if (!areNotEmpty) {
 				signupErrorMessage.setVisibility(View.VISIBLE);
 				signupErrorMessage.setText("Riempi tutti i campi");
-
-			} else if (password.equals(confPassword)) {
-				//TODO cifra password
-				User user = new User(email, username, password, indirizzo);
-				boolean result=userController.saveUser(user);
-
-				if (result)
-					goToLogin();
-				else{
-					signupErrorMessage.setVisibility(View.VISIBLE);
-					signupErrorMessage.setText("E-mail o username già esistenti");
-				}
-
-			} else {
-				signupErrorMessage.setVisibility(View.VISIBLE);
-				signupErrorMessage.setText("Inserisci la stessa password");
+				return;
 			}
 
+			if (!EmailRegex.match(email)) {
+				signupErrorMessage.setVisibility(View.VISIBLE);
+				signupErrorMessage.setText("Email non valida");
+				return;
+			}
+
+			if (!password.equals(confPassword)) {
+				signupErrorMessage.setVisibility(View.VISIBLE);
+				signupErrorMessage.setText("Inserisci la stessa password");
+				return;
+			}
+
+			User user = new User(email, username, password, indirizzo);
+			boolean result=userController.saveUser(user);
+			if (!result) {
+				signupErrorMessage.setVisibility(View.VISIBLE);
+				signupErrorMessage.setText("E-mail o username già esistenti");
+				return;
+			}
+
+			goToLogin();
 		});
 
 		TextWatcher textWatcher=new TextWatcher() {
