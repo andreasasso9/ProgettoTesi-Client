@@ -16,15 +16,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tesi.control.UserController;
 import com.example.tesi.control.UserControllerImpl;
-import com.example.tesi.utility.CheckNotEmptyStrings;
+import com.example.tesi.utils.CheckNotEmptyStrings;
 import com.example.tesi.client.R;
 import com.example.tesi.entity.User;
-import com.example.tesi.utility.EmailRegex;
+import com.example.tesi.utils.EmailRegex;
 
 public class SignupActivity extends AppCompatActivity {
 	private EditText signupEmail, signupUsername, signupIndirizzo, signupPassword, signupConfPassword;
 	private Button signupButton;
-	private TextView toLogin, signupErrorMessage;
+	private TextView toLogin, errorMessage;
 	private UserController userController;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class SignupActivity extends AppCompatActivity {
 		signupConfPassword=findViewById(R.id.signupConfPassword);
 		signupButton=findViewById(R.id.signupButton);
 		toLogin=findViewById(R.id.toLogin);
-		signupErrorMessage=findViewById(R.id.signupErrorMessage);
+		errorMessage =findViewById(R.id.signupErrorMessage);
 
 
 		createToLoginListener();
@@ -65,28 +65,28 @@ public class SignupActivity extends AppCompatActivity {
 			boolean areNotEmpty=CheckNotEmptyStrings.check(email, username, indirizzo, password, confPassword);
 
 			if (!areNotEmpty) {
-				signupErrorMessage.setVisibility(View.VISIBLE);
-				signupErrorMessage.setText("Riempi tutti i campi");
+				errorMessage.setVisibility(View.VISIBLE);
+				errorMessage.setText("Riempi tutti i campi");
 				return;
 			}
 
 			if (!EmailRegex.match(email)) {
-				signupErrorMessage.setVisibility(View.VISIBLE);
-				signupErrorMessage.setText("Email non valida");
+				errorMessage.setVisibility(View.VISIBLE);
+				errorMessage.setText("Email non valida");
 				return;
 			}
 
 			if (!password.equals(confPassword)) {
-				signupErrorMessage.setVisibility(View.VISIBLE);
-				signupErrorMessage.setText("Inserisci la stessa password");
+				errorMessage.setVisibility(View.VISIBLE);
+				errorMessage.setText("Inserisci la stessa password");
 				return;
 			}
 
 			User user = new User(email, username, password, indirizzo);
 			boolean result=userController.saveUser(user);
 			if (!result) {
-				signupErrorMessage.setVisibility(View.VISIBLE);
-				signupErrorMessage.setText("E-mail o username già esistenti");
+				errorMessage.setVisibility(View.VISIBLE);
+				errorMessage.setText("E-mail o username già esistenti");
 				return;
 			}
 
@@ -99,7 +99,7 @@ public class SignupActivity extends AppCompatActivity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				signupErrorMessage.setVisibility(View.GONE);
+				errorMessage.setVisibility(View.GONE);
 			}
 
 			@Override
