@@ -83,7 +83,7 @@ public class SignupActivity extends AppCompatActivity {
 			}
 
 			User user = new User(email, username, password, indirizzo);
-			boolean result=userController.saveUser(user);
+			boolean result=userController.saveUser(email, username, password, indirizzo);
 			if (!result) {
 				errorMessage.setVisibility(View.VISIBLE);
 				errorMessage.setText("E-mail o username già esistenti");

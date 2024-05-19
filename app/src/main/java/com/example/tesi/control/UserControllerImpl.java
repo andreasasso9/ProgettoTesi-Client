@@ -8,8 +8,6 @@ import com.example.tesi.service.UserServiceRetrofit;
 import java.io.IOException;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -21,47 +19,41 @@ public class UserControllerImpl implements UserController{
 		userServiceRetrofit=retrofit.create(UserServiceRetrofit.class);
 	}
 
-	public boolean saveUser(User user) {
-		Call<User> call=userServiceRetrofit.saveUser(user);
-		final boolean[] isSuccessful=new boolean[1];
+	public boolean saveUser(String email, String username, String password, String indirizzo) {
+		Call<User> saveCall=userServiceRetrofit.saveUser(email, username, password, indirizzo);
+		final boolean[] result=new boolean[1];
 
-		Thread t=new Thread() {
-			@Override
-			public void run() {
-				try {
-					if (call.execute().body() != null) {
-						isSuccessful[0] = true;
-						Log.println(Log.INFO, "SAVE USER", "Save successful");
-					}
-				} catch (IOException e) {
-					Log.println(Log.ERROR, "SAVE USER", "Save failed");
+		Thread saveThread= new Thread(() -> {
+			try {
+				if (saveCall.execute().body() != null) {
+					result[0] = true;
+					Log.println(Log.INFO, "SAVE USER", "Save successful");
 				}
+			} catch (IOException e) {
+				Log.println(Log.ERROR, "SAVE USER", "Save failed");
 			}
-		};
-		t.start();
+		});
+		saveThread.start();
 		try {
-			t.join();
+			saveThread.join();
 		} catch (InterruptedException e) {
-			return isSuccessful[0];
+			return result[0];
 		}
 
-		return isSuccessful[0];
+		return result[0];
 	}
 
 	@Override
 	public User loginUser(String username, String password) {
 		Call<User> call=userServiceRetrofit.loginUser(username, password);
 		final User[] user = new User[1];
-		Thread t=new Thread() {
-			@Override
-			public void run() {
-				try {
-					user[0] =call.execute().body();
-				} catch (IOException e) {
-					Log.println(Log.ERROR, "LOGIN USER", "Login error");
-				}
+		Thread t= new Thread(() -> {
+			try {
+				user[0] =call.execute().body();
+			} catch (IOException e) {
+				Log.println(Log.ERROR, "LOGIN USER", "Login error");
 			}
-		};
+		});
 		t.start();
 		try {
 			t.join();
