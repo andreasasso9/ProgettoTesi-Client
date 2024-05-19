@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 			}
 
 			Intent i=new Intent(this, MainActivity.class);
-			i.putExtra("user", user);
+			i.putExtra("currentUser", user);
 			startActivity(i);
 		});
 

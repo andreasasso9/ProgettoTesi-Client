@@ -243,8 +243,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 			//ottengo prezzo
 			double prezzo= Double.parseDouble(formPrezzo.getText()+"");
 
-			//TODO togliere new user() e aggiungere riferimento all'utente corrente
-			Prodotto p=new Prodotto(new User(), titolo, descrizione, Categoria.valueOf(categoria.toUpperCase()), Brand.valueOf(brand.toUpperCase()), Condizioni.valueOf(condizione.toUpperCase()), prezzo, foto);
+			Prodotto p=new Prodotto(MainActivity.getCurrentUser(), titolo, descrizione, Categoria.valueOf(categoria.toUpperCase()), Brand.valueOf(brand.toUpperCase()), Condizioni.valueOf(condizione.toUpperCase()), prezzo, foto);
 		});
 	}
 }

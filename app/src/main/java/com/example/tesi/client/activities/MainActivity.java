@@ -19,15 +19,22 @@ public class MainActivity extends AppCompatActivity {
 	private Fragment currentFragment;
 	private BottomNavigationView navbar;
 	private SearchFragment searchFragment;
+	private HomeFragment homeFragment;
+	private static User currentUser;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		currentUser= (User) getIntent().getSerializableExtra("currentUser");
+
 		navbar=findViewById(R.id.navbar);
 
+		homeFragment=new HomeFragment();
+
 		fragmentManager=getSupportFragmentManager();
+		fragmentManager.beginTransaction().replace(R.id.fragmentContainer, homeFragment).addToBackStack(null).commit();
 
 		createNavBarItemListener();
 
@@ -43,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 		navbar.setOnItemSelectedListener(item->{
 			MenuItem iconHome=navbar.getMenu().getItem(0);
 			MenuItem iconSearch=navbar.getMenu().getItem(1);
-			MenuItem iconAdd=navbar.getMenu().getItem(2);
 			MenuItem iconNotifiche=navbar.getMenu().getItem(3);
 			MenuItem iconProfilo=navbar.getMenu().getItem(4);
 			switch (item.getTitle()+"") {
@@ -52,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
 					iconSearch.setIcon(R.drawable.ricerca_unselected);
 					iconNotifiche.setIcon(R.drawable.notifica_unselected);
 					iconProfilo.setIcon(R.drawable.profilo_unselected);
+
+					currentFragment=homeFragment;
+					fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
 					return true;
 
 				case "Cerca":
@@ -67,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
 				case ""://addProdotto
 					Intent i=new Intent(this, AddProdottoActivity.class);
+					i.putExtra("currentUser", currentUser);
 					startActivity(i);
 					return true;
 
@@ -88,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
 					return false;
 			}
 		});
+	}
+
+	public static User getCurrentUser() {
+		return currentUser;
 	}
 
 }
