@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -25,9 +27,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tesi.client.R;
+import com.example.tesi.control.ProdottoController;
+import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
-import com.example.tesi.entity.User;
 import com.example.tesi.entity.entityoptions.Brand;
 import com.example.tesi.entity.entityoptions.Categoria;
 import com.example.tesi.entity.entityoptions.Condizioni;
@@ -36,8 +39,10 @@ import com.example.tesi.entity.entityoptions.Option;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class AddProdottoActivity extends AppCompatActivity {
 	private ActivityResultLauncher<Intent> scegliImmaginiLauncher;
@@ -47,10 +52,13 @@ public class AddProdottoActivity extends AppCompatActivity {
 	private EditText formTitolo, formDescrizione, formPrezzo;
 	private TextView contatoreTitolo, contatoreDescrizione;
 	private RadioGroup opzioniCategoria, opzioniBrand, opzioniCondizioni;
+	private ProdottoController prodottoController;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_prodotto_layout);
+
+		prodottoController=new ProdottoControllerImpl();
 
 		foto=new LinkedList<>();
 		containerFoto=findViewById(R.id.containerFoto);
@@ -231,19 +239,34 @@ public class AddProdottoActivity extends AppCompatActivity {
 			String descrizione=formDescrizione.getText()+"";
 
 			//ottengo categoria, brand e condizione
-			RadioButton rbCategoria, rbBrand, rbCondizione;
+			RadioButton rbCategoria, rbBrand, rbCondizioni;
 			rbCategoria=findViewById(opzioniCategoria.getCheckedRadioButtonId());
 			rbBrand=findViewById(opzioniBrand.getCheckedRadioButtonId());
-			rbCondizione=findViewById(opzioniCondizioni.getCheckedRadioButtonId());
+			rbCondizioni=findViewById(opzioniCondizioni.getCheckedRadioButtonId());
 
 			String categoria=rbCategoria.getText()+"";
 			String brand=rbBrand.getText()+"";
-			String condizione=rbCondizione.getText()+"";
+			String condizioni=rbCondizioni.getText()+"";
+
+			categoria=categoria.toUpperCase().replace(" ", "_");
+			brand=brand.toUpperCase().replace(" ", "_");
+			condizioni=condizioni.toUpperCase().replace(" ", "_");
 
 			//ottengo prezzo
 			double prezzo= Double.parseDouble(formPrezzo.getText()+"");
 
-			Prodotto p=new Prodotto(MainActivity.getCurrentUser(), titolo, descrizione, Categoria.valueOf(categoria.toUpperCase()), Brand.valueOf(brand.toUpperCase()), Condizioni.valueOf(condizione.toUpperCase()), prezzo, foto);
+			Prodotto prodotto=new Prodotto(MainActivity.getCurrentUser(), titolo, descrizione, Categoria.valueOf(categoria), Brand.valueOf(brand), Condizioni.valueOf(condizioni), prezzo, foto);
+
+			Log.println(Log.INFO, "ADD PRODOTTO", prodottoController.add(prodotto)+"");
+
+			goToHome();
 		});
+	}
+
+	private void goToHome() {
+		Intent i=new Intent(this, MainActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		i.putExtra("currentUser", MainActivity.getCurrentUser());
+		startActivity(i);
 	}
 }

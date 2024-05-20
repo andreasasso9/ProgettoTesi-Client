@@ -31,8 +31,6 @@ public class Prodotto implements Serializable {
 		nPreferiti=0;
 	}
 
-	public Prodotto() {}
-
 	public User getProprietario() {
 		return proprietario;
 	}

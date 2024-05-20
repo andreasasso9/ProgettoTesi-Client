@@ -15,8 +15,11 @@ public class UserControllerImpl implements UserController{
 	private final UserServiceRetrofit userServiceRetrofit;
 
 	public UserControllerImpl() {
-		Retrofit retrofit=new Retrofit.Builder().baseUrl("http://10.0.2.2:8080/users/").addConverterFactory(GsonConverterFactory.create()).build();
-		userServiceRetrofit=retrofit.create(UserServiceRetrofit.class);
+		userServiceRetrofit=new Retrofit.Builder()
+				.baseUrl("http://10.0.2.2:8080/users/")
+				.addConverterFactory(GsonConverterFactory.create())
+				.build()
+				.create(UserServiceRetrofit.class);
 	}
 
 	public boolean saveUser(String email, String username, String password, String indirizzo) {

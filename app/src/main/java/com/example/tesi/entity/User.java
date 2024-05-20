@@ -14,7 +14,7 @@ public class User implements Serializable {
 	private String password;
 	private UUID id;
 	private String indirizzo;
-	private List<Prodotto> prodotti;
+//	private List<Prodotto> prodotti;
 
 	public User(){}
 
@@ -23,7 +23,7 @@ public class User implements Serializable {
 		this.username = username;
 		this.password = password;
 		this.indirizzo =indirizzo;
-		prodotti=new ArrayList<>();
+//		prodotti=new ArrayList<>();
 	}
 
 	public String getEmail() {
@@ -66,13 +66,13 @@ public class User implements Serializable {
 		this.indirizzo = indirizzo;
 	}
 
-	public List<Prodotto> getProdotti() {
-		return prodotti;
-	}
-
-	public void setProdotti(List<Prodotto> prodotti) {
-		this.prodotti = prodotti;
-	}
+//	public List<Prodotto> getProdotti() {
+//		return prodotti;
+//	}
+//
+//	public void setProdotti(List<Prodotto> prodotti) {
+//		this.prodotti = prodotti;
+//	}
 
 	@NonNull
 	@Override
