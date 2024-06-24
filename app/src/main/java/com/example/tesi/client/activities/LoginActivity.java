@@ -1,6 +1,7 @@
 package com.example.tesi.client.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +16,7 @@ import com.example.tesi.client.R;
 import com.example.tesi.control.UserController;
 import com.example.tesi.control.UserControllerImpl;
 import com.example.tesi.entity.User;
+import com.example.tesi.utils.Session;
 
 public class LoginActivity extends AppCompatActivity {
 	private Button loginButton;
@@ -26,13 +28,27 @@ public class LoginActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_layout);
 
-		userController=new UserControllerImpl();
+		SharedPreferences preferences=getSharedPreferences(Session.SESSION_PREFERENCES, MODE_PRIVATE);
+		String username=preferences.getString("username","");
+		String password=preferences.getString("password", "");
+
+		userController = new UserControllerImpl();
+
+		if (!username.isEmpty() && !password.isEmpty()) {
+			User user = userController.loginUser(username, password);
+
+			if (user != null) {
+				Intent i = new Intent(this, MainActivity.class);
+				Session.getInstance(this).setCurrentUser(user, password);
+				startActivity(i);
+			}
+		}
 
 		loginUsername = findViewById(R.id.loginUsername);
 		loginPassword = findViewById(R.id.loginPassword);
 		loginButton = findViewById(R.id.loginButton);
-		toSignup=findViewById(R.id.toSignup);
-		errorMessage=findViewById(R.id.loginErrorMessage);
+		toSignup = findViewById(R.id.toSignup);
+		errorMessage = findViewById(R.id.loginErrorMessage);
 
 		createToSignupListener();
 		createLoginListener();
@@ -60,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 			}
 
 			Intent i=new Intent(this, MainActivity.class);
-			i.putExtra("currentUser", user);
+			Session.getInstance(this).setCurrentUser(user, password);
 			startActivity(i);
 		});
 

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.tesi.client.R;
 import com.example.tesi.entity.User;
+import com.example.tesi.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		currentUser= (User) getIntent().getSerializableExtra("currentUser");
+		currentUser= Session.getInstance(this).getCurrentUser();
 
 		navbar=findViewById(R.id.navbar);
 
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
 				case ""://addProdotto
 					Intent i=new Intent(this, AddProdottoActivity.class);
-					i.putExtra("currentUser", currentUser);
 					startActivity(i);
 					return true;
 
@@ -99,9 +99,4 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 	}
-
-	public static User getCurrentUser() {
-		return currentUser;
-	}
-
 }

@@ -35,6 +35,7 @@ import com.example.tesi.entity.entityoptions.Brand;
 import com.example.tesi.entity.entityoptions.Categoria;
 import com.example.tesi.entity.entityoptions.Condizioni;
 import com.example.tesi.entity.entityoptions.Option;
+import com.example.tesi.utils.Session;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -255,7 +256,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 			//ottengo prezzo
 			double prezzo= Double.parseDouble(formPrezzo.getText()+"");
 
-			Prodotto prodotto=new Prodotto(MainActivity.getCurrentUser(), titolo, descrizione, Categoria.valueOf(categoria), Brand.valueOf(brand), Condizioni.valueOf(condizioni), prezzo, foto);
+			Prodotto prodotto=new Prodotto(Session.getInstance(this).getCurrentUser(), titolo, descrizione, Categoria.valueOf(categoria), Brand.valueOf(brand), Condizioni.valueOf(condizioni), prezzo, foto);
 
 			Log.println(Log.INFO, "ADD PRODOTTO", prodottoController.add(prodotto)+"");
 
@@ -266,7 +267,6 @@ public class AddProdottoActivity extends AppCompatActivity {
 	private void goToHome() {
 		Intent i=new Intent(this, MainActivity.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		i.putExtra("currentUser", MainActivity.getCurrentUser());
 		startActivity(i);
 	}
 }

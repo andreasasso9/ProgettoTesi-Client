@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.tesi.client.R;
 import com.example.tesi.entity.User;
+import com.example.tesi.utils.Session;
 
 public class HomeFragment extends Fragment {
 	private View v;
@@ -23,7 +24,7 @@ public class HomeFragment extends Fragment {
 
 		TextView t=v.findViewById(R.id.currentUser);
 
-		User u=MainActivity.getCurrentUser();
+		User u= Session.getInstance(getContext()).getCurrentUser();
 		t.setText(u.getUsername());
 
 		return v;
