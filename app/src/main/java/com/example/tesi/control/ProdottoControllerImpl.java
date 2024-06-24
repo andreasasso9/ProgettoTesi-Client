@@ -1,17 +1,12 @@
 package com.example.tesi.control;
 
-import android.util.Log;
-
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.service.ProdottoServiceRetrofit;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.logging.Logger;
+import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -45,4 +40,12 @@ public class ProdottoControllerImpl implements ProdottoController {
 
 		return response[0];
 	}
+
+	@Override
+	public List<Prodotto> get(int limit) {
+		Call<List<Prodotto>> call= prodottoServiceRetrofit.get(limit);
+		//TODO implementare metodo che ottiene limit prodotti
+	}
+
+
 }
