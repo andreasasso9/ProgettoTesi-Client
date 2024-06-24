@@ -23,10 +23,14 @@ public class Session {
 		return instance;
 	}
 
-	public void setCurrentUser(User user, String password) {
+	public void setCurrentUser(User user, String password, boolean toSave) {
 		currentUser=user;
-		editor.putString("username", user.getUsername());
-		editor.putString("password", password);
+
+		if (toSave)
+			editor.putString("username", user.getUsername()).putString("password", password);
+		else
+			editor.remove("username").remove("password");
+
 		editor.apply();
 	}
 

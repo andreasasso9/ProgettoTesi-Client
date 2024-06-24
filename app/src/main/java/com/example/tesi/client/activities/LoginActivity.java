@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
 	private EditText loginUsername, loginPassword;
 	private TextView toSignup, errorMessage;
 	private UserController userController;
+	private CheckBox ricordami;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
 
 			if (user != null) {
 				Intent i = new Intent(this, MainActivity.class);
-				Session.getInstance(this).setCurrentUser(user, password);
+				Session.getInstance(this).setCurrentUser(user, password, true);
 				startActivity(i);
 			}
 		}
@@ -49,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 		loginButton = findViewById(R.id.loginButton);
 		toSignup = findViewById(R.id.toSignup);
 		errorMessage = findViewById(R.id.loginErrorMessage);
+		ricordami = findViewById(R.id.ricordami);
 
 		createToSignupListener();
 		createLoginListener();
@@ -76,7 +79,8 @@ public class LoginActivity extends AppCompatActivity {
 			}
 
 			Intent i=new Intent(this, MainActivity.class);
-			Session.getInstance(this).setCurrentUser(user, password);
+			Session.getInstance(this).setCurrentUser(user, password, ricordami.isChecked());
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(i);
 		});
 

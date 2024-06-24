@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 	private BottomNavigationView navbar;
 	private SearchFragment searchFragment;
 	private HomeFragment homeFragment;
+	private ProfiloFragment profiloFragment;
 	private static User currentUser;
 
 	@Override
@@ -92,6 +93,11 @@ public class MainActivity extends AppCompatActivity {
 					iconSearch.setIcon(R.drawable.ricerca_unselected);
 					iconNotifiche.setIcon(R.drawable.notifica_unselected);
 					iconProfilo.setIcon(R.drawable.profilo_selected);
+
+					if (profiloFragment==null)
+						profiloFragment=new ProfiloFragment();
+					currentFragment=profiloFragment;
+					fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
 					return true;
 
 				default:
