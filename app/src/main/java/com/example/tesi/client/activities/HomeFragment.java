@@ -15,14 +15,13 @@ import com.example.tesi.entity.User;
 import com.example.tesi.utils.Session;
 
 public class HomeFragment extends Fragment {
-	private View v;
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		v=inflater.inflate(R.layout.home_layout, null);
+		View v = inflater.inflate(R.layout.home_layout, null);
 
-		TextView t=v.findViewById(R.id.currentUser);
+		TextView t= v.findViewById(R.id.currentUser);
 
 		User u= Session.getInstance(getContext()).getCurrentUser();
 		t.setText(u.getUsername());

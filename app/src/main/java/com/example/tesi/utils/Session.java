@@ -6,15 +6,14 @@ import android.content.SharedPreferences;
 import com.example.tesi.entity.User;
 
 public class Session {
-	private SharedPreferences preferences;
-	private SharedPreferences.Editor editor;
+	private final SharedPreferences.Editor editor;
 	private User currentUser;
 	private static Session instance;
 	public static final String SESSION_PREFERENCES="session_preferences";
 
 	private Session(Context context) {
-		preferences=context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
-		editor=preferences.edit();
+		SharedPreferences preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
+		editor= preferences.edit();
 		editor.apply();
 	}
 
