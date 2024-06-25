@@ -29,7 +29,7 @@ public class Session {
 		if (toSave)
 			editor.putString("username", user.getUsername()).putString("password", password);
 		else
-			editor.remove("username").remove("password");
+			editor.clear();
 
 		editor.apply();
 	}

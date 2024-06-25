@@ -6,6 +6,8 @@ import com.example.tesi.entity.User;
 import com.example.tesi.service.UserServiceRetrofit;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -24,12 +26,12 @@ public class UserControllerImpl implements UserController{
 
 	public boolean saveUser(String email, String username, String password, String indirizzo) {
 		Call<User> saveCall=userServiceRetrofit.saveUser(email, username, password, indirizzo);
-		final boolean[] result=new boolean[1];
+		AtomicBoolean result=new AtomicBoolean();
 
 		Thread saveThread= new Thread(() -> {
 			try {
 				if (saveCall.execute().body() != null) {
-					result[0] = true;
+					result.set(true);
 					Log.println(Log.INFO, "SAVE USER", "Save successful");
 				}
 			} catch (IOException e) {
@@ -40,19 +42,19 @@ public class UserControllerImpl implements UserController{
 		try {
 			saveThread.join();
 		} catch (InterruptedException e) {
-			return result[0];
+			return result.get();
 		}
 
-		return result[0];
+		return result.get();
 	}
 
 	@Override
 	public User loginUser(String username, String password) {
 		Call<User> call=userServiceRetrofit.loginUser(username, password);
-		final User[] user = new User[1];
+		AtomicReference<User> user = new AtomicReference<>();
 		Thread t= new Thread(() -> {
 			try {
-				user[0] =call.execute().body();
+				user.set(call.execute().body());
 			} catch (IOException e) {
 				Log.println(Log.ERROR, "LOGIN USER", "Login error");
 			}
@@ -64,6 +66,6 @@ public class UserControllerImpl implements UserController{
 			return null;
 		}
 
-		return user[0];
+		return user.get();
 	}
 }

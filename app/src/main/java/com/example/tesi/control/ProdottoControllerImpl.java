@@ -5,6 +5,8 @@ import com.example.tesi.service.ProdottoServiceRetrofit;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -22,11 +24,12 @@ public class ProdottoControllerImpl implements ProdottoController {
 	@Override
 	public boolean add(Prodotto prodotto) {
 		Call<Boolean> call=prodottoServiceRetrofit.add(prodotto);
-		final Boolean[] response=new Boolean[1];
+		AtomicBoolean response=new AtomicBoolean();
 
 		Thread addThread= new Thread(() -> {
 			try {
-				response[0]=Boolean.TRUE.equals(call.execute().body());
+				boolean result=Boolean.TRUE.equals(call.execute().body());
+				response.set(result);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -35,16 +38,35 @@ public class ProdottoControllerImpl implements ProdottoController {
 		try {
 			addThread.join();
 		} catch (InterruptedException e) {
-			return response[0];
+			return response.get();
 		}
 
-		return response[0];
+		return response.get();
 	}
 
 	@Override
-	public List<Prodotto> get(int limit) {
-		Call<List<Prodotto>> call= prodottoServiceRetrofit.get(limit);
-		//TODO implementare metodo che ottiene limit prodotti
+	public List<Prodotto> getAll(int limit) {
+		Call<List<Prodotto>> call=prodottoServiceRetrofit.getAll(limit);
+		List<Prodotto> prodotti=new CopyOnWriteArrayList<>();
+
+		Thread getAllThread=new Thread(() -> {
+			try {
+				List<Prodotto> response=call.execute().body();
+				if (response!=null)
+					prodotti.addAll(response);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		});
+
+		getAllThread.start();
+		try {
+			getAllThread.join();
+		} catch (InterruptedException e) {
+			return prodotti;
+		}
+
+		return prodotti;
 	}
 
 

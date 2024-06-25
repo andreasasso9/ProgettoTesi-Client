@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
+import com.example.tesi.control.ProdottoController;
+import com.example.tesi.control.ProdottoControllerImpl;
+import com.example.tesi.entity.Prodotto;
 import com.example.tesi.utils.RecyclerViewProdottoAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 	private RecyclerView list_prodotti;
@@ -27,9 +30,12 @@ public class HomeFragment extends Fragment {
 		list_prodotti=v.findViewById(R.id.list_prodotti);
 		list_prodotti.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
+		ProdottoController prodottoController=new ProdottoControllerImpl();
+		List<Prodotto> prodotti=prodottoController.getAll(20);
 
-		RecyclerViewProdottoAdapter adapter=new RecyclerViewProdottoAdapter(new ArrayList<>());
+		RecyclerViewProdottoAdapter adapter=new RecyclerViewProdottoAdapter(prodotti);
 		list_prodotti.setAdapter(adapter);
+
 
 		return v;
 	}

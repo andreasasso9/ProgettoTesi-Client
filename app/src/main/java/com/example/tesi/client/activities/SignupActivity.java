@@ -20,6 +20,7 @@ import com.example.tesi.utils.CheckNotEmptyStrings;
 import com.example.tesi.client.R;
 import com.example.tesi.entity.User;
 import com.example.tesi.utils.EmailRegex;
+import com.example.tesi.utils.Session;
 
 public class SignupActivity extends AppCompatActivity {
 	private EditText signupEmail, signupUsername, signupIndirizzo, signupPassword, signupConfPassword;
@@ -90,6 +91,7 @@ public class SignupActivity extends AppCompatActivity {
 				return;
 			}
 
+			Session.getInstance(this).setCurrentUser(null, null, false);
 			goToLogin();
 		});
 
