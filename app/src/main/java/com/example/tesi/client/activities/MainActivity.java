@@ -11,8 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.tesi.client.R;
-import com.example.tesi.entity.User;
-import com.example.tesi.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,14 +20,11 @@ public class MainActivity extends AppCompatActivity {
 	private SearchFragment searchFragment;
 	private HomeFragment homeFragment;
 	private ProfiloFragment profiloFragment;
-	private static User currentUser;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		currentUser= Session.getInstance(this).getCurrentUser();
 
 		navbar=findViewById(R.id.navbar);
 

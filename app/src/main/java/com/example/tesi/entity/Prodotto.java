@@ -6,6 +6,7 @@ import com.example.tesi.entity.entityoptions.Condizioni;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 public class Prodotto implements Serializable {
 	private String titolo;
@@ -14,29 +15,23 @@ public class Prodotto implements Serializable {
 	private Brand brand;
 	private Condizioni condizioni;
 	private double prezzo;
-	private List<FotoByteArray> foto;
 	private int nPreferiti;
-	private User proprietario;
+	private final UUID idProprietario;
 	private Long id;
 
-	public Prodotto(User proprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo, List<FotoByteArray> foto) {
-		this.proprietario = proprietario;
+	public Prodotto(UUID idProprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo) {
+		this.idProprietario = idProprietario;
 		this.titolo = titolo;
 		this.descrizione = descrizione;
 		this.categoria = categoria;
 		this.brand = brand;
 		this.condizioni = condizioni;
 		this.prezzo = prezzo;
-		this.foto = foto;
 		nPreferiti=0;
 	}
 
-	public User getProprietario() {
-		return proprietario;
-	}
-
-	public void setProprietario(User proprietario) {
-		this.proprietario = proprietario;
+	public UUID getIdProprietario() {
+		return idProprietario;
 	}
 
 	public String getTitolo() {
@@ -87,14 +82,6 @@ public class Prodotto implements Serializable {
 		this.prezzo = prezzo;
 	}
 
-	public List<FotoByteArray> getFoto() {
-		return foto;
-	}
-
-	public void setFoto(List<FotoByteArray> foto) {
-		this.foto = foto;
-	}
-
 	public int getPreferiti() {
 		return nPreferiti;
 	}
@@ -110,4 +97,5 @@ public class Prodotto implements Serializable {
 	public Long getId() {
 		return id;
 	}
+
 }

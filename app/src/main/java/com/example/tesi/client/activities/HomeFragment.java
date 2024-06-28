@@ -20,21 +20,23 @@ import com.example.tesi.utils.RecyclerViewProdottoAdapter;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-	private RecyclerView list_prodotti;
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v = inflater.inflate(R.layout.home_layout, null);
 
-		list_prodotti=v.findViewById(R.id.list_prodotti);
+		RecyclerView list_prodotti = v.findViewById(R.id.list_prodotti);
 		list_prodotti.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
 		ProdottoController prodottoController=new ProdottoControllerImpl();
 		List<Prodotto> prodotti=prodottoController.getAll(20);
 
-		RecyclerViewProdottoAdapter adapter=new RecyclerViewProdottoAdapter(prodotti);
-		list_prodotti.setAdapter(adapter);
+
+		if (prodotti != null) {
+			RecyclerViewProdottoAdapter adapter = new RecyclerViewProdottoAdapter(prodotti);
+			list_prodotti.setAdapter(adapter);
+		}
 
 
 		return v;

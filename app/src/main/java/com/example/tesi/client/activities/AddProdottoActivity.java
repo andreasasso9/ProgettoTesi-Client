@@ -26,10 +26,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tesi.client.R;
+import com.example.tesi.control.FotoProdottoController;
+import com.example.tesi.control.FotoProdottoControllerImpl;
 import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
+import com.example.tesi.entity.User;
 import com.example.tesi.entity.entityoptions.Brand;
 import com.example.tesi.entity.entityoptions.Categoria;
 import com.example.tesi.entity.entityoptions.Condizioni;
@@ -51,12 +54,14 @@ public class AddProdottoActivity extends AppCompatActivity {
 	private TextView contatoreTitolo, contatoreDescrizione;
 	private RadioGroup opzioniCategoria, opzioniBrand, opzioniCondizioni;
 	private ProdottoController prodottoController;
+	private FotoProdottoController fotoProdottoController;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_prodotto_layout);
 
 		prodottoController=new ProdottoControllerImpl();
+		fotoProdottoController=new FotoProdottoControllerImpl();
 
 		foto=new LinkedList<>();
 		containerFoto=findViewById(R.id.containerFoto);
@@ -117,7 +122,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 
 		ActivityResultCallback<ClipData> callback= clipData -> {
 			if (clipData!=null) {
-				List<FotoByteArray> list=new ArrayList<>();
+				List<FotoByteArray> list=new LinkedList<>();
 				ByteArrayOutputStream stream=new ByteArrayOutputStream();
 				for (int i = 0; i < clipData.getItemCount(); i++) {
 					try {
@@ -253,9 +258,12 @@ public class AddProdottoActivity extends AppCompatActivity {
 			//ottengo prezzo
 			double prezzo= Double.parseDouble(formPrezzo.getText()+"");
 
-			Prodotto prodotto=new Prodotto(Session.getInstance(this).getCurrentUser(), titolo, descrizione, Categoria.valueOf(categoria), Brand.valueOf(brand), Condizioni.valueOf(condizioni), prezzo, foto);
 
-			Log.println(Log.INFO, "ADD PRODOTTO", prodottoController.add(prodotto)+"");
+			Prodotto prodotto=new Prodotto(Session.getInstance(this).getCurrentUser().getId(), titolo, descrizione, Categoria.valueOf(categoria), Brand.valueOf(brand), Condizioni.valueOf(condizioni), prezzo);
+
+			Prodotto response=prodottoController.add(prodotto);
+			foto.forEach(f->f.setProdotto(response));
+			fotoProdottoController.add(foto);
 
 			goToHome();
 		});

@@ -1,14 +1,20 @@
 package com.example.tesi.control;
 
+import android.util.Log;
+
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.service.ProdottoServiceRetrofit;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -22,51 +28,48 @@ public class ProdottoControllerImpl implements ProdottoController {
 				.create(ProdottoServiceRetrofit.class);
 	}
 	@Override
-	public boolean add(Prodotto prodotto) {
-		Call<Boolean> call=prodottoServiceRetrofit.add(prodotto);
-		AtomicBoolean response=new AtomicBoolean();
-
-		Thread addThread= new Thread(() -> {
+	public Prodotto add(Prodotto prodotto) {
+		Call<Prodotto> call=prodottoServiceRetrofit.add(prodotto);
+		CompletableFuture<Prodotto> future=CompletableFuture.supplyAsync(()->{
 			try {
-				boolean result=Boolean.TRUE.equals(call.execute().body());
-				response.set(result);
+				Response<Prodotto> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				else
+					throw new RuntimeException("ADD PRODOTTO FAILED");
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 		});
-		addThread.start();
-		try {
-			addThread.join();
-		} catch (InterruptedException e) {
-			return response.get();
-		}
 
-		return response.get();
+		try {
+			return future.get();
+		} catch (ExecutionException | InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public List<Prodotto> getAll(int limit) {
 		Call<List<Prodotto>> call=prodottoServiceRetrofit.getAll(limit);
-		List<Prodotto> prodotti=new CopyOnWriteArrayList<>();
-
-		Thread getAllThread=new Thread(() -> {
+		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
 			try {
-				List<Prodotto> response=call.execute().body();
-				if (response!=null)
-					prodotti.addAll(response);
+				Response<List<Prodotto>> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				else
+					Log.println(Log.ERROR, "GET ALL PRODOTTO", "FAILED");
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
+			return null;
 		});
 
-		getAllThread.start();
 		try {
-			getAllThread.join();
-		} catch (InterruptedException e) {
-			return prodotti;
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return null;
 		}
-
-		return prodotti;
 	}
 
 

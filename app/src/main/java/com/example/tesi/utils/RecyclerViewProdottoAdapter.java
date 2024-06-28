@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
+import com.example.tesi.control.FotoProdottoController;
+import com.example.tesi.control.FotoProdottoControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
 
@@ -31,9 +33,13 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 	@Override
 	public void onBindViewHolder(@NonNull ViewProdottoItemHolder holder, int position) {
 		Prodotto p=prodotti.get(position);
-		List<FotoByteArray> foto=p.getFoto();
 
-		holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.get(0).getValue(), 0, foto.size()));
+		FotoProdottoController fotoController=new FotoProdottoControllerImpl();
+
+		FotoByteArray foto=fotoController.findFirst(p);
+
+		if (foto!=null)
+			holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
 		holder.nPreferitiProdottoItem.setText(p.getPreferiti()+"");
 		holder.brandProdottoItem.setText(p.getBrand().getNome());
 		holder.prezzoProdottoItem.setText(p.getPrezzo()+"");
