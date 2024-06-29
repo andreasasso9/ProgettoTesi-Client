@@ -16,6 +16,7 @@ import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.utils.RecyclerViewProdottoAdapter;
+import com.example.tesi.utils.Session;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class HomeFragment extends Fragment {
 		list_prodotti.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
 		ProdottoController prodottoController=new ProdottoControllerImpl();
-		List<Prodotto> prodotti=prodottoController.getAll(20);
+		List<Prodotto> prodotti=prodottoController.getAllNotOwnedBy(Session.getInstance(requireContext()).getCurrentUser());
 
 
 		if (prodotti != null) {

@@ -67,10 +67,13 @@ public class FotoProdottoControllerImpl implements FotoProdottoController{
 			try {
 				Response<ResponseBody> response=call.execute();
 				if (response.isSuccessful()) {
-					String jsonResponse=response.body().string();
-					Type listType=new TypeToken<List<FotoByteArray>>() {}.getType();
+					try (ResponseBody body=response.body()) {
+						assert body != null;
+						String jsonResponse = body.string();
+						Type listType = new TypeToken<List<FotoByteArray>>() {}.getType();
 
-					return gson.fromJson(jsonResponse, listType);
+						return gson.fromJson(jsonResponse, listType);
+					}
 				}
 				else
 					throw new RuntimeException("Failed to fetch data");
@@ -96,10 +99,13 @@ public class FotoProdottoControllerImpl implements FotoProdottoController{
 			try {
 				Response<ResponseBody> response=call.execute();
 				if (response.isSuccessful()) {
-					String jsonResponse=response.body().string();
-					Type fotoType=new TypeToken<FotoByteArray>() {}.getType();
+					try (ResponseBody body=response.body()) {
+						assert body != null;
+						String jsonResponse = body.string();
+						Type fotoType = new TypeToken<FotoByteArray>() {}.getType();
 
-					return gson.fromJson(jsonResponse, fotoType);
+						return gson.fromJson(jsonResponse, fotoType);
+					}
 				}
 				else
 					throw new RuntimeException("Failed to fetch data");

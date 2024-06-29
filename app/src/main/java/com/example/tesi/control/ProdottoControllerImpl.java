@@ -3,10 +3,14 @@ package com.example.tesi.control;
 import android.util.Log;
 
 import com.example.tesi.entity.Prodotto;
+import com.example.tesi.entity.User;
 import com.example.tesi.service.ProdottoServiceRetrofit;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
@@ -63,6 +67,28 @@ public class ProdottoControllerImpl implements ProdottoController {
 				throw new RuntimeException(e);
 			}
 			return null;
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public List<Prodotto> getAllNotOwnedBy(User user) {
+		Call<List<Prodotto>> call=prodottoServiceRetrofit.getAllNotOwnedBy(user);
+		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<List<Prodotto>> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				else
+					return null;
+			} catch (IOException e) {
+				return null;
+			}
 		});
 
 		try {
