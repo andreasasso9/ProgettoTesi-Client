@@ -40,14 +40,27 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 
 		if (foto!=null)
 			holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
-		holder.nPreferitiProdottoItem.setText(p.getPreferiti()+"");
 		holder.brandProdottoItem.setText(p.getBrand().getNome());
 		holder.prezzoProdottoItem.setText(p.getPrezzo()+"");
+		int nPreferiti=p.getPreferiti();
+		if (nPreferiti>0)
+			holder.nPreferitiProdottoItem.setText(nPreferiti+"");
+
+		createPreferitiClickListener(holder, nPreferiti);
 
 	}
 
 	@Override
 	public int getItemCount() {
 		return prodotti.size();
+	}
+
+	//todo completare il funzionamento del tasto 'Mi Piace' e aggiungere la chiamata al server
+	private void createPreferitiClickListener(ViewProdottoItemHolder holder, int currentPreferiti) {
+		holder.containerPreferiti.setOnClickListener(l->{
+			int newPreferiti=currentPreferiti+1;
+			holder.nPreferitiProdottoItem.setText(newPreferiti+"");
+			holder.iconaPreferiti.setBackgroundResource(R.drawable.icons8_loading_heart_50);
+		});
 	}
 }

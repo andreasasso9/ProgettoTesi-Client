@@ -1,24 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="210dp"
-    android:layout_height="300dp"
-    android:orientation="vertical">
+    android:layout_width="180dp"
+    android:layout_height="320dp"
+    android:orientation="vertical"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp">
 
     <RelativeLayout
-        android:layout_width="150dp"
-        android:layout_height="250dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="10">
 
         <ImageView android:id="@+id/foto_prodotto_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitEnd"/>
 
-        <TextView android:id="@+id/nPreferiti_prodotto_item"
+        <LinearLayout android:id="@+id/container_preferiti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="0"
+            android:orientation="horizontal"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/shape_preferiti"
+            android:gravity="center">
+
+            <TextView android:id="@+id/icona_preferiti"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/icons8_caricamento_cuore_50"/>
+
+            <TextView android:id="@+id/nPreferiti_prodotto_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text=""
+                android:gravity="center" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -27,7 +46,8 @@
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:text="brand"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="bottom"
+        android:layout_weight="1"/>
 
     <TextView android:id="@+id/prezzo_prodotto_item"
         android:layout_width="wrap_content"
@@ -35,7 +55,7 @@
         android:textSize="15dp"
         android:text="prezzo"
         android:layout_marginTop="8dp"
-        />
+        android:layout_weight="1"/>
 
 
 </LinearLayout>

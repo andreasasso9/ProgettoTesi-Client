@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +23,7 @@ import com.example.tesi.utils.Session;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
+
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,7 +41,6 @@ public class HomeFragment extends Fragment {
 			RecyclerViewProdottoAdapter adapter = new RecyclerViewProdottoAdapter(prodotti);
 			list_prodotti.setAdapter(adapter);
 		}
-
 
 		return v;
 	}
