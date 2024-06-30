@@ -5,7 +5,6 @@ import com.example.tesi.entity.entityoptions.Categoria;
 import com.example.tesi.entity.entityoptions.Condizioni;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
 
 public class Prodotto implements Serializable {
@@ -15,7 +14,7 @@ public class Prodotto implements Serializable {
 	private Brand brand;
 	private Condizioni condizioni;
 	private double prezzo;
-	private int nPreferiti;
+	private int miPiace;
 	private final UUID idProprietario;
 	private Long id;
 
@@ -27,7 +26,7 @@ public class Prodotto implements Serializable {
 		this.brand = brand;
 		this.condizioni = condizioni;
 		this.prezzo = prezzo;
-		nPreferiti=0;
+		this.miPiace = 0;
 	}
 
 	public UUID getIdProprietario() {
@@ -82,12 +81,12 @@ public class Prodotto implements Serializable {
 		this.prezzo = prezzo;
 	}
 
-	public int getPreferiti() {
-		return nPreferiti;
+	public int getMiPiace() {
+		return miPiace;
 	}
 
-	public void setPreferiti(int nPreferiti) {
-		this.nPreferiti = nPreferiti;
+	public void setPreferiti(int miPiace) {
+		this.miPiace = miPiace;
 	}
 
 	public void setId(Long id) {

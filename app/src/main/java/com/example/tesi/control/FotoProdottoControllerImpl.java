@@ -1,24 +1,18 @@
 package com.example.tesi.control;
 
-import android.util.Log;
-
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.service.FotoProdottoServiceRetrofit;
 import com.example.tesi.utils.FotoByteArrayDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -44,8 +38,8 @@ public class FotoProdottoControllerImpl implements FotoProdottoController{
 				Response<Boolean> response=call.execute();
 				if (response.isSuccessful())
 					return response.body();
-				else
-					return null;
+
+				return null;
 			} catch (IOException e) {
 				return null;
 			}
@@ -75,8 +69,8 @@ public class FotoProdottoControllerImpl implements FotoProdottoController{
 						return gson.fromJson(jsonResponse, listType);
 					}
 				}
-				else
-					throw new RuntimeException("Failed to fetch data");
+
+				throw new RuntimeException("Failed to fetch data");
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -107,8 +101,8 @@ public class FotoProdottoControllerImpl implements FotoProdottoController{
 						return gson.fromJson(jsonResponse, fotoType);
 					}
 				}
-				else
-					throw new RuntimeException("Failed to fetch data");
+
+				throw new RuntimeException("Failed to fetch data");
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}

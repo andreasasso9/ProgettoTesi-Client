@@ -1,15 +1,11 @@
 package com.example.tesi.control;
 
-import android.util.Log;
-
 import com.example.tesi.entity.User;
 import com.example.tesi.service.UserServiceRetrofit;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -34,8 +30,8 @@ public class UserControllerImpl implements UserController{
 				Response<User> response= saveCall.execute();
 				if (response.isSuccessful())
 					return response.body();
-				else
-					throw new RuntimeException("SAVE USER FAILED");
+
+				throw new RuntimeException("SAVE USER FAILED");
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -56,8 +52,8 @@ public class UserControllerImpl implements UserController{
 				Response<User> response=call.execute();
 				if (response.isSuccessful())
 					return response.body();
-				else
-					return null;
+
+				return null;
 			} catch (IOException e) {
 				return null;
 			}

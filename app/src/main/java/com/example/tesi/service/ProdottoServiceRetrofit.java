@@ -4,7 +4,6 @@ import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,4 +18,7 @@ public interface ProdottoServiceRetrofit {
 
 	@POST("getAllNotOwnedBy")
 	Call<List<Prodotto>> getAllNotOwnedBy(@Body User user);
+
+	@POST("miPiace")
+	Call<Boolean> miPiace(@Body Long idProdotto);
 }

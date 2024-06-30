@@ -3,9 +3,9 @@ package com.example.tesi.entity;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import java.util.UUID;
 
 public class User implements Serializable {
@@ -14,7 +14,7 @@ public class User implements Serializable {
 	private String password;
 	private UUID id;
 	private String indirizzo;
-//	private List<Prodotto> prodotti;
+	private Set<Prodotto> prodottiPreferiti;
 
 	public User(){}
 
@@ -23,7 +23,7 @@ public class User implements Serializable {
 		this.username = username;
 		this.password = password;
 		this.indirizzo =indirizzo;
-//		prodotti=new ArrayList<>();
+		prodottiPreferiti=new HashSet<>();
 	}
 
 	public String getEmail() {
@@ -66,13 +66,13 @@ public class User implements Serializable {
 		this.indirizzo = indirizzo;
 	}
 
-//	public List<Prodotto> getProdotti() {
-//		return prodotti;
-//	}
-//
-//	public void setProdotti(List<Prodotto> prodotti) {
-//		this.prodotti = prodotti;
-//	}
+	public Set<Prodotto> getProdottiPreferiti() {
+		return prodottiPreferiti;
+	}
+
+	public void setprodottiPreferiti(Set<Prodotto> prodottiPreferiti) {
+		this.prodottiPreferiti = prodottiPreferiti;
+	}
 
 	@NonNull
 	@Override

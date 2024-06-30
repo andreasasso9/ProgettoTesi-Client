@@ -7,17 +7,11 @@ import com.example.tesi.entity.User;
 import com.example.tesi.service.ProdottoServiceRetrofit;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -39,8 +33,8 @@ public class ProdottoControllerImpl implements ProdottoController {
 				Response<Prodotto> response=call.execute();
 				if (response.isSuccessful())
 					return response.body();
-				else
-					throw new RuntimeException("ADD PRODOTTO FAILED");
+
+				throw new RuntimeException("ADD PRODOTTO FAILED");
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -61,8 +55,8 @@ public class ProdottoControllerImpl implements ProdottoController {
 				Response<List<Prodotto>> response=call.execute();
 				if (response.isSuccessful())
 					return response.body();
-				else
-					Log.println(Log.ERROR, "GET ALL PRODOTTO", "FAILED");
+
+				Log.println(Log.ERROR, "GET ALL PRODOTTO", "FAILED");
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -84,8 +78,8 @@ public class ProdottoControllerImpl implements ProdottoController {
 				Response<List<Prodotto>> response=call.execute();
 				if (response.isSuccessful())
 					return response.body();
-				else
-					return null;
+
+				return null;
 			} catch (IOException e) {
 				return null;
 			}
@@ -95,6 +89,32 @@ public class ProdottoControllerImpl implements ProdottoController {
 			return future.get();
 		} catch (InterruptedException | ExecutionException e) {
 			return null;
+		}
+	}
+
+	@Override
+	public boolean miPiace(Prodotto prodotto) {
+		Call<Boolean> call=prodottoServiceRetrofit.miPiace(prodotto.getId());
+		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<Boolean> response=call.execute();
+				if (response.isSuccessful()) {
+					Log.println(Log.INFO, "UPDATE PRODOTTO", "SUCCESS");
+					return response.body();
+				}
+				else {
+					Log.println(Log.ERROR, "UPDATE PRODOTTO", "FAILED");
+					return false;
+				}
+			} catch (IOException e) {
+				return false;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return false;
 		}
 	}
 
