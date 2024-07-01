@@ -9,5 +9,5 @@ public interface ProdottoController {
 	public Prodotto add(Prodotto prodotto);
 	public List<Prodotto> getAll(int limit);
 	public List<Prodotto> getAllNotOwnedBy(User user);
-	public boolean miPiace(Prodotto prodotto);
+	public boolean update(Prodotto prodotto);
 }

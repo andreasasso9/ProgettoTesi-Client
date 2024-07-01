@@ -15,6 +15,7 @@ import com.example.tesi.client.R;
 import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.Prodotto;
+import com.example.tesi.entity.User;
 import com.example.tesi.utils.RecyclerViewProdottoAdapter;
 import com.example.tesi.utils.Session;
 
@@ -32,12 +33,14 @@ public class HomeFragment extends Fragment {
 		RecyclerView list_prodotti = v.findViewById(R.id.list_prodotti);
 		list_prodotti.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
+		User currentUser=Session.getInstance(requireContext()).getCurrentUser();
+
 		ProdottoController prodottoController=new ProdottoControllerImpl();
-		List<Prodotto> prodotti=prodottoController.getAllNotOwnedBy(Session.getInstance(requireContext()).getCurrentUser());
+		List<Prodotto> prodotti=prodottoController.getAllNotOwnedBy(currentUser);
 
 
 		if (prodotti != null) {
-			RecyclerViewProdottoAdapter adapter = new RecyclerViewProdottoAdapter(prodotti);
+			RecyclerViewProdottoAdapter adapter = new RecyclerViewProdottoAdapter(prodotti, currentUser);
 			list_prodotti.setAdapter(adapter);
 		}
 

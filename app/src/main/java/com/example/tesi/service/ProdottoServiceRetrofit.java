@@ -19,6 +19,6 @@ public interface ProdottoServiceRetrofit {
 	@POST("getAllNotOwnedBy")
 	Call<List<Prodotto>> getAllNotOwnedBy(@Body User user);
 
-	@POST("miPiace")
-	Call<Boolean> miPiace(@Body Long idProdotto);
+	@POST("update")
+	Call<Boolean> update(@Body Prodotto prodotto);
 }

@@ -4,6 +4,7 @@ import com.example.tesi.entity.User;
 import com.example.tesi.service.UserServiceRetrofit;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -65,4 +66,26 @@ public class UserControllerImpl implements UserController{
 			return null;
 		}
 	}
+
+	@Override
+	public boolean miPiace(UUID idUser, Long idProdotto) {
+		Call<Boolean> call=userServiceRetrofit.miPiace(idUser, idProdotto);
+		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<Boolean> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				return false;
+			} catch (IOException e) {
+				return false;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return false;
+		}
+	}
+
 }

@@ -93,8 +93,8 @@ public class ProdottoControllerImpl implements ProdottoController {
 	}
 
 	@Override
-	public boolean miPiace(Prodotto prodotto) {
-		Call<Boolean> call=prodottoServiceRetrofit.miPiace(prodotto.getId());
+	public boolean update(Prodotto prodotto) {
+		Call<Boolean> call=prodottoServiceRetrofit.update(prodotto);
 		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<Boolean> response=call.execute();
@@ -117,6 +117,4 @@ public class ProdottoControllerImpl implements ProdottoController {
 			return false;
 		}
 	}
-
-
 }
