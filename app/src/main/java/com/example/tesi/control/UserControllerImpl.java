@@ -88,4 +88,25 @@ public class UserControllerImpl implements UserController{
 		}
 	}
 
+	@Override
+	public boolean update(User user) {
+		Call<Boolean> call=userServiceRetrofit.update(user);
+		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<Boolean> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				return false;
+			} catch (IOException e) {
+				return false;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return false;
+		}
+	}
+
 }

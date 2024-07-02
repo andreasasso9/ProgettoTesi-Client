@@ -1,11 +1,14 @@
 package com.example.tesi.utils;
 
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
@@ -53,14 +56,13 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 		if (p.getMiPiace()>0)
 			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
 
-		boolean addMiPiace=true;
+		createAddMiPiaceClickListener(holder, p);
+
 		for (Prodotto x:currentUser.getProdottiPreferiti())
 			if (x.getId().equals(p.getId())) {
-				addMiPiace=false;
 				holder.iconaPreferiti.setBackgroundResource(R.drawable.icons8_loading_heart_50);
+				createSottractMiPiaceClickListener(holder, p);
 			}
-
-		createMiPiaceClickListener(holder, p, addMiPiace);
 
 	}
 
@@ -69,25 +71,32 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 		return prodotti.size();
 	}
 
-	//todo aggiungere il riferimento all'utente che ha messo mi piace e la rimozione del mi piace
-	private void createMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p, boolean addMiPiace) {
-		holder.containerPreferiti.setOnClickListener(l->{
-			if (addMiPiace) {
-				p.setPreferiti(p.getMiPiace()+1);
-				holder.iconaPreferiti.setBackgroundResource(R.drawable.icons8_loading_heart_50);
-				currentUser.getProdottiPreferiti().add(p);
-			}
+	//todo gestire i listener per il tasto mi piace 
 
+	private void createAddMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p) {
+		holder.containerPreferiti.setOnClickListener(l->{
+			p.setPreferiti(p.getMiPiace()+1);
+			holder.iconaPreferiti.setBackgroundResource(R.drawable.icons8_loading_heart_50);
+			currentUser.getProdottiPreferiti().add(p);
 
 			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
 
+			new UserControllerImpl().update(currentUser);
+			new ProdottoControllerImpl().update(p);
 
-			//todo combiare metodo mi piace con update
-			UserController userController=new UserControllerImpl();
-			userController.miPiace(currentUser.getId(), p.getId());
+		});
+	}
 
-			ProdottoController prodottoController=new ProdottoControllerImpl();
-			prodottoController.update(p);
+	private void createSottractMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p) {
+		holder.containerPreferiti.setOnClickListener(l->{
+			p.setPreferiti(p.getMiPiace()-1);
+			holder.iconaPreferiti.setBackgroundResource(R.drawable.icons8_caricamento_cuore_50);
+			currentUser.getProdottiPreferiti().remove(p);
+
+			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
+
+			new UserControllerImpl().update(currentUser);
+			new ProdottoControllerImpl().update(p);
 		});
 	}
 }
