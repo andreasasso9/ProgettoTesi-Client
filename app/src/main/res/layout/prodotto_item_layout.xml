@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="180dp"
     android:layout_height="320dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingRight="10dp"
     android:paddingLeft="10dp">
@@ -16,7 +17,7 @@
             android:layout_height="match_parent"
             android:scaleType="fitEnd"/>
 
-        <LinearLayout android:id="@+id/container_preferiti"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -25,12 +26,25 @@
             android:background="@drawable/shape_preferiti"
             android:gravity="center">
 
-            <TextView android:id="@+id/icona_preferiti"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/icons8_caricamento_cuore_50"/>
+            <FrameLayout
+                android:layout_width="30dp"
+                android:layout_height="30dp">
 
-            <TextView android:id="@+id/nPreferiti_prodotto_item"
+                <ImageView android:id="@+id/iconaMiPiace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:src="@drawable/icons8_caricamento_cuore_50" />
+
+                <androidx.appcompat.widget.SwitchCompat android:id="@+id/switchMiPiace"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:thumb="@android:color/transparent"
+                    app:track="@android:color/transparent"/>
+
+            </FrameLayout>
+
+            <TextView android:id="@+id/miPiace_prodotto_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
@@ -38,6 +52,8 @@
                 android:gravity="center" />
 
         </LinearLayout>
+
+
 
     </RelativeLayout>
 

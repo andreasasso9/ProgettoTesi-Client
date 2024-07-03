@@ -1,33 +1,28 @@
 package com.example.tesi.utils;
 
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
 import com.example.tesi.control.FotoProdottoController;
 import com.example.tesi.control.FotoProdottoControllerImpl;
-import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
-import com.example.tesi.control.UserController;
 import com.example.tesi.control.UserControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 
 import java.util.List;
-import java.util.Objects;
 
 public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdottoItemHolder> {
-	private List<Prodotto> prodotti;
-	private User currentUser;
+	private final List<Prodotto> prodotti;
+	private final User currentUser;
 
 	public RecyclerViewProdottoAdapter(List<Prodotto> prodotti, User currentUser) {
 		this.prodotti=prodotti;
@@ -56,14 +51,13 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 		if (p.getMiPiace()>0)
 			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
 
-		createAddMiPiaceClickListener(holder, p);
-
 		for (Prodotto x:currentUser.getProdottiPreferiti())
-			if (x.getId().equals(p.getId())) {
-				holder.iconaPreferiti.setBackgroundResource(R.drawable.icons8_loading_heart_50);
-				createSottractMiPiaceClickListener(holder, p);
+			if (x.equals(p)) {
+				holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
+				holder.switcMiPiace.setChecked(true);
 			}
 
+		holder.switcMiPiace.setOnClickListener(createMiPiaceClickListener(holder, p));
 	}
 
 	@Override
@@ -71,32 +65,23 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 		return prodotti.size();
 	}
 
-	//todo gestire i listener per il tasto mi piace 
-
-	private void createAddMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p) {
-		holder.containerPreferiti.setOnClickListener(l->{
-			p.setPreferiti(p.getMiPiace()+1);
-			holder.iconaPreferiti.setBackgroundResource(R.drawable.icons8_loading_heart_50);
-			currentUser.getProdottiPreferiti().add(p);
-
-			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
-
-			new UserControllerImpl().update(currentUser);
-			new ProdottoControllerImpl().update(p);
-
-		});
-	}
-
-	private void createSottractMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p) {
-		holder.containerPreferiti.setOnClickListener(l->{
-			p.setPreferiti(p.getMiPiace()-1);
-			holder.iconaPreferiti.setBackgroundResource(R.drawable.icons8_caricamento_cuore_50);
-			currentUser.getProdottiPreferiti().remove(p);
+	private View.OnClickListener createMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p) {
+		return l->{
+			SwitchCompat switchCompat=(SwitchCompat) l;
+			if (switchCompat.isChecked()) {
+				p.setPreferiti(p.getMiPiace()+1);
+				holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
+				currentUser.getProdottiPreferiti().add(p);
+			} else {
+				p.setPreferiti(p.getMiPiace()-1);
+				holder.iconaMiPiace.setImageResource(R.drawable.icons8_caricamento_cuore_50);
+				currentUser.getProdottiPreferiti().remove(p);
+			}
 
 			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
 
 			new UserControllerImpl().update(currentUser);
 			new ProdottoControllerImpl().update(p);
-		});
+		};
 	}
 }
