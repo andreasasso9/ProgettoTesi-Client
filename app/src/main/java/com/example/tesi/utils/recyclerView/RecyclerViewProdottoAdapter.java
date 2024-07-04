@@ -1,4 +1,4 @@
-package com.example.tesi.utils;
+package com.example.tesi.utils.recyclerView;
 
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;

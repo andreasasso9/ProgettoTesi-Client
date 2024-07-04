@@ -1,4 +1,4 @@
-package com.example.tesi.utils;
+package com.example.tesi.utils.recyclerView;
 
 import android.view.View;
 import android.widget.FrameLayout;

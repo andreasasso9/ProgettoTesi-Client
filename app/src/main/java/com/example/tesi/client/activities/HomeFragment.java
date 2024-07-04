@@ -16,7 +16,7 @@ import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
-import com.example.tesi.utils.RecyclerViewProdottoAdapter;
+import com.example.tesi.utils.recyclerView.RecyclerViewProdottoAdapter;
 import com.example.tesi.utils.Session;
 
 import java.util.List;
