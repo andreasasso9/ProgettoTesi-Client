@@ -109,4 +109,25 @@ public class UserControllerImpl implements UserController{
 		}
 	}
 
+	@Override
+	public User findById(UUID id) {
+		Call<User> call=userServiceRetrofit.findById(id);
+		CompletableFuture<User> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<User> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				return null;
+			} catch (IOException e) {
+				return null;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return null;
+		}
+	}
+
 }

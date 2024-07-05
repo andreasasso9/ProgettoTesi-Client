@@ -30,4 +30,7 @@ public interface UserServiceRetrofit {
 
 	@POST("update")
 	Call<Boolean> update(@Body User user);
+
+	@POST("findUserById")
+	Call<User> findById(@Body UUID id);
 }

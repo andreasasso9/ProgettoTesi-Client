@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 	private SearchFragment searchFragment;
 	private HomeFragment homeFragment;
 	private ProfiloFragment profiloFragment;
+	private NotificheFragment notificheFragment;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
 					iconSearch.setIcon(R.drawable.ricerca_unselected);
 					iconNotifiche.setIcon(R.drawable.notifica_selected);
 					iconProfilo.setIcon(R.drawable.profilo_unselected);
+					if (notificheFragment==null)
+						notificheFragment=new NotificheFragment();
+					currentFragment=notificheFragment;
+					fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
 					return true;
 
 				case "Profilo":

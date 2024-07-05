@@ -8,6 +8,8 @@ public class Notifica {
 	private String descrizione;
 	private byte[] foto;
 
+	public Notifica() {}
+
 	public Notifica(UUID sender, UUID receiver, String descrizione, byte[] foto) {
 		this.sender = sender;
 		this.receiver = receiver;

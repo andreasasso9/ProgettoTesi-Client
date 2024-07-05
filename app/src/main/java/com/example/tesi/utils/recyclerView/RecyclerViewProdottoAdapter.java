@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tesi.client.R;
 import com.example.tesi.control.FotoProdottoController;
 import com.example.tesi.control.FotoProdottoControllerImpl;
+import com.example.tesi.control.NotificheControllerImpl;
 import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.control.UserControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
+import com.example.tesi.entity.Notifica;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 
@@ -57,7 +59,7 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 				holder.switcMiPiace.setChecked(true);
 			}
 
-		holder.switcMiPiace.setOnClickListener(createMiPiaceClickListener(holder, p));
+		holder.switcMiPiace.setOnClickListener(createMiPiaceClickListener(holder, p, foto));
 	}
 
 	@Override
@@ -65,13 +67,16 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 		return prodotti.size();
 	}
 
-	private View.OnClickListener createMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p) {
+	private View.OnClickListener createMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p, FotoByteArray foto) {
 		return l->{
 			SwitchCompat switchCompat=(SwitchCompat) l;
 			if (switchCompat.isChecked()) {
 				p.setPreferiti(p.getMiPiace()+1);
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
 				currentUser.getProdottiPreferiti().add(p);
+
+				Notifica notifica=new Notifica(currentUser.getId(), p.getIdProprietario(), currentUser.getUsername()+" ha messo mi piace", foto.getValue());
+				new NotificheControllerImpl().save(notifica);
 			} else {
 				p.setPreferiti(p.getMiPiace()-1);
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_caricamento_cuore_50);

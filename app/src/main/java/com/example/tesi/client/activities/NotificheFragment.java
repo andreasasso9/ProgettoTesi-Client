@@ -12,6 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
+import com.example.tesi.control.NotificheControllerImpl;
+import com.example.tesi.entity.Notifica;
+import com.example.tesi.utils.Session;
+import com.example.tesi.utils.recyclerView.RecyclerViewNotificheAdapter;
+
+import java.util.List;
 
 public class NotificheFragment extends Fragment {
 	private RecyclerView listaNotifiche;
@@ -24,6 +30,13 @@ public class NotificheFragment extends Fragment {
 
 		listaNotifiche=v.findViewById(R.id.lista_notifiche);
 		listaNotifiche.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, true));
+
+		List<Notifica> notifiche=new NotificheControllerImpl().findByReceiver(Session.getInstance(requireContext()).getCurrentUser().getId());
+
+		if (notifiche!=null) {
+			RecyclerViewNotificheAdapter adapter = new RecyclerViewNotificheAdapter(notifiche);
+			listaNotifiche.setAdapter(adapter);
+		}
 
 		return v;
 	}
