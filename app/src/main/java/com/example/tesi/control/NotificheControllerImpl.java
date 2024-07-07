@@ -18,7 +18,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import com.example.tesi.utils.FotoByteArrayDeserializer;
 import com.example.tesi.utils.NotificheDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -90,4 +89,27 @@ public class NotificheControllerImpl implements NotificheController {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public boolean delete(String descrizione) {
+		Call<Boolean> call=notificheServiceRetrofit.delete(descrizione);
+		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<Boolean> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				return false;
+			} catch (IOException e) {
+				return false;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return false;
+		}
+	}
+
+
 }

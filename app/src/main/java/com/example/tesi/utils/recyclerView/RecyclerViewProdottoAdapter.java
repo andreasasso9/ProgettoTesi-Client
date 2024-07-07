@@ -12,23 +12,35 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tesi.client.R;
 import com.example.tesi.control.FotoProdottoController;
 import com.example.tesi.control.FotoProdottoControllerImpl;
+import com.example.tesi.control.NotificheController;
 import com.example.tesi.control.NotificheControllerImpl;
+import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
+import com.example.tesi.control.UserController;
 import com.example.tesi.control.UserControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Notifica;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 
+
 import java.util.List;
 
 public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdottoItemHolder> {
 	private final List<Prodotto> prodotti;
 	private final User currentUser;
+	private final NotificheController notificheController;
+	private final ProdottoController prodottoController;
+	private final FotoProdottoController fotoController;
+	private final UserController userController;
 
 	public RecyclerViewProdottoAdapter(List<Prodotto> prodotti, User currentUser) {
 		this.prodotti=prodotti;
 		this.currentUser=currentUser;
+		notificheController=new NotificheControllerImpl();
+		prodottoController=new ProdottoControllerImpl();
+		fotoController=new FotoProdottoControllerImpl();
+		userController=new UserControllerImpl();
 	}
 
 	@NonNull
@@ -41,8 +53,6 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 	@Override
 	public void onBindViewHolder(@NonNull ViewProdottoItemHolder holder, int position) {
 		Prodotto p=prodotti.get(position);
-
-		FotoProdottoController fotoController=new FotoProdottoControllerImpl();
 
 		FotoByteArray foto=fotoController.findFirst(p);
 
@@ -75,18 +85,20 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
 				currentUser.getProdottiPreferiti().add(p);
 
-				Notifica notifica=new Notifica(currentUser.getId(), p.getIdProprietario(), currentUser.getUsername()+" ha messo mi piace", foto.getValue());
-				new NotificheControllerImpl().save(notifica);
+				userController.miPiace(currentUser.getId(), p.getId());
 			} else {
 				p.setPreferiti(p.getMiPiace()-1);
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_caricamento_cuore_50);
 				currentUser.getProdottiPreferiti().remove(p);
+
+				String descrizione=String.format("%s ha messo mi piace al tuo articolo %s", currentUser.getUsername(), p.getTitolo());
+				notificheController.delete(descrizione);
 			}
 
 			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
 
-			new UserControllerImpl().update(currentUser);
-			new ProdottoControllerImpl().update(p);
+			userController.update(currentUser);
+			prodottoController.update(p);
 		};
 	}
 }
