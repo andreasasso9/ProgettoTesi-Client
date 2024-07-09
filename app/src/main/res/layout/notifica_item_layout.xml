@@ -1,25 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:id="@+id/mainContainer">
 
-    <TextView android:id="@+id/sender"
+    <LinearLayout android:id="@+id/containerItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="50dp"
-        android:text="user"
-        android:textStyle="bold"/>
+        android:orientation="vertical"
+        android:layout_weight="1">
 
-    <TextView android:id="@+id/descrizione_notifica"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="descrizione"
-        android:textSize="25dp"/>
+        <TextView android:id="@+id/sender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="35dp"
+            android:text="user"
+            android:textStyle="bold" />
 
-    <ImageView android:id="@+id/foto_notifica"
-        android:layout_width="50dp"
-        android:layout_height="70dp"
-        android:contentDescription="@null" />
+        <TextView android:id="@+id/descrizione_notifica"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="descrizione"
+            android:textSize="25dp"
+            android:maxLines="2"/>
+
+        <ImageView android:id="@+id/foto_notifica"
+            android:layout_width="50dp"
+            android:layout_height="70dp"
+            android:contentDescription="@null" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/eliminaNotificaContainer"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="#B71C1C"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icons8_cestino_64"
+            android:contentDescription="@null" />
+
+        <TextView android:id="@+id/eliminaNotifica"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elimina"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:maxLines="1" />
+
+    </LinearLayout>
 
 </LinearLayout>

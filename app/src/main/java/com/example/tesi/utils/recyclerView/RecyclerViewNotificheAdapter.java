@@ -43,4 +43,8 @@ public class RecyclerViewNotificheAdapter extends RecyclerView.Adapter<ViewNotif
 	public int getItemCount() {
 		return notifiche.size();
 	}
+
+	public void update(List<Notifica> notificheUpdated) {
+		notifiche.addAll(notificheUpdated);
+	}
 }
