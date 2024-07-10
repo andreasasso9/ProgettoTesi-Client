@@ -33,7 +33,11 @@ import com.example.tesi.utils.Session;
 import com.example.tesi.utils.recyclerView.RecyclerViewNotificheAdapter;
 import com.example.tesi.utils.recyclerView.ViewNotificheItemHolder;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class NotificheFragment extends Fragment {
 	private RecyclerView listaNotifiche;
@@ -48,21 +52,23 @@ public class NotificheFragment extends Fragment {
 		notificheController=new NotificheControllerImpl();
 
 		listaNotifiche=v.findViewById(R.id.lista_notifiche);
-		listaNotifiche.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, true));
+		listaNotifiche.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
+
 
 		List<Notifica> notifiche=notificheController.findByReceiver(Session.getInstance(requireContext()).getCurrentUser().getId());
+		Collections.reverse(notifiche);
 
-		if (notifiche!=null) {
+		if (!notifiche.isEmpty()) {
 			RecyclerViewNotificheAdapter adapter = new RecyclerViewNotificheAdapter(notifiche);
 			listaNotifiche.setAdapter(adapter);
 
-			createEliminaNotifica(listaNotifiche);
+			createEliminaNotifica(listaNotifiche, inflater, container, savedInstanceState);
 		}
 
 		return v;
 	}
 
-	public void createEliminaNotifica(RecyclerView recyclerView) {
+	public void createEliminaNotifica(RecyclerView recyclerView, @NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		ItemTouchHelper itemTouchHelper=new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT /*| ItemTouchHelper.RIGHT*/) {
 			@Override
 			public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -73,7 +79,18 @@ public class NotificheFragment extends Fragment {
 			public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 				ViewNotificheItemHolder holder= (ViewNotificheItemHolder) viewHolder;
 
-				Toast.makeText(requireContext(), "on swipe", Toast.LENGTH_SHORT).show();
+				int position=holder.getAdapterPosition();
+
+				notificheController.delete(holder.descrizione.getText()+"");
+
+				RecyclerViewNotificheAdapter adapter= (RecyclerViewNotificheAdapter) recyclerView.getAdapter();
+				assert adapter != null;
+				try {
+					adapter.getNotifiche().remove(position);
+					adapter.notifyItemRemoved(position);
+				}catch (IndexOutOfBoundsException ignore) {
+
+				}
 
 			}
 

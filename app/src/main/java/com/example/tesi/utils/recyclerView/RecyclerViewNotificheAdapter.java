@@ -9,10 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
+import com.example.tesi.control.NotificheControllerImpl;
 import com.example.tesi.control.UserControllerImpl;
 import com.example.tesi.entity.Notifica;
 import com.example.tesi.entity.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewNotificheAdapter extends RecyclerView.Adapter<ViewNotificheItemHolder> {
@@ -37,6 +39,12 @@ public class RecyclerViewNotificheAdapter extends RecyclerView.Adapter<ViewNotif
 		holder.sender.setText(sender.getUsername());
 		holder.descrizione.setText(n.getDescrizione());
 		holder.foto.setImageBitmap(BitmapFactory.decodeByteArray(n.getFoto(), 0, n.getFoto().length));
+
+		holder.containerElimina.setOnClickListener(l->{
+			notifiche.remove(position);
+			new NotificheControllerImpl().delete(holder.descrizione.getText()+"");
+			notifyItemRemoved(position);
+		});
 	}
 
 	@Override
@@ -44,7 +52,7 @@ public class RecyclerViewNotificheAdapter extends RecyclerView.Adapter<ViewNotif
 		return notifiche.size();
 	}
 
-	public void update(List<Notifica> notificheUpdated) {
-		notifiche.addAll(notificheUpdated);
+	public List<Notifica> getNotifiche() {
+		return notifiche;
 	}
 }
