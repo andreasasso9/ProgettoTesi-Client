@@ -4,10 +4,12 @@ import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ProdottoController {
-	public Prodotto add(Prodotto prodotto);
-	public List<Prodotto> getAll(int limit);
-	public List<Prodotto> getAllNotOwnedBy(User user);
-	public boolean update(Prodotto prodotto);
+	Prodotto add(Prodotto prodotto);
+	List<Prodotto> getAll(int limit);
+	List<Prodotto> getAllNotOwnedBy(User user);
+	boolean update(Prodotto prodotto);
+	List<Prodotto> findByIdProprietario(UUID idProprietario);
 }

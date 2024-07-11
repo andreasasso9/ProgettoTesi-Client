@@ -15,6 +15,7 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -56,9 +57,10 @@ public class NotificheFragment extends Fragment {
 
 
 		List<Notifica> notifiche=notificheController.findByReceiver(Session.getInstance(requireContext()).getCurrentUser().getId());
-		Collections.reverse(notifiche);
 
-		if (!notifiche.isEmpty()) {
+
+		if (notifiche != null && !notifiche.isEmpty()) {
+			Collections.reverse(notifiche);
 			RecyclerViewNotificheAdapter adapter = new RecyclerViewNotificheAdapter(notifiche);
 			listaNotifiche.setAdapter(adapter);
 
@@ -84,14 +86,10 @@ public class NotificheFragment extends Fragment {
 				notificheController.delete(holder.descrizione.getText()+"");
 
 				RecyclerViewNotificheAdapter adapter= (RecyclerViewNotificheAdapter) recyclerView.getAdapter();
+
 				assert adapter != null;
-				try {
-					adapter.getNotifiche().remove(position);
-					adapter.notifyItemRemoved(position);
-				}catch (IndexOutOfBoundsException ignore) {
-
-				}
-
+				adapter.getNotifiche().remove(position);
+				adapter.notifyItemRemoved(position);
 			}
 
 			@Override
@@ -107,13 +105,12 @@ public class NotificheFragment extends Fragment {
 						(float) holder.itemView.getRight(),
 						(float) holder.itemView.getBottom(), paint);
 
-				LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+				LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(holder.elimina.getLayoutParams());
+				params.width=ViewGroup.LayoutParams.WRAP_CONTENT;
 
-
-				holder.containerElimina.setLayoutParams(params);
+				holder.elimina.setLayoutParams(params);
 
 				holder.descrizione.setMaxLines(1);
-				//Toast.makeText(requireContext(), "screenWidth="+screenWidth+" eliminaWidth="+holder.containerElimina.getWidth(), Toast.LENGTH_SHORT).show();
 			}
 		});
 

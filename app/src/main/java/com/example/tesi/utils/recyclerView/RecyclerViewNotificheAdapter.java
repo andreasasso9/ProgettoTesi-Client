@@ -4,6 +4,8 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +16,6 @@ import com.example.tesi.control.UserControllerImpl;
 import com.example.tesi.entity.Notifica;
 import com.example.tesi.entity.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewNotificheAdapter extends RecyclerView.Adapter<ViewNotificheItemHolder> {
@@ -33,17 +34,35 @@ public class RecyclerViewNotificheAdapter extends RecyclerView.Adapter<ViewNotif
 
 	@Override
 	public void onBindViewHolder(@NonNull ViewNotificheItemHolder holder, int position) {
-		Notifica n=notifiche.get(position);
+		Notifica n=notifiche.get(holder.getAdapterPosition());
 
 		User sender=new UserControllerImpl().findById(n.getSender());
 		holder.sender.setText(sender.getUsername());
 		holder.descrizione.setText(n.getDescrizione());
 		holder.foto.setImageBitmap(BitmapFactory.decodeByteArray(n.getFoto(), 0, n.getFoto().length));
 
-		holder.containerElimina.setOnClickListener(l->{
-			notifiche.remove(position);
+		holder.elimina.setOnClickListener(l->{
+			notifiche.remove(holder.getAdapterPosition());
 			new NotificheControllerImpl().delete(holder.descrizione.getText()+"");
-			notifyItemRemoved(position);
+
+			TranslateAnimation animation=new TranslateAnimation(0,-holder.itemView.getWidth(),0,0);
+			animation.setDuration(1000);
+			animation.setFillAfter(true);
+
+			animation.setAnimationListener(new Animation.AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					notifyItemRemoved(holder.getAdapterPosition());
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {}
+			});
+			holder.container.startAnimation(animation);
+			holder.elimina.startAnimation(animation);
 		});
 	}
 

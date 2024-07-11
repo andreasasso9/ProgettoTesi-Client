@@ -8,6 +8,7 @@ import com.example.tesi.service.ProdottoServiceRetrofit;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -115,6 +116,28 @@ public class ProdottoControllerImpl implements ProdottoController {
 			return future.get();
 		} catch (InterruptedException | ExecutionException e) {
 			return false;
+		}
+	}
+
+	@Override
+	public List<Prodotto> findByIdProprietario(UUID idProprietario) {
+		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByIdProprietario(idProprietario);
+		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<List<Prodotto>> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+
+				return null;
+			} catch (IOException e) {
+				return null;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return null;
 		}
 	}
 }

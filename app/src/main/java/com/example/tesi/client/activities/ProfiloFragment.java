@@ -2,20 +2,25 @@ package com.example.tesi.client.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
 import com.example.tesi.utils.Session;
 
 public class ProfiloFragment extends Fragment {
-	private TextView logout;
+	private TextView logout, articoli;
+	private IMieiArticoliFragment iMieiArticoliFragment;
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -23,9 +28,10 @@ public class ProfiloFragment extends Fragment {
 		View v=inflater.inflate(R.layout.profilo_layout, null);
 
 		logout=v.findViewById(R.id.logout);
-
+		articoli=v.findViewById(R.id.articoli);
 
 		createLogoutListener();
+		createIMieiArticoliListener();
 
 		return v;
 	}
@@ -37,6 +43,19 @@ public class ProfiloFragment extends Fragment {
 			Intent i=new Intent(getContext(), LoginActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(i);
+		});
+	}
+
+	private void createIMieiArticoliListener() {
+		articoli.setOnClickListener(l->{
+			MainActivity mainActivity= (MainActivity) getActivity();
+			assert mainActivity != null;
+
+			if (iMieiArticoliFragment==null)
+				iMieiArticoliFragment=new IMieiArticoliFragment();
+
+			mainActivity.currentFragment=iMieiArticoliFragment;
+			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, iMieiArticoliFragment).addToBackStack(null).commit();
 		});
 	}
 

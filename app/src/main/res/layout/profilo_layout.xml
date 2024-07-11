@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView android:id="@+id/logout"
-        android:layout_width="match_parent"
+    <TextView android:id="@+id/articoli"
         android:layout_height="wrap_content"
-        android:text="Esci"
-        android:textSize="30dp"/>
+        android:layout_width="match_parent"
+        android:text="I miei articoli"
+        android:textSize="25dp"
+        android:padding="10dp" />
 
-</ScrollView>
+    <TextView android:id="@+id/logout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Logout"
+        android:textSize="25dp"
+        android:padding="10dp"/>
+
+</LinearLayout>

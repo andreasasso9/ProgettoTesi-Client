@@ -19,7 +19,6 @@ import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.control.UserController;
 import com.example.tesi.control.UserControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
-import com.example.tesi.entity.Notifica;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 
@@ -27,12 +26,12 @@ import com.example.tesi.entity.User;
 import java.util.List;
 
 public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdottoItemHolder> {
-	private final List<Prodotto> prodotti;
-	private final User currentUser;
+	protected List<Prodotto> prodotti;
+	protected final User currentUser;
 	private final NotificheController notificheController;
-	private final ProdottoController prodottoController;
-	private final FotoProdottoController fotoController;
-	private final UserController userController;
+	protected final ProdottoController prodottoController;
+	protected final FotoProdottoController fotoController;
+	protected final UserController userController;
 
 	public RecyclerViewProdottoAdapter(List<Prodotto> prodotti, User currentUser) {
 		this.prodotti=prodotti;

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:baselineAligned="false"
-    android:id="@+id/mainContainer">
+    android:id="@+id/mainContainer"
+    android:background="#B71C1C">
 
     <LinearLayout android:id="@+id/containerItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/white">
 
         <TextView android:id="@+id/sender"
             android:layout_width="wrap_content"
@@ -32,29 +34,18 @@
             android:contentDescription="@null" />
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/eliminaNotificaContainer"
+    <TextView
+        android:id="@+id/eliminaNotifica"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:maxLines="1"
+        android:text="Elimina"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:drawableStartCompat="@drawable/icons8_cestino_64"
         android:background="#B71C1C"
-        android:gravity="center"
         android:layout_weight="1"
-        android:padding="10dp">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icons8_cestino_64"
-            android:contentDescription="@null" />
-
-        <TextView android:id="@+id/eliminaNotifica"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Elimina"
-            android:textSize="30dp"
-            android:textColor="@color/white"
-            android:maxLines="1" />
-
-    </LinearLayout>
+        android:gravity="center_vertical"
+        android:padding="10dp"/>
 
 </LinearLayout>
