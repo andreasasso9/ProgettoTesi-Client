@@ -86,7 +86,7 @@ public class Prodotto implements Serializable {
 		return miPiace;
 	}
 
-	public void setPreferiti(int miPiace) {
+	public void setMiPiace(int miPiace) {
 		this.miPiace = miPiace;
 	}
 

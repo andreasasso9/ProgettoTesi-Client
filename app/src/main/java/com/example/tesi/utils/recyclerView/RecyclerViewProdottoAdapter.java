@@ -4,9 +4,9 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
@@ -28,7 +28,7 @@ import java.util.List;
 public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdottoItemHolder> {
 	protected List<Prodotto> prodotti;
 	protected final User currentUser;
-	private final NotificheController notificheController;
+	protected final NotificheController notificheController;
 	protected final ProdottoController prodottoController;
 	protected final FotoProdottoController fotoController;
 	protected final UserController userController;
@@ -68,7 +68,7 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 				holder.switcMiPiace.setChecked(true);
 			}
 
-		holder.switcMiPiace.setOnClickListener(createMiPiaceClickListener(holder, p, foto));
+		holder.switcMiPiace.setOnCheckedChangeListener(createMiPiaceClickListener(holder, p));
 	}
 
 	@Override
@@ -76,17 +76,16 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 		return prodotti.size();
 	}
 
-	private View.OnClickListener createMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p, FotoByteArray foto) {
-		return l->{
-			SwitchCompat switchCompat=(SwitchCompat) l;
-			if (switchCompat.isChecked()) {
-				p.setPreferiti(p.getMiPiace()+1);
+	private CompoundButton.OnCheckedChangeListener createMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p) {
+		return (button, isChecked)->{
+			if (isChecked) {
+				p.setMiPiace(p.getMiPiace()+1);
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
 				currentUser.getProdottiPreferiti().add(p);
 
 				userController.miPiace(currentUser.getId(), p.getId());
 			} else {
-				p.setPreferiti(p.getMiPiace()-1);
+				p.setMiPiace(p.getMiPiace()-1);
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_caricamento_cuore_50);
 				currentUser.getProdottiPreferiti().remove(p);
 

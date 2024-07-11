@@ -96,7 +96,7 @@
         <TextView android:id="@+id/toLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign-in"
+            android:text="Login"
             android:textSize="18dp"
             android:textStyle="italic"
             android:textColor="#002CCC"/>

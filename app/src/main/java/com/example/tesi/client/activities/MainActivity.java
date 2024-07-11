@@ -14,12 +14,12 @@ import com.example.tesi.client.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-	private FragmentManager fragmentManager;
-	private Fragment currentFragment;
+	public FragmentManager fragmentManager;
+	public Fragment currentFragment;
 	private BottomNavigationView navbar;
 	private SearchFragment searchFragment;
 	private HomeFragment homeFragment;
-	private ProfiloFragment profiloFragment;
+	public ProfiloFragment profiloFragment;
 	private NotificheFragment notificheFragment;
 
 	@Override
@@ -38,10 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
 		getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
 			@Override
-			public void handleOnBackPressed() {
-
-			}
+			public void handleOnBackPressed() {}
 		});
+
 	}
 
 	private void createNavBarItemListener() {
@@ -58,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
 					iconProfilo.setIcon(R.drawable.profilo_unselected);
 
 					currentFragment=homeFragment;
-					fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
-					return true;
+					break;
 
 				case "Cerca":
 					iconHome.setIcon(R.drawable.casa_unselected);
@@ -69,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
 					if (searchFragment == null)
 						searchFragment=new SearchFragment();
 					currentFragment=searchFragment;
-					fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
-					return true;
+					break;
 
 				case ""://addProdotto
 					Intent i=new Intent(this, AddProdottoActivity.class);
@@ -85,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
 					if (notificheFragment==null)
 						notificheFragment=new NotificheFragment();
 					currentFragment=notificheFragment;
-					fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
-					return true;
+					break;
 
 				case "Profilo":
 					iconHome.setIcon(R.drawable.casa_unselected);
@@ -97,12 +93,13 @@ public class MainActivity extends AppCompatActivity {
 					if (profiloFragment==null)
 						profiloFragment=new ProfiloFragment();
 					currentFragment=profiloFragment;
-					fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
-					return true;
+					break;
 
 				default:
 					return false;
 			}
+			fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
+			return true;
 		});
 	}
 }

@@ -19,19 +19,25 @@ import com.example.tesi.client.R;
 import com.example.tesi.utils.Session;
 
 public class ProfiloFragment extends Fragment {
-	private TextView logout, articoli;
+	private TextView logout, articoli, preferiti;
 	private IMieiArticoliFragment iMieiArticoliFragment;
+	private MainActivity mainActivity;
+	private ArticoliPreferitiFragment articoliPreferitiFragment;
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v=inflater.inflate(R.layout.profilo_layout, null);
 
+		mainActivity= (MainActivity) getActivity();
+
 		logout=v.findViewById(R.id.logout);
 		articoli=v.findViewById(R.id.articoli);
+		preferiti=v.findViewById(R.id.preferiti);
 
 		createLogoutListener();
 		createIMieiArticoliListener();
+		createArticoliPreferitiListener();
 
 		return v;
 	}
@@ -48,7 +54,6 @@ public class ProfiloFragment extends Fragment {
 
 	private void createIMieiArticoliListener() {
 		articoli.setOnClickListener(l->{
-			MainActivity mainActivity= (MainActivity) getActivity();
 			assert mainActivity != null;
 
 			if (iMieiArticoliFragment==null)
@@ -56,6 +61,17 @@ public class ProfiloFragment extends Fragment {
 
 			mainActivity.currentFragment=iMieiArticoliFragment;
 			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, iMieiArticoliFragment).addToBackStack(null).commit();
+		});
+	}
+
+	private void createArticoliPreferitiListener() {
+		preferiti.setOnClickListener(l->{
+			assert mainActivity != null;
+
+			if (articoliPreferitiFragment==null)
+				articoliPreferitiFragment=new ArticoliPreferitiFragment();
+			mainActivity.currentFragment=articoliPreferitiFragment;
+			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, mainActivity.currentFragment).addToBackStack(null).commit();
 		});
 	}
 
