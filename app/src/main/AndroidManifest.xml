@@ -30,6 +30,7 @@
         <activity android:name=".activities.SignupActivity"/>
         <activity android:name=".activities.MainActivity"/>
         <activity android:name=".activities.AddProdottoActivity"/>
+        <activity android:name=".activities.VisualizzaProdottoActivity"/>
     </application>
 
 </manifest>

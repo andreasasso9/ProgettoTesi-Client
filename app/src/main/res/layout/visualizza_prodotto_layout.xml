@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/tasto_indietro_layout" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:baselineAligned="false">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout android:id="@+id/containerFoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:padding="20dp">
+
+                <TextView android:id="@+id/proprietario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="user"
+                    android:textSize="25dp"
+                    android:layout_weight="1"/>
+
+                <Button android:id="@+id/chiediInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chiedi info"
+                    android:textSize="25dp"
+                    android:layout_weight="0"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView android:id="@+id/titolo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="titolo"
+                    android:textSize="30dp"
+                    android:textStyle="bold"/>
+
+                <TextView android:id="@+id/condizioni"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="condizioni"
+                    android:textSize="20dp"/>
+
+                <TextView android:id="@+id/prezzo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="prezzo"
+                    android:textSize="20dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Descrizione dell'articolo"
+                    android:textSize="20dp"/>
+
+                <TextView android:id="@+id/descrizione"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="descrizione"
+                    android:textSize="30dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout android:id="@+id/acquista"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:paddingBottom="50dp"
+        android:background="@android:color/background_light">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Acquista"
+            android:textSize="25dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

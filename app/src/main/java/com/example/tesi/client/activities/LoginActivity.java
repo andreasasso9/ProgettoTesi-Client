@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowMetrics;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -76,6 +78,17 @@ public class LoginActivity extends AppCompatActivity {
 				errorMessage.setVisibility(View.VISIBLE);
 				errorMessage.setText("Credenziali errate");
 				return;
+			}
+
+			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+				WindowMetrics windowMetrics=getWindowManager().getCurrentWindowMetrics();
+				Session.setScreenHeight(windowMetrics.getBounds().height());
+				Session.setScreenWidth(windowMetrics.getBounds().width());
+			} else {
+				DisplayMetrics displayMetrics=new DisplayMetrics();
+				getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+				Session.setScreenWidth(displayMetrics.widthPixels);
+				Session.setScreenHeight(displayMetrics.heightPixels);
 			}
 
 			Intent i=new Intent(this, MainActivity.class);

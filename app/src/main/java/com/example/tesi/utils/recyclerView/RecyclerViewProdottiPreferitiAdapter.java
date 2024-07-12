@@ -1,8 +1,6 @@
 package com.example.tesi.utils.recyclerView;
 
 import android.graphics.BitmapFactory;
-import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 
@@ -12,20 +10,11 @@ import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 public class RecyclerViewProdottiPreferitiAdapter extends RecyclerViewProdottoAdapter {
 	public RecyclerViewProdottiPreferitiAdapter(User currentUser) {
 		super(null, currentUser);
 		prodotti=new ArrayList<>(currentUser.getProdottiPreferiti());
-	}
-
-	@NonNull
-	@Override
-	public ViewProdottoItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-		return super.onCreateViewHolder(parent, viewType);
 	}
 
 	@Override
@@ -57,5 +46,6 @@ public class RecyclerViewProdottiPreferitiAdapter extends RecyclerViewProdottoAd
 				prodottoController.update(p);
 			}
 		});
+		holder.itemView.setOnClickListener(createVisualizzaProdottoListener(p));
 	}
 }

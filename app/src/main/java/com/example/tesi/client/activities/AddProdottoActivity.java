@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +31,6 @@ import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
-import com.example.tesi.entity.User;
 import com.example.tesi.entity.entityoptions.Brand;
 import com.example.tesi.entity.entityoptions.Categoria;
 import com.example.tesi.entity.entityoptions.Condizioni;
@@ -41,7 +39,6 @@ import com.example.tesi.utils.Session;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -127,7 +124,11 @@ public class AddProdottoActivity extends AppCompatActivity {
 				for (int i = 0; i < clipData.getItemCount(); i++) {
 					try {
 						Bitmap b=BitmapFactory.decodeStream(getContentResolver().openInputStream(clipData.getItemAt(i).getUri()));
+
+						b=Bitmap.createScaledBitmap(b, b.getWidth()/2,b.getHeight()/2,false);
+
 						b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
 						list.add(new FotoByteArray(stream.toByteArray()));
 					} catch (FileNotFoundException e) {
 						throw new RuntimeException(e);

@@ -23,9 +23,7 @@ import com.example.tesi.utils.recyclerView.RecyclerViewMieiProdottiAdapter;
 import java.util.List;
 
 public class IMieiArticoliFragment extends Fragment {
-	private ProdottoController prodottoController;
-	private RecyclerView recyclerView;
-	private ImageButton indietro;
+
 
 	@Nullable
 	@Override
@@ -33,16 +31,16 @@ public class IMieiArticoliFragment extends Fragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v=inflater.inflate(R.layout.i_miei_articoli_layout, null);
 
-		indietro=v.findViewById(R.id.indietro);
+		ImageButton indietro=v.findViewById(R.id.indietro);
 
-		createIndietroListener();
+		createIndietroListener(indietro);
 
-		prodottoController=new ProdottoControllerImpl();
+		ProdottoController prodottoController = new ProdottoControllerImpl();
 		User currentUser=Session.getInstance(requireContext()).getCurrentUser();
 
-		List<Prodotto> prodotti=prodottoController.findByIdProprietario(currentUser.getId());
+		List<Prodotto> prodotti= prodottoController.findByIdProprietario(currentUser.getId());
 
-		recyclerView=v.findViewById(R.id.list_prodotti);
+		RecyclerView recyclerView = v.findViewById(R.id.list_prodotti);
 		recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
 		if (prodotti != null && !prodotti.isEmpty()) {
@@ -53,7 +51,7 @@ public class IMieiArticoliFragment extends Fragment {
 		return v;
 	}
 
-	private void createIndietroListener() {
+	private void createIndietroListener(ImageButton indietro) {
 		indietro.setOnClickListener(l->{
 			MainActivity mainActivity= (MainActivity) getActivity();
 			assert mainActivity != null;

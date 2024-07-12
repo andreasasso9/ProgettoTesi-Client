@@ -10,6 +10,8 @@ public class Session {
 	private User currentUser;
 	private static Session instance;
 	public static final String SESSION_PREFERENCES="session_preferences";
+	static int screenWidth;
+	static int screenHeight;
 
 	private Session(Context context) {
 		SharedPreferences preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
@@ -36,5 +38,21 @@ public class Session {
 
 	public User getCurrentUser() {
 		return currentUser;
+	}
+
+	public static int getScreenWidth() {
+		return screenWidth;
+	}
+
+	public static void setScreenWidth(int screenWidth) {
+		Session.screenWidth = screenWidth;
+	}
+
+	public static int getScreenHeight() {
+		return screenHeight;
+	}
+
+	public static void setScreenHeight(int screenHeight) {
+		Session.screenHeight = screenHeight;
 	}
 }

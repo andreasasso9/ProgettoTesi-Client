@@ -1,5 +1,6 @@
 package com.example.tesi.utils.recyclerView;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
+import com.example.tesi.client.activities.VisualizzaProdottoActivity;
 import com.example.tesi.control.FotoProdottoController;
 import com.example.tesi.control.FotoProdottoControllerImpl;
 import com.example.tesi.control.NotificheController;
@@ -69,6 +71,7 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 			}
 
 		holder.switcMiPiace.setOnCheckedChangeListener(createMiPiaceClickListener(holder, p));
+		holder.itemView.setOnClickListener(createVisualizzaProdottoListener(p));
 	}
 
 	@Override
@@ -97,6 +100,22 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 
 			userController.update(currentUser);
 			prodottoController.update(p);
+		};
+	}
+
+	protected View.OnClickListener createVisualizzaProdottoListener(Prodotto p) {
+		return l->{
+			Intent i=new Intent(l.getContext(), VisualizzaProdottoActivity.class);
+
+			i.putExtra("prodotto", p);
+
+			User proprietario=userController.findById(p.getIdProprietario());
+			i.putExtra("proprietario", proprietario);
+
+			FotoByteArray[] foto= fotoController.findByProdotto(p).toArray(new FotoByteArray[0]);
+			i.putExtra("foto", foto);
+
+			l.getContext().startActivity(i);
 		};
 	}
 }
