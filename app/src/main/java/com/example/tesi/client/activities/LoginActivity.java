@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
 			if (user != null) {
 				Intent i = new Intent(this, MainActivity.class);
-				Session.getInstance(this).setCurrentUser(user, password, true);
+				Session.getInstance(this).setCurrentUser(user, password);
 				startActivity(i);
 			}
 		}
@@ -53,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
 		loginButton = findViewById(R.id.loginButton);
 		toSignup = findViewById(R.id.toSignup);
 		errorMessage = findViewById(R.id.loginErrorMessage);
-		ricordami = findViewById(R.id.ricordami);
 
 		createToSignupListener();
 		createLoginListener();
@@ -92,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 			}
 
 			Intent i=new Intent(this, MainActivity.class);
-			Session.getInstance(this).setCurrentUser(user, password, ricordami.isChecked());
+			Session.getInstance(this).setCurrentUser(user, password);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(i);
 		});

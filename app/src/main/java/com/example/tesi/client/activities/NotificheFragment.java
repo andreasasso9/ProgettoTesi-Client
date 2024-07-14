@@ -33,6 +33,7 @@ import com.example.tesi.entity.Notifica;
 import com.example.tesi.utils.Session;
 import com.example.tesi.utils.recyclerView.RecyclerViewNotificheAdapter;
 import com.example.tesi.utils.recyclerView.ViewNotificheItemHolder;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -68,6 +69,13 @@ public class NotificheFragment extends Fragment {
 		}
 
 		return v;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		BottomNavigationView navbar=requireActivity().findViewById(R.id.navbar);
+		navbar.getMenu().getItem(3).setChecked(true).setIcon(R.drawable.notifica_selected);
 	}
 
 	public void createEliminaNotifica(RecyclerView recyclerView, @NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

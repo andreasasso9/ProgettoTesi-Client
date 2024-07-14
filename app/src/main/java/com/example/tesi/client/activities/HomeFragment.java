@@ -18,6 +18,7 @@ import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 import com.example.tesi.utils.recyclerView.RecyclerViewProdottoAdapter;
 import com.example.tesi.utils.Session;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -45,5 +46,12 @@ public class HomeFragment extends Fragment {
 		}
 
 		return v;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		BottomNavigationView navbar=requireActivity().findViewById(R.id.navbar);
+		navbar.getMenu().getItem(0).setChecked(true).setIcon(R.drawable.casa_selected);
 	}
 }

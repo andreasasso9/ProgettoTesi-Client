@@ -91,7 +91,7 @@ public class SignupActivity extends AppCompatActivity {
 				return;
 			}
 
-			Session.getInstance(this).setCurrentUser(null, null, false);
+			Session.getInstance(this).setCurrentUser(null, null);
 			goToLogin();
 		});
 

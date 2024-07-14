@@ -16,7 +16,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/profilo_selected"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:contentDescription="@null" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,18 +45,13 @@
             android:maxLines="1"
             android:autofillHints="password" />
 
-        <CheckBox android:id="@+id/ricordami"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ricordami"
-            android:textSize="20dp" />
-
         <Button android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Login"
             android:textSize="25dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"/>
 
         <TextView
             android:id="@+id/loginErrorMessage"

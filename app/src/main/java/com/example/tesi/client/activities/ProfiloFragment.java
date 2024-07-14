@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
 import com.example.tesi.utils.Session;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfiloFragment extends Fragment {
 	private TextView logout, articoli, preferiti;
@@ -42,10 +43,18 @@ public class ProfiloFragment extends Fragment {
 		return v;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		BottomNavigationView navbar=requireActivity().findViewById(R.id.navbar);
+		navbar.getMenu().getItem(4).setChecked(true).setIcon(R.drawable.profilo_selected);
+	}
+
 	private void createLogoutListener() {
 		logout.setOnClickListener(l->{
 			Session session=Session.getInstance(getContext());
-			session.setCurrentUser(null, null, false);
+			session.setCurrentUser(null, null);
+
 			Intent i=new Intent(getContext(), LoginActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(i);
