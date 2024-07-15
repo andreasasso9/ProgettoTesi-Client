@@ -140,4 +140,25 @@ public class ProdottoControllerImpl implements ProdottoController {
 			return null;
 		}
 	}
+
+	@Override
+	public List<Prodotto> findByTitoloODescrizione(UUID userId, String text) {
+		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByTitoloODescrizione(userId, text);
+		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<List<Prodotto>> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				return null;
+			} catch (IOException e) {
+				return null;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (ExecutionException | InterruptedException e) {
+			return null;
+		}
+	}
 }

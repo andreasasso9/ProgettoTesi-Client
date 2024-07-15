@@ -14,6 +14,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 public class Session {
 	private final SharedPreferences.Editor editor;
@@ -75,18 +76,17 @@ public class Session {
 		Session.screenHeight = screenHeight;
 	}
 
-	public List<Ricerca> getSearchHistory() {
+	public List<String> getSearchHistory() {
 		String jsonHistory = historyPreferences.getString("history " + currentUser.getId(), null);
 		if (jsonHistory != null) {
-			Type type = new TypeToken<List<Ricerca>>() {
+			Type type = new TypeToken<Stack<String>>() {
 			}.getType();
 			return gson.fromJson(jsonHistory, type);
 		} else
-			return new ArrayList<>();
-
+			return new Stack<>();
 	}
 
-	public void setSearchHistory(List<Ricerca> searchHistory) {
+	public void setSearchHistory(List<String> searchHistory) {
 		String jsonHistory=gson.toJson(searchHistory);
 
 		historyEditor.putString("history "+currentUser.getId(), jsonHistory).apply();

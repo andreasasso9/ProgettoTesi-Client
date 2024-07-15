@@ -12,4 +12,5 @@ public interface ProdottoController {
 	List<Prodotto> getAllNotOwnedBy(User user);
 	boolean update(Prodotto prodotto);
 	List<Prodotto> findByIdProprietario(UUID idProprietario);
+	List<Prodotto> findByTitoloODescrizione(UUID idUser, String text);
 }

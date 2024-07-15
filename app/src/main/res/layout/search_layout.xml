@@ -3,42 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- NestedScrollingChild goes here (NestedScrollView, RecyclerView, etc.). -->
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/searchbar_scrolling_view_behavior">
-        <!-- Screen content goes here. -->
-    </androidx.core.widget.NestedScrollView>
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <com.google.android.material.search.SearchBar
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="bar" />
+            android:hint="Cerca un articolo" />
+
+        <include layout="@layout/lista_di_prodotti_layout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nessun articolo trovato"
+            android:textSize="30dp" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.search.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="view"
+        android:hint="Cerca un articolo"
         app:layout_anchor="@id/searchBar">
 
-        <ScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/historySearch"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout android:id="@+id/searchHistory"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
-
-        </ScrollView>
+            android:layout_height="match_parent"/>
 
     </com.google.android.material.search.SearchView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
