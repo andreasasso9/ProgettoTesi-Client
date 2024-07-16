@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
 		List<Prodotto> prodotti=prodottoController.getAllNotOwnedBy(currentUser);
 
 
-		if (prodotti != null && !prodotti.isEmpty()) {
+		if (prodotti != null) {
 			RecyclerViewProdottoAdapter adapter = new RecyclerViewProdottoAdapter(prodotti, currentUser);
 			list_prodotti.setAdapter(adapter);
 		}
