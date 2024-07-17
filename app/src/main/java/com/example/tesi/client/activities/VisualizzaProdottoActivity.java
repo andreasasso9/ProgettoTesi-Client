@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,8 @@ import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 import com.example.tesi.utils.Session;
 import com.example.tesi.utils.recyclerView.RecyclerViewImageAdapter;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class VisualizzaProdottoActivity extends AppCompatActivity {
 	private Prodotto prodotto;
@@ -40,8 +44,8 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 
 		Intent i=getIntent();
 
-		int screenHeight= Session.getScreenHeight();
-		int screenWidth= Session.getScreenWidth();
+		int screenHeight= Session.getInstance(this).getScreenHeight();
+		//int screenWidth= Session.getInstance(this).getScreenWidth();
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 			prodotto=i.getSerializableExtra("prodotto", Prodotto.class);
@@ -54,26 +58,18 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		}
 
 		containerFoto=findViewById(R.id.containerFoto);
-//		ViewGroup.LayoutParams params= containerFoto.getLayoutParams();
-//
-//		params.height= (int) (screenHeight*0.75);
-//
-//		containerFoto.setLayoutParams(params);
+		ViewGroup.LayoutParams params=containerFoto.getLayoutParams();
+		params.height= (int) (screenHeight*.70);
+		containerFoto.setLayoutParams(params);
 
-		//containerFoto.setla
+
 
 		RecyclerViewImageAdapter imageAdapter=new RecyclerViewImageAdapter(foto);
 		containerFoto.setAdapter(imageAdapter);
 
-//		for (FotoByteArray f:foto) {
-//			ImageView imageView=new ImageView(this);
-//			imageView.setImageBitmap(BitmapFactory.decodeByteArray(f.getValue(), 0, f.getValue().length));
-//			//imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//
-//			imageView.setPadding(20,0,20,0);
-//			//imageView.setLayoutParams(params);
-//
-//		}
+		TabLayout tabLayout=findViewById(R.id.tabLayout);
+		new TabLayoutMediator(tabLayout, containerFoto, (tab, position)->{}).attach();
+
 
 		TextView t=findViewById(R.id.proprietario);
 		t.setText(proprietario.getUsername());

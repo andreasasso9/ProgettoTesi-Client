@@ -18,17 +18,16 @@ import java.util.Stack;
 
 public class Session {
 	private final SharedPreferences.Editor editor;
+	private final SharedPreferences preferences;
 	private final SharedPreferences.Editor historyEditor;
 	private final SharedPreferences historyPreferences;
 	private User currentUser;
 	private static Session instance;
 	public static final String SESSION_PREFERENCES="session_preferences";
-	static int screenWidth;
-	static int screenHeight;
 	private final Gson gson;
 
 	private Session(Context context) {
-		SharedPreferences preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
+		preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
 		editor= preferences.edit();
 		editor.apply();
 
@@ -60,20 +59,22 @@ public class Session {
 		return currentUser;
 	}
 
-	public static int getScreenWidth() {
-		return screenWidth;
+	public int getScreenWidth() {
+		return preferences.getInt("screenWidth", 0);
 	}
 
-	public static void setScreenWidth(int screenWidth) {
-		Session.screenWidth = screenWidth;
+	public void setScreenWidth(int screenWidth) {
+		editor.putInt("screenWidth", screenWidth);
+		editor.apply();
 	}
 
-	public static int getScreenHeight() {
-		return screenHeight;
+	public int getScreenHeight() {
+		return preferences.getInt("screenHeight", 0);
 	}
 
-	public static void setScreenHeight(int screenHeight) {
-		Session.screenHeight = screenHeight;
+	public void setScreenHeight(int screenHeight) {
+		editor.putInt("screenHeight", screenHeight);
+		editor.apply();
 	}
 
 	public List<String> getSearchHistory() {

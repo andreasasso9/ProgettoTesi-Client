@@ -32,6 +32,17 @@ public class LoginActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_layout);
 
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+			WindowMetrics windowMetrics=getWindowManager().getCurrentWindowMetrics();
+			Session.getInstance(this).setScreenHeight(windowMetrics.getBounds().height());
+			Session.getInstance(this).setScreenWidth(windowMetrics.getBounds().width());
+		} else {
+			DisplayMetrics displayMetrics=new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+			Session.getInstance(this).setScreenWidth(displayMetrics.widthPixels);
+			Session.getInstance(this).setScreenHeight(displayMetrics.heightPixels);
+		}
+
 		SharedPreferences preferences=getSharedPreferences(Session.SESSION_PREFERENCES, MODE_PRIVATE);
 		String username=preferences.getString("username","");
 		String password=preferences.getString("password", "");
@@ -77,17 +88,6 @@ public class LoginActivity extends AppCompatActivity {
 				errorMessage.setVisibility(View.VISIBLE);
 				errorMessage.setText("Credenziali errate");
 				return;
-			}
-
-			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-				WindowMetrics windowMetrics=getWindowManager().getCurrentWindowMetrics();
-				Session.setScreenHeight(windowMetrics.getBounds().height());
-				Session.setScreenWidth(windowMetrics.getBounds().width());
-			} else {
-				DisplayMetrics displayMetrics=new DisplayMetrics();
-				getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-				Session.setScreenWidth(displayMetrics.widthPixels);
-				Session.setScreenHeight(displayMetrics.heightPixels);
 			}
 
 			Intent i=new Intent(this, MainActivity.class);

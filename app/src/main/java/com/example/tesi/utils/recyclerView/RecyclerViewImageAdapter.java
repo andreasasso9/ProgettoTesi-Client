@@ -31,7 +31,7 @@ public class RecyclerViewImageAdapter extends RecyclerView.Adapter<ImageHolder> 
 		byte[] f= foto[holder.getAdapterPosition()].getValue();
 
 		holder.foto.setImageBitmap(BitmapFactory.decodeByteArray(f, 0, f.length));
-		holder.foto.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		holder.foto.setScaleType(ImageView.ScaleType.FIT_XY);
 	}
 
 	@Override
