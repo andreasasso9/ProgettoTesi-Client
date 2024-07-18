@@ -19,7 +19,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nessun articolo trovato"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:drawableBottom="@drawable/icons8_non_abbiamo_trovato_nulla_100" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

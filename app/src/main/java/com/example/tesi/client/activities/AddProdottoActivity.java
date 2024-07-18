@@ -78,8 +78,9 @@ public class AddProdottoActivity extends AppCompatActivity {
 
 		createLauncher();
 
-		createContatoreTitoloListener();
-		createContatoreDescrizioneListener();
+		formTitolo.addTextChangedListener(createContatoreEditTextListener(contatoreTitolo));
+		formDescrizione.addTextChangedListener(createContatoreEditTextListener(contatoreDescrizione));
+
 
 		createScelte(sceltaCategoria, opzioniCategoria, Categoria.values());
 		createScelte(sceltaBrand, opzioniBrand, Brand.values());
@@ -151,8 +152,8 @@ public class AddProdottoActivity extends AppCompatActivity {
 		scegliImmaginiLauncher=registerForActivityResult(contract, callback);
 	}
 
-	private void createContatoreTitoloListener() {
-		formTitolo.addTextChangedListener(new TextWatcher() {
+	private TextWatcher createContatoreEditTextListener(TextView contatore) {
+		return new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -160,33 +161,33 @@ public class AddProdottoActivity extends AppCompatActivity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				contatoreTitolo.setText("Caratteri: "+s.length());
+				contatore.setText("Caratteri: "+s.length());
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
 
 			}
-		});
+		};
 	}
-	private void createContatoreDescrizioneListener() {
-		formDescrizione.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				contatoreDescrizione.setText("Caratteri: "+s.length());
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-
-			}
-		});
-	}
+//	private void createContatoreDescrizioneListener() {
+//		formDescrizione.addTextChangedListener(new TextWatcher() {
+//			@Override
+//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//			}
+//
+//			@Override
+//			public void onTextChanged(CharSequence s, int start, int before, int count) {
+//				contatoreDescrizione.setText("Caratteri: "+s.length());
+//			}
+//
+//			@Override
+//			public void afterTextChanged(Editable s) {
+//
+//			}
+//		});
+//	}
 	
 	private void createScelte(LinearLayout layout, RadioGroup optionsGroup, Option... opzioni) {
 		TextView t=createTextView(">", 30, 0, 0, 20, 0);
@@ -223,6 +224,27 @@ public class AddProdottoActivity extends AppCompatActivity {
 		TextView t=createTextView(">", 30, 0, 0, 20, 0);
 		sceltaPrezzo.addView(t);
 
+		formPrezzo.setSelection(1);
+		formPrezzo.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!s.toString().startsWith("€")) {
+					formPrezzo.setText("€"+s);
+					formPrezzo.setSelection(1);
+				}
+			}
+		});
+
 		sceltaPrezzo.setOnClickListener(l->{
 			//TODO implementa inserimento prezzo
 			if (t.getRotation()==0) {
@@ -257,7 +279,8 @@ public class AddProdottoActivity extends AppCompatActivity {
 			condizioni=condizioni.toUpperCase().replace(" ", "_");
 
 			//ottengo prezzo
-			double prezzo= Double.parseDouble(formPrezzo.getText()+"");
+			String s=formPrezzo.getText().toString().replace("€", "");
+			double prezzo= Double.parseDouble(s);
 
 
 			Prodotto prodotto=new Prodotto(Session.getInstance(this).getCurrentUser().getId(), titolo, descrizione, Categoria.valueOf(categoria), Brand.valueOf(brand), Condizioni.valueOf(condizioni), prezzo);

@@ -1,5 +1,6 @@
 package com.example.tesi.utils.recyclerView;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,15 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
+import com.google.android.material.search.SearchBar;
+import com.google.android.material.search.SearchView;
 
 import java.util.List;
-import java.util.Stack;
 
 public class RecyclerViewHistoryAdapter extends RecyclerView.Adapter<HistoryHolder> {
 	private final List<String> history;
+	private SearchView searchView;
+	private SearchBar searchBar;
 
-	public RecyclerViewHistoryAdapter(List<String> history) {
+	public RecyclerViewHistoryAdapter(List<String> history, SearchView searchView, SearchBar searchBar) {
 		this.history = history;
+		this.searchView = searchView;
+		this.searchBar = searchBar;
 	}
 
 	@NonNull
@@ -28,14 +34,22 @@ public class RecyclerViewHistoryAdapter extends RecyclerView.Adapter<HistoryHold
 
 	@Override
 	public void onBindViewHolder(@NonNull HistoryHolder holder, int position) {
-		String ricerca=history.get(holder.getAdapterPosition());
+		if (holder.getAdapterPosition()>=0) {
+				String ricerca = history.get(holder.getAdapterPosition());
 
-		holder.ricerca.setText(ricerca);
+			holder.ricerca.setText(ricerca);
 
-		holder.elimina.setOnClickListener(l->{
-			history.remove(holder.getAdapterPosition());
-			notifyItemRemoved(holder.getAdapterPosition());
-		});
+			holder.ricerca.setOnClickListener(l->{
+				searchView.setText(ricerca);
+			});
+
+			holder.elimina.setOnClickListener(l->{
+				if (holder.getAdapterPosition()>=0) {
+					history.remove(holder.getAdapterPosition());
+					notifyItemRemoved(holder.getAdapterPosition());
+				}
+			});
+		}
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public interface ProdottoServiceRetrofit {
 	@POST("findByIdProprietario")
 	Call<List<Prodotto>> findByIdProprietario(@Body UUID idProprietario);
 
-	@POST("findByTitoloODescrizione")
+	@POST("findByRicerca")
 	@FormUrlEncoded
-	Call<List<Prodotto>> findByTitoloODescrizione(@Field("user") UUID userId, @Field("text") String text);
+	Call<List<Prodotto>> findByRicerca(@Field("user") UUID userId, @Field("text") String text);
 }

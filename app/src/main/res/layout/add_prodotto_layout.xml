@@ -190,7 +190,8 @@
                 android:layout_height="wrap_content"
                 android:hint="€0.00"
                 android:visibility="gone"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal"
+                android:text="€"/>
 
             <Button android:id="@+id/uploadButton"
                 android:layout_width="match_parent"

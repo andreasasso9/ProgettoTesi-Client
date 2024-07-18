@@ -29,14 +29,10 @@ import java.util.List;
 
 
 public class SearchFragment extends Fragment {
-	private final String SEARCH_HISTORY_PREF="search_history";
-
 	private List<String> listHistory;
 	private ProdottoController prodottoController;
 	private List<Prodotto> prodottiCercati;
-
 	private User currentUser;
-
 
 	@Nullable
 	@Override
@@ -57,11 +53,6 @@ public class SearchFragment extends Fragment {
 
 		historySearch.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
-
-		RecyclerViewHistoryAdapter adapter=new RecyclerViewHistoryAdapter(listHistory);
-		historySearch.setAdapter(adapter);
-
-
 		RecyclerView prodotti=v.findViewById(R.id.list_prodotti);
 		prodotti.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
@@ -69,21 +60,36 @@ public class SearchFragment extends Fragment {
 		RecyclerViewProdottoAdapter prodottoAdapter=new RecyclerViewProdottoAdapter(prodottiCercati, currentUser);
 		prodotti.setAdapter(prodottoAdapter);
 
+		RecyclerViewHistoryAdapter historyAdapter; historyAdapter=new RecyclerViewHistoryAdapter(listHistory, searchView, searchBar);
+		historySearch.setAdapter(historyAdapter);
+
 		searchView.getEditText().setOnEditorActionListener((t, actionId, event) -> {
-			searchBar.setText(t.getText());
+			prodotti.setVisibility(View.VISIBLE);
+
+			String ricerca=t.getText()+"";
+
+			searchBar.setText(ricerca);
 			searchView.hide();
 
-			if (!t.getText().toString().isEmpty()) {
-				listHistory.add(0, t.getText()+"");
-				adapter.notifyItemInserted(0);
+			if (!ricerca.isEmpty()) {
+				listHistory.remove(ricerca);
+				listHistory.add(0, ricerca);
+				historyAdapter.notifyItemRangeChanged(0, listHistory.size());
 
 				prodottiCercati.clear();
-				prodottiCercati.addAll(prodottoController.findByTitoloODescrizione(currentUser.getId(), t.getText()+""));
-				adapter.notifyItemRangeChanged(0, prodottiCercati.size()-1);
+				prodottiCercati.addAll(prodottoController.findByRicerca(currentUser.getId(), ricerca));
+				prodottoAdapter.notifyDataSetChanged();
+
+				if (prodottiCercati.isEmpty())
+					prodotti.setVisibility(View.GONE);
+			} else {
+				prodottoAdapter.notifyItemRangeRemoved(0, prodottiCercati.size());
+				prodottiCercati.clear();
 			}
 
 			return true;
 		});
+
 		return v;
 	}
 
@@ -98,5 +104,6 @@ public class SearchFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 		Session.getInstance(requireContext()).setSearchHistory(listHistory);
+
 	}
 }
