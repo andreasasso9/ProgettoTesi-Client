@@ -1,5 +1,6 @@
 package com.example.tesi.client.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,12 +9,17 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowMetrics;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.example.tesi.client.R;
 import com.example.tesi.control.UserController;
@@ -26,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
 	private EditText loginUsername, loginPassword;
 	private TextView toSignup, errorMessage;
 	private UserController userController;
-	private CheckBox ricordami;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,16 +84,29 @@ public class LoginActivity extends AppCompatActivity {
 
 	private void createLoginListener() {
 		loginButton.setOnClickListener(l->{
+			InputMethodManager imm=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			View v=getCurrentFocus();
+			if (v!=null)
+				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+			ContentLoadingProgressBar progressBar=findViewById(R.id.progressBar);
+
+			progressBar.setVisibility(View.VISIBLE);
+			progressBar.show();
+
 			String username=loginUsername.getText()+"";
 			String password=loginPassword.getText()+"";
 
 			User user=userController.loginUser(username, password);
 
 			if (user==null) {
+				progressBar.hide();
+
 				errorMessage.setVisibility(View.VISIBLE);
 				errorMessage.setText("Credenziali errate");
 				return;
 			}
+
 
 			Intent i=new Intent(this, MainActivity.class);
 			Session.getInstance(this).setCurrentUser(user, password);
@@ -112,4 +130,5 @@ public class LoginActivity extends AppCompatActivity {
 		loginUsername.addTextChangedListener(textWatcher);
 		loginPassword.addTextChangedListener(textWatcher);
 	}
+
 }

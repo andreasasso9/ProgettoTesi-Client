@@ -76,9 +76,11 @@ public class SearchFragment extends Fragment {
 				listHistory.add(0, ricerca);
 				historyAdapter.notifyItemRangeChanged(0, listHistory.size());
 
+				prodottoAdapter.notifyItemRangeRemoved(0, prodottiCercati.size());
 				prodottiCercati.clear();
+
 				prodottiCercati.addAll(prodottoController.findByRicerca(currentUser.getId(), ricerca));
-				prodottoAdapter.notifyDataSetChanged();
+				prodottoAdapter.notifyItemRangeInserted(0, prodottiCercati.size());
 
 				if (prodottiCercati.isEmpty())
 					prodotti.setVisibility(View.GONE);
