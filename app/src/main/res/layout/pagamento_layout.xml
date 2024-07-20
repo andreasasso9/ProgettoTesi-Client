@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardElevation="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icons8_card_security_50"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:contentDescription="@null" />
+
+            <EditText
+                android:id="@+id/numeroCarta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Numero della carta"
+                android:inputType="number"
+                android:autofillHints="creditCardNumber"
+                android:background="@drawable/shape_edittext"
+                android:layout_marginBottom="15dp"
+                android:maxLength="16"/>
+
+            <EditText
+                android:id="@+id/titolare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nome del titolare"
+                android:inputType="text"
+                android:autofillHints="name"
+                android:background="@drawable/shape_edittext"
+                android:layout_marginBottom="15dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/scadenza"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Data di scadenza (MM/YY)"
+                    android:inputType="date"
+                    android:autofillHints="creditCardExpirationDate"
+                    android:background="@drawable/shape_edittext"
+                    android:maxLength="4"/>
+
+                <EditText
+                    android:id="@+id/cvv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="CVV"
+                    android:inputType="numberPassword"
+                    android:layout_weight="1"
+                    android:layout_marginStart="30dp"
+                    android:autofillHints="creditCardSecurityCode"
+                    android:background="@drawable/shape_edittext"
+                    android:maxLength="3"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/paga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Paga"
+                android:layout_marginTop="30dp" />
+
+        </LinearLayout>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
+
+

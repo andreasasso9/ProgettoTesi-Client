@@ -12,14 +12,14 @@ import com.example.tesi.client.R;
 
 public class ViewProdottoItemHolder extends RecyclerView.ViewHolder {
 	public ImageView fotoProdottoItem;
-	public TextView miPiaceProdottoItem, brandProdottoItem, prezzoProdottoItem;
+	public TextView miPiaceProdottoItem, titoloProdottoItem, prezzoProdottoItem;
 	public ImageView iconaMiPiace;
 	public SwitchCompat switcMiPiace;
 	public ViewProdottoItemHolder(@NonNull View itemView) {
 		super(itemView);
 		fotoProdottoItem=itemView.findViewById(R.id.foto_prodotto_item);
 		miPiaceProdottoItem =itemView.findViewById(R.id.miPiace_prodotto_item);
-		brandProdottoItem=itemView.findViewById(R.id.brand_prodotto_item);
+		titoloProdottoItem=itemView.findViewById(R.id.titolo_prodotto_item);
 		prezzoProdottoItem=itemView.findViewById(R.id.prezzo_prodotto_item);
 		switcMiPiace=itemView.findViewById(R.id.switchMiPiace);
 		iconaMiPiace=itemView.findViewById(R.id.iconaMiPiace);

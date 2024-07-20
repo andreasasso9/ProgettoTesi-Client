@@ -59,7 +59,7 @@
 
     </RelativeLayout>
 
-    <TextView android:id="@+id/brand_prodotto_item"
+    <TextView android:id="@+id/titolo_prodotto_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15dp"

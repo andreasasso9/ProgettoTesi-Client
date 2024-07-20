@@ -59,7 +59,7 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 
 		if (foto!=null)
 			holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
-		holder.brandProdottoItem.setText(p.getBrand().getNome());
+		holder.titoloProdottoItem.setText(p.getTitolo());
 		holder.prezzoProdottoItem.setText("€"+p.getPrezzo());
 		if (p.getMiPiace()>0)
 			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");

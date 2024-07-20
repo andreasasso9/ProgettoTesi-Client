@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -21,10 +22,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class VisualizzaProdottoActivity extends AppCompatActivity {
-	private Prodotto prodotto;
-	private User proprietario;
-	private FotoByteArray[] foto;
-	private ViewPager2 containerFoto;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,18 +39,21 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		int screenHeight= Session.getInstance(this).getScreenHeight();
 		//int screenWidth= Session.getInstance(this).getScreenWidth();
 
+		Prodotto prodotto;
+		User proprietario;
+		FotoByteArray[] foto;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-			prodotto=i.getSerializableExtra("prodotto", Prodotto.class);
-			proprietario=i.getSerializableExtra("proprietario", User.class);
-			foto=i.getSerializableExtra("foto", FotoByteArray[].class);
+			prodotto =i.getSerializableExtra("prodotto", Prodotto.class);
+			proprietario =i.getSerializableExtra("proprietario", User.class);
+			foto =i.getSerializableExtra("foto", FotoByteArray[].class);
 		} else {
-			prodotto= (Prodotto) i.getSerializableExtra("prodotto");
-			proprietario= (User) i.getSerializableExtra("proprietario");
-			foto= (FotoByteArray[]) i.getSerializableExtra("foto");
+			prodotto = (Prodotto) i.getSerializableExtra("prodotto");
+			proprietario = (User) i.getSerializableExtra("proprietario");
+			foto = (FotoByteArray[]) i.getSerializableExtra("foto");
 		}
 
-		containerFoto=findViewById(R.id.containerFoto);
-		ViewGroup.LayoutParams params=containerFoto.getLayoutParams();
+		ViewPager2 containerFoto = findViewById(R.id.containerFoto);
+		ViewGroup.LayoutParams params= containerFoto.getLayoutParams();
 		params.height= (int) (screenHeight*.70);
 		containerFoto.setLayoutParams(params);
 
@@ -76,10 +76,16 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		t.setText(prodotto.getCondizioni().getNome());
 
 		t=findViewById(R.id.prezzo);
-		t.setText("€"+prodotto.getPrezzo());
+		t.setText("€"+ prodotto.getPrezzo());
 
 		t=findViewById(R.id.descrizione);
 		t.setText(prodotto.getDescrizione());
+
+		Button acquista=findViewById(R.id.acquista);
+		acquista.setOnClickListener(l->{
+			Intent intent=new Intent(this, AcquistaActivity.class);
+			startActivity(intent);
+		});
 
 	}
 }

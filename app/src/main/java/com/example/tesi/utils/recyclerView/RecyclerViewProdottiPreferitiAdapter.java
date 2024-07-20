@@ -25,7 +25,7 @@ public class RecyclerViewProdottiPreferitiAdapter extends RecyclerViewProdottoAd
 
 		if (foto!=null)
 			holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
-		holder.brandProdottoItem.setText(p.getBrand().getNome());
+		holder.titoloProdottoItem.setText(p.getTitolo());
 		holder.prezzoProdottoItem.setText(p.getPrezzo()+"");
 		holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
 

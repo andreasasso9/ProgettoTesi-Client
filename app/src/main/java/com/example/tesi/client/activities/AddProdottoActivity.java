@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -13,9 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -23,6 +27,7 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.example.tesi.client.R;
 import com.example.tesi.control.FotoProdottoController;
@@ -41,6 +46,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class AddProdottoActivity extends AppCompatActivity {
 	private ActivityResultLauncher<Intent> scegliImmaginiLauncher;
@@ -48,7 +55,6 @@ public class AddProdottoActivity extends AppCompatActivity {
 	private LinearLayout containerFoto;
 	private LinearLayout sceltaPrezzo;
 	private EditText formTitolo, formDescrizione, formPrezzo;
-	private TextView contatoreTitolo, contatoreDescrizione;
 	private RadioGroup opzioniCategoria, opzioniBrand, opzioniCondizioni;
 	private ProdottoController prodottoController;
 	private FotoProdottoController fotoProdottoController;
@@ -64,8 +70,8 @@ public class AddProdottoActivity extends AppCompatActivity {
 		containerFoto=findViewById(R.id.containerFoto);
 		formTitolo=findViewById(R.id.formTitolo);
 		formDescrizione=findViewById(R.id.formDescrizione);
-		contatoreTitolo=findViewById(R.id.contatoreTitolo);
-		contatoreDescrizione=findViewById(R.id.contatoreDescrizione);
+		TextView contatoreTitolo = findViewById(R.id.contatoreTitolo);
+		TextView contatoreDescrizione = findViewById(R.id.contatoreDescrizione);
 		LinearLayout sceltaCategoria=findViewById(R.id.sceltaCategoria);
 		LinearLayout sceltaBrand=findViewById(R.id.sceltaBrand);
 		LinearLayout sceltaCondizioni=findViewById(R.id.sceltaCondizioni);
@@ -258,8 +264,10 @@ public class AddProdottoActivity extends AppCompatActivity {
 	}
 
 	private void upload(Button b) {
-		//TODO implementa upload prodotto sul server
 		b.setOnClickListener(l->{
+			ProgressBar progressBar=findViewById(R.id.progressBar);
+			progressBar.setVisibility(View.VISIBLE);
+
 			//ottengo titolo e descrizione
 			String titolo=formTitolo.getText()+"";
 			String descrizione=formDescrizione.getText()+"";
@@ -282,14 +290,17 @@ public class AddProdottoActivity extends AppCompatActivity {
 			String s=formPrezzo.getText().toString().replace("€", "");
 			double prezzo= Double.parseDouble(s);
 
-
 			Prodotto prodotto=new Prodotto(Session.getInstance(this).getCurrentUser().getId(), titolo, descrizione, Categoria.valueOf(categoria), Brand.valueOf(brand), Condizioni.valueOf(condizioni), prezzo);
 
-			Prodotto response=prodottoController.add(prodotto);
-			foto.forEach(f->f.setProdotto(response));
-			fotoProdottoController.add(foto);
+			new Handler(Looper.getMainLooper()).postDelayed(()->{
+				Prodotto response=prodottoController.add(prodotto);
+				foto.forEach(f->f.setProdotto(response));
+				fotoProdottoController.add(foto);
+				goToHome();
+			}, 100);
 
-			goToHome();
+
+
 		});
 	}
 

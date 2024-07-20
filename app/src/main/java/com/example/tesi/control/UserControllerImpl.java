@@ -68,7 +68,7 @@ public class UserControllerImpl implements UserController{
 	}
 
 	@Override
-	public boolean miPiace(UUID idUser, Long idProdotto) {
+	public void miPiace(UUID idUser, Long idProdotto) {
 		Call<Boolean> call=userServiceRetrofit.miPiace(idUser, idProdotto);
 		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
 			try {
@@ -82,9 +82,8 @@ public class UserControllerImpl implements UserController{
 		});
 
 		try {
-			return future.get();
+			future.get();
 		} catch (InterruptedException | ExecutionException e) {
-			return false;
 		}
 	}
 

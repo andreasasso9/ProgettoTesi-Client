@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,13 +16,25 @@
         android:layout_width="match_parent"
         android:text="Preferiti"
         android:textSize="25dp"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:layout_below="@id/articoli"/>
 
     <TextView android:id="@+id/logout"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:text="Logout"
         android:textSize="25dp"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:layout_below="@id/preferiti"/>
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:indeterminate="true"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>

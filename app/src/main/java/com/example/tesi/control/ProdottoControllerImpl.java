@@ -1,6 +1,8 @@
 package com.example.tesi.control;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;

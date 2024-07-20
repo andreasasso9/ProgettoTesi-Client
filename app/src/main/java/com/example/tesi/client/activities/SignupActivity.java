@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.example.tesi.control.UserController;
 import com.example.tesi.control.UserControllerImpl;
@@ -52,6 +53,9 @@ public class SignupActivity extends AppCompatActivity {
 
 	private void createSignupListener() {
 		signupButton.setOnClickListener(v -> {
+			ContentLoadingProgressBar progressBar=findViewById(R.id.progressBar);
+			progressBar.show();
+
 			View currentFocusedView=getCurrentFocus();
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			if (currentFocusedView!=null)
@@ -66,18 +70,24 @@ public class SignupActivity extends AppCompatActivity {
 			boolean areNotEmpty=CheckNotEmptyStrings.check(email, username, indirizzo, password, confPassword);
 
 			if (!areNotEmpty) {
+				progressBar.hide();
+
 				errorMessage.setVisibility(View.VISIBLE);
 				errorMessage.setText("Riempi tutti i campi");
 				return;
 			}
 
 			if (!EmailRegex.match(email)) {
+				progressBar.hide();
+
 				errorMessage.setVisibility(View.VISIBLE);
 				errorMessage.setText("Email non valida");
 				return;
 			}
 
 			if (!password.equals(confPassword)) {
+				progressBar.hide();
+
 				errorMessage.setVisibility(View.VISIBLE);
 				errorMessage.setText("Inserisci la stessa password");
 				return;

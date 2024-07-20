@@ -1,12 +1,16 @@
 package com.example.tesi.client.activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowMetrics;
 import android.view.inputmethod.InputMethodManager;
@@ -16,8 +20,10 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
 
@@ -71,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 		errorMessage = findViewById(R.id.loginErrorMessage);
 
 		createToSignupListener();
+
 		createLoginListener();
 	}
 
@@ -84,34 +91,37 @@ public class LoginActivity extends AppCompatActivity {
 
 	private void createLoginListener() {
 		loginButton.setOnClickListener(l->{
-			InputMethodManager imm=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			View v=getCurrentFocus();
-			if (v!=null)
-				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
-			ContentLoadingProgressBar progressBar=findViewById(R.id.progressBar);
+			ProgressBar progressBar=findViewById(R.id.progressBar);
 
 			progressBar.setVisibility(View.VISIBLE);
-			progressBar.show();
+
+			InputMethodManager imm=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			View currentFocusedView=getCurrentFocus();
+			if (currentFocusedView!=null)
+				imm.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), 0);
 
 			String username=loginUsername.getText()+"";
 			String password=loginPassword.getText()+"";
 
-			User user=userController.loginUser(username, password);
 
-			if (user==null) {
-				progressBar.hide();
-
-				errorMessage.setVisibility(View.VISIBLE);
-				errorMessage.setText("Credenziali errate");
-				return;
-			}
+			new Handler(Looper.getMainLooper()).postDelayed(()->{
+				User user=userController.loginUser(username, password);
 
 
-			Intent i=new Intent(this, MainActivity.class);
-			Session.getInstance(this).setCurrentUser(user, password);
-			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-			startActivity(i);
+				if (user==null) {
+					progressBar.setVisibility(View.GONE);
+
+					errorMessage.setVisibility(View.VISIBLE);
+					errorMessage.setText("Credenziali errate");
+					return;
+				}
+
+				Intent i=new Intent(this, MainActivity.class);
+				Session.getInstance(this).setCurrentUser(user, password);
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+				startActivity(i);
+			}, 100);
+
 		});
 
 		TextWatcher textWatcher=new TextWatcher() {

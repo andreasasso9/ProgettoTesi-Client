@@ -9,7 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/acquista">
+        android:layout_above="@id/acquistaContainer">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -103,7 +103,7 @@
 
     </ScrollView>
 
-    <LinearLayout android:id="@+id/acquista"
+    <LinearLayout android:id="@+id/acquistaContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -112,7 +112,7 @@
         android:paddingBottom="50dp"
         android:background="@android:color/background_light">
 
-        <Button
+        <Button android:id="@+id/acquista"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Acquista"
