@@ -3,7 +3,6 @@ package com.example.tesi.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.tesi.entity.User;
@@ -11,9 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 
 public class Session {

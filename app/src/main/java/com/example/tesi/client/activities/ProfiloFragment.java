@@ -31,17 +31,19 @@ public class ProfiloFragment extends Fragment {
 
 		mainActivity= (MainActivity) getActivity();
 
-		TextView logout, articoli, preferiti;
-		ProgressBar progressBar;
+		TextView logout, articoli, preferiti, iMieiAcquisti;
+		ContentLoadingProgressBar progressBar;
 
 		logout=v.findViewById(R.id.logout);
 		articoli=v.findViewById(R.id.articoli);
 		preferiti=v.findViewById(R.id.preferiti);
+		iMieiAcquisti=v.findViewById(R.id.iMieiAcquisti);
 		progressBar=v.findViewById(R.id.progressBar);
 
 		createLogoutListener(logout, progressBar);
 		createIMieiArticoliListener(articoli);
 		createArticoliPreferitiListener(preferiti);
+		createIMieiAcquistiListener(iMieiAcquisti);
 
 		return v;
 	}
@@ -53,7 +55,7 @@ public class ProfiloFragment extends Fragment {
 		navbar.getMenu().getItem(4).setChecked(true).setIcon(R.drawable.profilo_selected);
 	}
 
-	private void createLogoutListener(TextView logout, ProgressBar progressBar) {
+	private void createLogoutListener(TextView logout, ContentLoadingProgressBar progressBar) {
 		logout.setOnClickListener(l->{
 			progressBar.setVisibility(View.VISIBLE);
 
@@ -88,6 +90,14 @@ public class ProfiloFragment extends Fragment {
 				articoliPreferitiFragment=new ArticoliPreferitiFragment();
 			mainActivity.currentFragment=articoliPreferitiFragment;
 			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, mainActivity.currentFragment).addToBackStack(null).commit();
+		});
+	}
+
+	private void createIMieiAcquistiListener(TextView iMieiAcquisti) {
+		iMieiAcquisti.setOnClickListener(l->{
+			assert mainActivity != null;
+
+
 		});
 	}
 

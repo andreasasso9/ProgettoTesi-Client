@@ -6,7 +6,6 @@ import com.example.tesi.entity.User;
 import java.util.List;
 import java.util.UUID;
 
-import kotlin.ParameterName;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -32,4 +31,7 @@ public interface ProdottoServiceRetrofit {
 	@POST("findByRicerca")
 	@FormUrlEncoded
 	Call<List<Prodotto>> findByRicerca(@Field("user") UUID userId, @Field("text") String text);
+
+	@POST("findByCompratore")
+	Call<List<Prodotto>> findByCompratore(@Body User compratore);
 }

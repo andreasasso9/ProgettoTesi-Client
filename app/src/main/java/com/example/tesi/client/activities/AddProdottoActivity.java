@@ -19,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -46,8 +45,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class AddProdottoActivity extends AppCompatActivity {
 	private ActivityResultLauncher<Intent> scegliImmaginiLauncher;
@@ -265,7 +262,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 
 	private void upload(Button b) {
 		b.setOnClickListener(l->{
-			ProgressBar progressBar=findViewById(R.id.progressBar);
+			ContentLoadingProgressBar progressBar=findViewById(R.id.progressBar);
 			progressBar.setVisibility(View.VISIBLE);
 
 			//ottengo titolo e descrizione

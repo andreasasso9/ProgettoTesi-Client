@@ -36,7 +36,7 @@
                 android:autofillHints="creditCardNumber"
                 android:background="@drawable/shape_edittext"
                 android:layout_marginBottom="15dp"
-                android:maxLength="16"/>
+                android:maxLength="19"/>
 
             <EditText
                 android:id="@+id/titolare"
@@ -57,11 +57,12 @@
                     android:id="@+id/scadenza"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Data di scadenza (MM/YY)"
+                    android:hint="Scadenza (MM/YY)"
                     android:inputType="date"
                     android:autofillHints="creditCardExpirationDate"
                     android:background="@drawable/shape_edittext"
-                    android:maxLength="4"/>
+                    android:maxLength="5"
+                    android:digits="0123456789"/>
 
                 <EditText
                     android:id="@+id/cvv"
@@ -90,8 +91,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             style="@style/Widget.AppCompat.ProgressBar"
-            android:indeterminate="true"
             android:layout_gravity="center"
+            android:indeterminate="true"
             android:visibility="gone"/>
 
     </androidx.cardview.widget.CardView>

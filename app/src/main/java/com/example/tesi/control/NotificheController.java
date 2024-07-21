@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface NotificheController {
-	public boolean save(Notifica notifica);
-	public List<Notifica> findByReceiver(UUID receiver);
-	public boolean delete(String descrizione);
+	boolean save(Notifica notifica);
+	List<Notifica> findByReceiver(UUID receiver);
+	void delete(String descrizione);
 }

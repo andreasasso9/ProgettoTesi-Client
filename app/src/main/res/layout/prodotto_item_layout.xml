@@ -1,79 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="180dp"
     android:layout_height="320dp"
-    android:orientation="vertical"
-    android:paddingRight="10dp"
-    android:paddingLeft="10dp">
+    app:cardElevation="8dp"
+    android:layout_marginVertical="10dp">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="10">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <ImageView android:id="@+id/foto_prodotto_item"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitEnd"
-            android:contentDescription="@null" />
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/shape_preferiti"
-            android:gravity="center">
+            android:layout_weight="10">
 
-            <RelativeLayout
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center">
+            <ImageView android:id="@+id/foto_prodotto_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitEnd"
+                android:contentDescription="@null" />
 
-                <ImageView android:id="@+id/iconaMiPiace"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    android:src="@drawable/icons8_caricamento_cuore_50" />
-
-                <androidx.appcompat.widget.SwitchCompat android:id="@+id/switchMiPiace"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:thumb="@android:color/transparent"
-                    app:track="@android:color/transparent" />
-
-            </RelativeLayout>
-
-            <TextView android:id="@+id/miPiace_prodotto_item"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text=""
-                android:gravity="center" />
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/shape_preferiti"
+                android:gravity="center">
 
-        </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center">
 
+                    <ImageView android:id="@+id/iconaMiPiace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@null"
+                        android:src="@drawable/icons8_caricamento_cuore_50" />
 
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switchMiPiace"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:thumb="@android:color/transparent"
+                        app:track="@android:color/transparent" />
 
-    </RelativeLayout>
+                </RelativeLayout>
 
-    <TextView android:id="@+id/titolo_prodotto_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:text="brand"
-        android:layout_gravity="bottom"
-        android:layout_weight="1"/>
+                <TextView android:id="@+id/miPiace_prodotto_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:gravity="center" />
 
-    <TextView android:id="@+id/prezzo_prodotto_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:text="prezzo"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"/>
+            </LinearLayout>
 
+        </RelativeLayout>
 
-</LinearLayout>
+        <TextView android:id="@+id/titolo_prodotto_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_view_size"
+            android:text="titolo"
+            android:layout_gravity="bottom" />
+
+        <TextView android:id="@+id/prezzo_prodotto_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_view_size"
+            android:text="prezzo"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -91,7 +91,7 @@ public class NotificheControllerImpl implements NotificheController {
 	}
 
 	@Override
-	public boolean delete(String descrizione) {
+	public void delete(String descrizione) {
 		Call<Boolean> call=notificheServiceRetrofit.delete(descrizione);
 		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
 			try {
@@ -105,9 +105,8 @@ public class NotificheControllerImpl implements NotificheController {
 		});
 
 		try {
-			return future.get();
+			future.get();
 		} catch (InterruptedException | ExecutionException e) {
-			return false;
 		}
 	}
 

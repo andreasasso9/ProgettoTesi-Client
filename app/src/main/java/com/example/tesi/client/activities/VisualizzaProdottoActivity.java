@@ -84,6 +84,7 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		Button acquista=findViewById(R.id.acquista);
 		acquista.setOnClickListener(l->{
 			Intent intent=new Intent(this, AcquistaActivity.class);
+			intent.putExtra("prodotto", prodotto);
 			startActivity(intent);
 		});
 

@@ -17,7 +17,7 @@
         <TextView android:id="@+id/sender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="35dp"
+            android:textSize="30dp"
             android:text="user"
             android:textStyle="bold" />
 
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="descrizione"
-            android:textSize="25dp"
+            android:textSize="@dimen/text_view_size"
             android:maxLines="2"/>
 
         <ImageView android:id="@+id/foto_notifica"
@@ -37,15 +37,16 @@
     <TextView
         android:id="@+id/eliminaNotifica"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:maxLines="1"
         android:text="Elimina"
         android:textColor="@color/white"
-        android:textSize="30dp"
+        android:textSize="@dimen/text_view_size"
         app:drawableStartCompat="@drawable/icons8_cestino_64"
         android:background="#B71C1C"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:padding="10dp"/>
 
 </LinearLayout>

@@ -1,8 +1,6 @@
 package com.example.tesi.control;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
@@ -146,6 +144,27 @@ public class ProdottoControllerImpl implements ProdottoController {
 	@Override
 	public List<Prodotto> findByRicerca(UUID userId, String text) {
 		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByRicerca(userId, text);
+		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<List<Prodotto>> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				return null;
+			} catch (IOException e) {
+				return null;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (ExecutionException | InterruptedException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public List<Prodotto> findByCompratore(User compratore) {
+		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByCompratore(compratore);
 		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<List<Prodotto>> response=call.execute();

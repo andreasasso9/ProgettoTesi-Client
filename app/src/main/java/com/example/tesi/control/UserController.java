@@ -5,9 +5,9 @@ import com.example.tesi.entity.User;
 import java.util.UUID;
 
 public interface UserController {
-	public User loginUser(String username, String password);
-	public boolean saveUser(String email, String username, String password, String indirizzo);
-	public void miPiace(UUID idUser, Long idProdotto);
-	public boolean update(User user);
-	public User findById(UUID id);
+	User loginUser(String username, String password);
+	boolean saveUser(String email, String username, String password, String indirizzo);
+	void miPiace(UUID idUser, Long idProdotto);
+	boolean update(User user);
+	User findById(UUID id);
 }

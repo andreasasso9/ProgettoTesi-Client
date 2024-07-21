@@ -3,6 +3,8 @@ package com.example.tesi.client.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -54,7 +56,9 @@ public class SignupActivity extends AppCompatActivity {
 	private void createSignupListener() {
 		signupButton.setOnClickListener(v -> {
 			ContentLoadingProgressBar progressBar=findViewById(R.id.progressBar);
-			progressBar.show();
+			progressBar.setVisibility(View.VISIBLE);
+
+			boolean valid=true;
 
 			View currentFocusedView=getCurrentFocus();
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -70,39 +74,45 @@ public class SignupActivity extends AppCompatActivity {
 			boolean areNotEmpty=CheckNotEmptyStrings.check(email, username, indirizzo, password, confPassword);
 
 			if (!areNotEmpty) {
-				progressBar.hide();
+				progressBar.setVisibility(View.GONE);
 
 				errorMessage.setVisibility(View.VISIBLE);
 				errorMessage.setText("Riempi tutti i campi");
-				return;
+				valid=false;
 			}
 
 			if (!EmailRegex.match(email)) {
-				progressBar.hide();
+				progressBar.setVisibility(View.GONE);
 
 				errorMessage.setVisibility(View.VISIBLE);
 				errorMessage.setText("Email non valida");
-				return;
+				valid=false;
 			}
 
 			if (!password.equals(confPassword)) {
-				progressBar.hide();
+				progressBar.setVisibility(View.GONE);
 
 				errorMessage.setVisibility(View.VISIBLE);
 				errorMessage.setText("Inserisci la stessa password");
-				return;
+				valid=false;
 			}
 
-			User user = new User(email, username, password, indirizzo);
-			boolean result=userController.saveUser(email, username, password, indirizzo);
-			if (!result) {
-				errorMessage.setVisibility(View.VISIBLE);
-				errorMessage.setText("E-mail o username già esistenti");
-				return;
-			}
+			if (valid) {
+				new Handler(Looper.getMainLooper()).postDelayed(()->{
+					User user = new User(email, username, password, indirizzo);
+					boolean result = userController.saveUser(email, username, password, indirizzo);
+					if (!result) {
+						progressBar.setVisibility(View.GONE);
 
-			Session.getInstance(this).setCurrentUser(null, null);
-			goToLogin();
+						errorMessage.setVisibility(View.VISIBLE);
+						errorMessage.setText("E-mail o username già esistenti");
+					}
+
+					Session.getInstance(this).setCurrentUser(null, null);
+					goToLogin();
+				},100);
+
+			}
 		});
 
 		TextWatcher textWatcher=new TextWatcher() {

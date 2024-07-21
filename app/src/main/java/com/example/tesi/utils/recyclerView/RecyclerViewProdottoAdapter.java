@@ -25,6 +25,7 @@ import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdottoItemHolder> {
@@ -64,11 +65,10 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 		if (p.getMiPiace()>0)
 			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
 
-		for (Prodotto x:currentUser.getProdottiPreferiti())
-			if (x.equals(p)) {
-				holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
-				holder.switcMiPiace.setChecked(true);
-			}
+		if (currentUser.getProdottiPreferiti().contains(p)) {
+			holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
+			holder.switcMiPiace.setChecked(true);
+		}
 
 		holder.switcMiPiace.setOnCheckedChangeListener(createMiPiaceClickListener(holder, p));
 		holder.itemView.setOnClickListener(createVisualizzaProdottoListener(p));

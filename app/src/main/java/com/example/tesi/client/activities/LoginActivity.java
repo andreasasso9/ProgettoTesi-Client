@@ -1,6 +1,5 @@
 package com.example.tesi.client.activities;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,20 +9,14 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowMetrics;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
 
@@ -91,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
 	private void createLoginListener() {
 		loginButton.setOnClickListener(l->{
-			ProgressBar progressBar=findViewById(R.id.progressBar);
+			ContentLoadingProgressBar progressBar=findViewById(R.id.progressBar);
 
 			progressBar.setVisibility(View.VISIBLE);
 

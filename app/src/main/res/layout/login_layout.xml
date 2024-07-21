@@ -70,7 +70,7 @@
                 android:textAlignment="center"/>
         </LinearLayout>
 
-        <ProgressBar
+        <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progressBar"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -94,9 +94,8 @@
             android:layout_height="match_parent"
             android:text="Sign-up"
             android:textColor="#002CCC"
-            android:textSize="18dp"
-            android:textStyle="italic"
-            />
+            android:textSize="@dimen/text_view_size"
+            android:textStyle="italic" />
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"

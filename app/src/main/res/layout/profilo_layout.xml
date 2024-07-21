@@ -8,26 +8,36 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:text="I miei articoli"
-        android:textSize="25dp"
+        android:textSize="@dimen/text_view_size"
         android:padding="10dp" />
 
     <TextView android:id="@+id/preferiti"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Preferiti"
-        android:textSize="25dp"
+        android:textSize="@dimen/text_view_size"
         android:padding="10dp"
         android:layout_below="@id/articoli"/>
 
-    <TextView android:id="@+id/logout"
-        android:layout_height="wrap_content"
+    <TextView android:id="@+id/iMieiAcquisti"
         android:layout_width="match_parent"
-        android:text="Logout"
-        android:textSize="25dp"
-        android:padding="10dp"
-        android:layout_below="@id/preferiti"/>
+        android:layout_height="wrap_content"
+        android:text="I miei acquisti"
+        android:textSize="@dimen/text_view_size"
+        android:layout_below="@id/preferiti"
+        android:padding="10dp" />
 
-    <ProgressBar
+    <TextView android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:textSize="@dimen/text_view_size"
+        android:padding="10dp"
+        android:layout_below="@id/iMieiAcquisti"/>
+
+
+
+    <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progressBar"
         android:layout_width="100dp"
         android:layout_height="100dp"

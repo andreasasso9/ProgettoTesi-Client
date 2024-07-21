@@ -5,15 +5,6 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_centerInParent="true"
-        android:indeterminate="true"
-        android:visibility="invisible"/>
-
         <RelativeLayout android:id="@+id/cancelContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -28,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Vendi un articolo"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:gravity="center"/>
 
         </RelativeLayout>
@@ -75,7 +66,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Titolo"
-                        android:textSize="25dp"/>
+                        android:textSize="@dimen/text_view_size"/>
 
                     <TextView android:id="@+id/contatoreTitolo"
                         android:layout_width="wrap_content"
@@ -93,7 +84,8 @@
                     android:maxLength="30"
                     android:maxLines="1"
                     android:background="@drawable/shape_edittext"
-                    android:padding="13dp"/>
+                    android:padding="13dp"
+                    android:layout_marginBottom="15dp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -104,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Descrivi il tuo articolo"
-                        android:textSize="25dp"/>
+                        android:textSize="@dimen/text_view_size"/>
 
                     <TextView android:id="@+id/contatoreDescrizione"
                         android:layout_width="wrap_content"
@@ -114,14 +106,16 @@
                         android:layout_marginLeft="10dp"/>
                 </LinearLayout>
 
-                <EditText android:id="@+id/formDescrizione"
+                <EditText
+                    android:id="@+id/formDescrizione"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:hint="es. indossato poche volte, condizione ottime,... (max 150 caratteri)"
-                    android:gravity="start"
-                    android:maxLength="150"
                     android:background="@drawable/shape_edittext"
-                    android:padding="17dp"/>
+                    android:gravity="start"
+                    android:hint="es. indossato poche volte, condizione ottime,... (max 150 caratteri)"
+                    android:maxLength="150"
+                    android:padding="17dp"
+                    android:layout_marginBottom="15dp"/>
 
             </LinearLayout>
 
@@ -220,5 +214,14 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:visibility="gone"/>
 
 </RelativeLayout>

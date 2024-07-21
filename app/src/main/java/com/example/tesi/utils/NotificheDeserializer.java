@@ -1,6 +1,5 @@
 package com.example.tesi.utils;
 
-import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Notifica;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

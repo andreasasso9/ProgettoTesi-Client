@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="user"
-                    android:textSize="25dp"
+                    android:textSize="@dimen/text_view_size"
                     android:layout_weight="1"/>
 
                 <Button android:id="@+id/chiediInfo"
@@ -69,13 +69,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="condizioni"
-                    android:textSize="20dp"/>
+                    android:textSize="@dimen/text_view_size"/>
 
                 <TextView android:id="@+id/prezzo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="prezzo"
-                    android:textSize="20dp"/>
+                    android:textSize="@dimen/text_view_size"/>
 
             </LinearLayout>
 
@@ -89,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Descrizione dell'articolo"
-                    android:textSize="20dp"/>
+                    android:textSize="@dimen/text_view_size"/>
 
                 <TextView android:id="@+id/descrizione"
                     android:layout_width="wrap_content"

@@ -18,13 +18,10 @@ import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 import com.example.tesi.utils.Session;
-import com.example.tesi.utils.recyclerView.RecyclerViewMieiProdottiAdapter;
 
 import java.util.List;
 
-public class IMieiArticoliFragment extends Fragment {
-
-
+public class IMieiAcquistiFragment extends Fragment {
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,23 +29,15 @@ public class IMieiArticoliFragment extends Fragment {
 		View v=inflater.inflate(R.layout.lista_di_prodotti_layout, container, false);
 
 		ImageButton indietro=v.findViewById(R.id.indietro);
-
 		createIndietroListener(indietro);
 
-		ProdottoController prodottoController = new ProdottoControllerImpl();
-		User currentUser=Session.getInstance(requireContext()).getCurrentUser();
-
-		List<Prodotto> prodotti= prodottoController.findByIdProprietario(currentUser.getId());
-
-		RecyclerView recyclerView = v.findViewById(R.id.list_prodotti);
+		RecyclerView recyclerView=v.findViewById(R.id.list_prodotti);
 		recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-		if (prodotti != null && !prodotti.isEmpty()) {
-			RecyclerViewMieiProdottiAdapter adapter=new RecyclerViewMieiProdottiAdapter(prodotti, currentUser);
-			recyclerView.setAdapter(adapter);
-		}
+		ProdottoController prodottoController=new ProdottoControllerImpl();
+		User currentUser= Session.getInstance(requireContext()).getCurrentUser();
+		List<Prodotto> acquisti=prodottoController.findByCompratore(currentUser);
 
-		return v;
 	}
 
 	private void createIndietroListener(ImageButton indietro) {

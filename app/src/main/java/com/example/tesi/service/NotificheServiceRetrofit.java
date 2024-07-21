@@ -2,7 +2,6 @@ package com.example.tesi.service;
 
 import com.example.tesi.entity.Notifica;
 
-import java.util.List;
 import java.util.UUID;
 
 import okhttp3.ResponseBody;

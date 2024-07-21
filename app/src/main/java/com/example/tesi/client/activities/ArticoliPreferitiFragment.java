@@ -25,7 +25,7 @@ public class ArticoliPreferitiFragment extends Fragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		View v=inflater.inflate(R.layout.articoli_preferiti_layout, null);
+		View v=inflater.inflate(R.layout.lista_di_prodotti_layout, container, false);
 
 		ImageButton indietro=v.findViewById(R.id.indietro);
 		createIndietroListener(indietro);
@@ -51,7 +51,7 @@ public class ArticoliPreferitiFragment extends Fragment {
 			if (mainActivity.profiloFragment==null)
 				mainActivity.profiloFragment=new ProfiloFragment();
 			mainActivity.currentFragment=mainActivity.profiloFragment;
-			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, mainActivity.profiloFragment).addToBackStack(null).commit();
+			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, mainActivity.currentFragment).addToBackStack(null).commit();
 		});
 	}
 }
