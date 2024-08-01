@@ -76,7 +76,9 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 
 	@Override
 	public int getItemCount() {
-		return prodotti.size();
+		if (prodotti!=null)
+			return prodotti.size();
+		return 0;
 	}
 
 	private CompoundButton.OnCheckedChangeListener createMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p) {

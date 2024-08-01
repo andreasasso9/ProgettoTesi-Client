@@ -2,6 +2,7 @@ package com.example.tesi.utils.recyclerView;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ public class ViewProdottoItemHolder extends RecyclerView.ViewHolder {
 	public TextView miPiaceProdottoItem, titoloProdottoItem, prezzoProdottoItem;
 	public ImageView iconaMiPiace;
 	public SwitchCompat switcMiPiace;
+	public LinearLayout acquistato;
 	public ViewProdottoItemHolder(@NonNull View itemView) {
 		super(itemView);
 		fotoProdottoItem=itemView.findViewById(R.id.foto_prodotto_item);
@@ -23,5 +25,6 @@ public class ViewProdottoItemHolder extends RecyclerView.ViewHolder {
 		prezzoProdottoItem=itemView.findViewById(R.id.prezzo_prodotto_item);
 		switcMiPiace=itemView.findViewById(R.id.switchMiPiace);
 		iconaMiPiace=itemView.findViewById(R.id.iconaMiPiace);
+		acquistato=itemView.findViewById(R.id.acquistato);
 	}
 }

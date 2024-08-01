@@ -164,7 +164,7 @@ public class ProdottoControllerImpl implements ProdottoController {
 
 	@Override
 	public List<Prodotto> findByCompratore(User compratore) {
-		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByCompratore(compratore);
+		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByCompratore(compratore.getId());
 		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<List<Prodotto>> response=call.execute();

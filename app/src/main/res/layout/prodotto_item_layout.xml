@@ -59,6 +59,22 @@
 
             </LinearLayout>
 
+            <LinearLayout android:id="@+id/acquistato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:background="#1C9801"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Acquistato"
+                    android:textSize="@dimen/text_view_size"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
         </RelativeLayout>
 
         <TextView android:id="@+id/titolo_prodotto_item"

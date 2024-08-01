@@ -19,6 +19,7 @@ import com.example.tesi.utils.Session;
 import com.example.tesi.utils.recyclerView.RecyclerViewProdottiPreferitiAdapter;
 
 import java.util.Set;
+import java.util.UUID;
 
 public class ArticoliPreferitiFragment extends Fragment {
 	@Nullable
@@ -34,12 +35,9 @@ public class ArticoliPreferitiFragment extends Fragment {
 		recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
 		User currentuser=Session.getInstance(requireContext()).getCurrentUser();
-		Set<Prodotto> prodottiPreferiti=currentuser.getProdottiPreferiti();
 
-		if (prodottiPreferiti!=null && !prodottiPreferiti.isEmpty()) {
-			RecyclerViewProdottiPreferitiAdapter adapter=new RecyclerViewProdottiPreferitiAdapter(currentuser);
-			recyclerView.setAdapter(adapter);
-		}
+		RecyclerViewProdottiPreferitiAdapter adapter=new RecyclerViewProdottiPreferitiAdapter(currentuser);
+		recyclerView.setAdapter(adapter);
 
 		return v;
 	}

@@ -29,7 +29,9 @@ public class HomeFragment extends Fragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		View v = inflater.inflate(R.layout.home_layout, null);
+		View v = inflater.inflate(R.layout.home_layout, container, false);
+
+		v.findViewById(R.id.indietro).setVisibility(View.GONE);
 
 		RecyclerView list_prodotti = v.findViewById(R.id.list_prodotti);
 		list_prodotti.setLayoutManager(new GridLayoutManager(requireContext(), 2));

@@ -43,10 +43,8 @@ public class IMieiArticoliFragment extends Fragment {
 		RecyclerView recyclerView = v.findViewById(R.id.list_prodotti);
 		recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-		if (prodotti != null && !prodotti.isEmpty()) {
-			RecyclerViewMieiProdottiAdapter adapter=new RecyclerViewMieiProdottiAdapter(prodotti, currentUser);
-			recyclerView.setAdapter(adapter);
-		}
+		RecyclerViewMieiProdottiAdapter adapter=new RecyclerViewMieiProdottiAdapter(prodotti, currentUser);
+		recyclerView.setAdapter(adapter);
 
 		return v;
 	}

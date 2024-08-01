@@ -1,6 +1,8 @@
 package com.example.tesi.utils.recyclerView;
 
 import android.graphics.BitmapFactory;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
@@ -25,7 +27,10 @@ public class RecyclerViewMieiProdottiAdapter extends RecyclerViewProdottoAdapter
 			holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
 		holder.titoloProdottoItem.setText(p.getTitolo());
 		holder.prezzoProdottoItem.setText(p.getPrezzo()+"");
-		holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
-		//holder.miPiaceProdottoItem.setOnClickListener(null);
+		LinearLayout miPiaceParent= (LinearLayout) holder.miPiaceProdottoItem.getParent();
+		miPiaceParent.setVisibility(View.GONE);
+		if (p.isBought())
+			holder.acquistato.setVisibility(View.VISIBLE);
+
 	}
 }

@@ -23,6 +23,7 @@ public class ProfiloFragment extends Fragment {
 	private IMieiArticoliFragment iMieiArticoliFragment;
 	private MainActivity mainActivity;
 	private ArticoliPreferitiFragment articoliPreferitiFragment;
+	private IMieiAcquistiFragment iMieiAcquistiFragment;
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,7 +98,10 @@ public class ProfiloFragment extends Fragment {
 		iMieiAcquisti.setOnClickListener(l->{
 			assert mainActivity != null;
 
-
+			if (iMieiAcquistiFragment==null)
+				iMieiAcquistiFragment=new IMieiAcquistiFragment();
+			mainActivity.currentFragment=iMieiAcquistiFragment;
+			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, mainActivity.currentFragment).addToBackStack(null).commit();
 		});
 	}
 

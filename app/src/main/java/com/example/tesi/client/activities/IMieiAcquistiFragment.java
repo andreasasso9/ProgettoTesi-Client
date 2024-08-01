@@ -18,6 +18,7 @@ import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 import com.example.tesi.utils.Session;
+import com.example.tesi.utils.recyclerView.RecyclerViewProdottoAdapter;
 
 import java.util.List;
 
@@ -38,6 +39,11 @@ public class IMieiAcquistiFragment extends Fragment {
 		User currentUser= Session.getInstance(requireContext()).getCurrentUser();
 		List<Prodotto> acquisti=prodottoController.findByCompratore(currentUser);
 
+		RecyclerViewProdottoAdapter adapter=new RecyclerViewProdottoAdapter(acquisti, currentUser);
+		recyclerView.setAdapter(adapter);
+
+
+		return v;
 	}
 
 	private void createIndietroListener(ImageButton indietro) {

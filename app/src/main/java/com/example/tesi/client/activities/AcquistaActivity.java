@@ -121,7 +121,7 @@ public class AcquistaActivity extends AppCompatActivity {
 						p= (Prodotto) i.getSerializableExtra("prodotto");
 
 					assert p != null;
-					p.setCompratore(currentUser);
+					p.setCompratore(currentUser.getId());
 
 					ProdottoController prodottoController=new ProdottoControllerImpl();
 					prodottoController.update(p);

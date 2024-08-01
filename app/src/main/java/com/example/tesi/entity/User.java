@@ -70,7 +70,7 @@ public class User implements Serializable {
 		return prodottiPreferiti;
 	}
 
-	public void setprodottiPreferiti(Set<Prodotto> prodottiPreferiti) {
+	public void setProdottiPreferiti(Set<Prodotto> prodottiPreferiti) {
 		this.prodottiPreferiti = prodottiPreferiti;
 	}
 

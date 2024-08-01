@@ -33,5 +33,5 @@ public interface ProdottoServiceRetrofit {
 	Call<List<Prodotto>> findByRicerca(@Field("user") UUID userId, @Field("text") String text);
 
 	@POST("findByCompratore")
-	Call<List<Prodotto>> findByCompratore(@Body User compratore);
+	Call<List<Prodotto>> findByCompratore(@Body UUID idCompratore);
 }

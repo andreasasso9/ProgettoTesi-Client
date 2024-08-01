@@ -18,7 +18,7 @@ public class Prodotto implements Serializable {
 	private int miPiace;
 	private final UUID idProprietario;
 	private Long id;
-	private User compratore;
+	private UUID idCompratore;
 
 	public Prodotto(UUID idProprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo) {
 		this.idProprietario = idProprietario;
@@ -112,11 +112,15 @@ public class Prodotto implements Serializable {
 		return Objects.hash(id);
 	}
 
-	public void setCompratore(User compratore) {
-		this.compratore = compratore;
+	public void setCompratore(UUID idCompratore) {
+		this.idCompratore = idCompratore;
 	}
 
-	public User getCompratore() {
-		return compratore;
+	public UUID getCompratore() {
+		return idCompratore;
+	}
+
+	public boolean isBought() {
+		return idCompratore!=null;
 	}
 }
