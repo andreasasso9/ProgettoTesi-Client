@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 	private SearchFragment searchFragment;
 	private HomeFragment homeFragment;
 	public ProfiloFragment profiloFragment;
-	private NotificheFragment notificheFragment;
+	private InboxFragment inboxFragment;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 				case "Home":
 					iconHome.setIcon(R.drawable.casa_selected);
 					iconSearch.setIcon(R.drawable.ricerca_unselected);
-					iconNotifiche.setIcon(R.drawable.notifica_unselected);
+					iconNotifiche.setIcon(R.drawable.inbox_unselected);
 					iconProfilo.setIcon(R.drawable.profilo_unselected);
 
 					currentFragment=homeFragment;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 				case "Cerca":
 					iconHome.setIcon(R.drawable.casa_unselected);
 					iconSearch.setIcon(R.drawable.ricerca_selected);
-					iconNotifiche.setIcon(R.drawable.notifica_unselected);
+					iconNotifiche.setIcon(R.drawable.inbox_unselected);
 					iconProfilo.setIcon(R.drawable.profilo_unselected);
 					if (searchFragment == null)
 						searchFragment=new SearchFragment();
@@ -74,20 +74,20 @@ public class MainActivity extends AppCompatActivity {
 					startActivity(i);
 					return true;
 
-				case "Notifiche":
+				case "Inbox":
 					iconHome.setIcon(R.drawable.casa_unselected);
 					iconSearch.setIcon(R.drawable.ricerca_unselected);
-					iconNotifiche.setIcon(R.drawable.notifica_selected);
+					iconNotifiche.setIcon(R.drawable.inbox_selected);
 					iconProfilo.setIcon(R.drawable.profilo_unselected);
-					if (notificheFragment==null)
-						notificheFragment=new NotificheFragment();
-					currentFragment=notificheFragment;
+					if (inboxFragment==null)
+						inboxFragment=new InboxFragment();
+					currentFragment=inboxFragment;
 					break;
 
 				case "Profilo":
 					iconHome.setIcon(R.drawable.casa_unselected);
 					iconSearch.setIcon(R.drawable.ricerca_unselected);
-					iconNotifiche.setIcon(R.drawable.notifica_unselected);
+					iconNotifiche.setIcon(R.drawable.inbox_unselected);
 					iconProfilo.setIcon(R.drawable.profilo_selected);
 
 					if (profiloFragment==null)

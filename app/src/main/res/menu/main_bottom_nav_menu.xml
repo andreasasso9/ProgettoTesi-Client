@@ -14,8 +14,8 @@
             android:title=""/>
 
         <item android:id="@+id/nav_notifiche"
-            android:title="Notifiche"
-            android:icon="@drawable/notifica_unselected"/>
+            android:title="Inbox"
+            android:icon="@drawable/inbox_unselected"/>
 
         <item android:id="@+id/nav_profilo"
             android:title="Profilo"

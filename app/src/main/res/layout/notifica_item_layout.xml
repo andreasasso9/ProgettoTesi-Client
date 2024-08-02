@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/mainContainer"
-    android:background="#B71C1C">
+    android:gravity="center">
 
     <LinearLayout android:id="@+id/containerItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="1"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:layout_weight="1">
 
         <TextView android:id="@+id/sender"
             android:layout_width="wrap_content"
@@ -37,16 +37,15 @@
     <TextView
         android:id="@+id/eliminaNotifica"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:maxLines="1"
         android:text="Elimina"
         android:textColor="@color/white"
         android:textSize="@dimen/text_view_size"
         app:drawableStartCompat="@drawable/icons8_cestino_64"
         android:background="#B71C1C"
-        android:layout_weight="1"
-        android:layout_gravity="center"
         android:gravity="center"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

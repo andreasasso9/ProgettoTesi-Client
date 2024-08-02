@@ -19,7 +19,7 @@ import com.example.tesi.entity.User;
 import java.util.List;
 
 public class RecyclerViewNotificheAdapter extends RecyclerView.Adapter<ViewNotificheItemHolder> {
-	private List<Notifica> notifiche;
+	private final List<Notifica> notifiche;
 
 	public RecyclerViewNotificheAdapter(List<Notifica> notifiche) {
 		this.notifiche = notifiche;

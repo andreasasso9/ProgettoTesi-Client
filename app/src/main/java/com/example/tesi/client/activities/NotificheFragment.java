@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,7 +37,8 @@ public class NotificheFragment extends Fragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		View v=inflater.inflate(R.layout.notifiche_layout, null);
+		View v=inflater.inflate(R.layout.notifiche_layout, container, false);
+		Toast.makeText(requireContext(), "ciaooooo", Toast.LENGTH_SHORT).show();
 
 		notificheController=new NotificheControllerImpl();
 
@@ -58,15 +60,8 @@ public class NotificheFragment extends Fragment {
 		return v;
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		BottomNavigationView navbar=requireActivity().findViewById(R.id.navbar);
-		navbar.getMenu().getItem(3).setChecked(true).setIcon(R.drawable.notifica_selected);
-	}
-
 	public void createEliminaNotifica(RecyclerView recyclerView, @NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		ItemTouchHelper itemTouchHelper=new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT /*| ItemTouchHelper.RIGHT*/) {
+		ItemTouchHelper itemTouchHelper=new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 			@Override
 			public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
 				return false;
@@ -74,17 +69,23 @@ public class NotificheFragment extends Fragment {
 
 			@Override
 			public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-				ViewNotificheItemHolder holder= (ViewNotificheItemHolder) viewHolder;
+				ViewNotificheItemHolder holder = (ViewNotificheItemHolder) viewHolder;
 
-				int position=holder.getAdapterPosition();
+				if (direction==ItemTouchHelper.LEFT) {
+					int position = holder.getAdapterPosition();
 
-				notificheController.delete(holder.descrizione.getText()+"");
+					notificheController.delete(holder.descrizione.getText() + "");
 
-				RecyclerViewNotificheAdapter adapter= (RecyclerViewNotificheAdapter) recyclerView.getAdapter();
+					RecyclerViewNotificheAdapter adapter = (RecyclerViewNotificheAdapter) recyclerView.getAdapter();
 
-				assert adapter != null;
-				adapter.getNotifiche().remove(position);
-				adapter.notifyItemRemoved(position);
+					assert adapter != null;
+					adapter.getNotifiche().remove(position);
+					adapter.notifyItemRemoved(position);
+				} else if (direction==ItemTouchHelper.RIGHT) {
+					ViewGroup.LayoutParams params=new LinearLayout.LayoutParams(holder.elimina.getLayoutParams());
+					params.width=0;
+					holder.elimina.setLayoutParams(params);
+				}
 			}
 
 			@Override

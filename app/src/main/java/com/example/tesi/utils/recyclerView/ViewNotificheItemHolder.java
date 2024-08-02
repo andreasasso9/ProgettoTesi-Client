@@ -14,19 +14,21 @@ import com.example.tesi.client.R;
 public class ViewNotificheItemHolder extends RecyclerView.ViewHolder {
 	public TextView sender, descrizione, elimina;
 	public ImageView foto;
-	public LinearLayout container/*, containerElimina/*, mainContainer*/;
+	public LinearLayout container;
 	public ViewNotificheItemHolder(@NonNull View itemView) {
 		super(itemView);
 		sender=itemView.findViewById(R.id.sender);
 		descrizione=itemView.findViewById(R.id.descrizione_notifica);
 		foto=itemView.findViewById(R.id.foto_notifica);
+
 		elimina=itemView.findViewById(R.id.eliminaNotifica);
+		ViewGroup.LayoutParams params=new LinearLayout.LayoutParams(elimina.getLayoutParams());
+		params.width=0;
+		elimina.setLayoutParams(params);
+
 		container=itemView.findViewById(R.id.containerItem);
-		//mainContainer=itemView.findViewById(R.id.mainContainer);
 
 		container.setOnClickListener(l->{
-			ViewGroup.LayoutParams params=new LinearLayout.LayoutParams(elimina.getLayoutParams());
-			params.width=0;
 			elimina.setLayoutParams(params);
 			descrizione.setMaxLines(2);
 		});
