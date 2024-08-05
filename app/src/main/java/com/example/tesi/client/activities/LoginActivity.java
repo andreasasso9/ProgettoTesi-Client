@@ -14,7 +14,6 @@ import android.view.WindowMetrics;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +23,7 @@ import com.example.tesi.client.R;
 import com.example.tesi.control.UserController;
 import com.example.tesi.control.UserControllerImpl;
 import com.example.tesi.entity.User;
-import com.example.tesi.utils.Session;
+import com.example.tesi.client.utils.Session;
 
 public class LoginActivity extends AppCompatActivity {
 	private Button loginButton;

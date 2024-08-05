@@ -1,4 +1,4 @@
-package com.example.tesi.utils.recyclerView;
+package com.example.tesi.client.utils.recyclerView;
 
 import android.graphics.BitmapFactory;
 import android.view.View;
@@ -12,13 +12,13 @@ import com.example.tesi.entity.User;
 
 import java.util.List;
 
-public class RecyclerViewMieiProdottiAdapter extends RecyclerViewProdottoAdapter{
-	public RecyclerViewMieiProdottiAdapter(List<Prodotto> prodotti, User currentUser) {
-		super(prodotti, currentUser);
+public class MieiProdottiAdapter extends ProdottoAdapter {
+	public MieiProdottiAdapter(List<Prodotto> prodotti, User currentUser) {
+		super(prodotti, currentUser, false);
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull ViewProdottoItemHolder holder, int position) {
+	public void onBindViewHolder(@NonNull ProdottoHolder holder, int position) {
 		Prodotto p=prodotti.get(position);
 
 		FotoByteArray foto=fotoController.findFirst(p);

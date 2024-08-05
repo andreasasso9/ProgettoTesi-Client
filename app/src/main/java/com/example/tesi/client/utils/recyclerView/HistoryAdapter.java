@@ -1,4 +1,4 @@
-package com.example.tesi.utils.recyclerView;
+package com.example.tesi.client.utils.recyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +13,12 @@ import com.google.android.material.search.SearchView;
 
 import java.util.List;
 
-public class RecyclerViewHistoryAdapter extends RecyclerView.Adapter<HistoryHolder> {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryHolder> {
 	private final List<String> history;
 	private SearchView searchView;
 	private SearchBar searchBar;
 
-	public RecyclerViewHistoryAdapter(List<String> history, SearchView searchView, SearchBar searchBar) {
+	public HistoryAdapter(List<String> history, SearchView searchView, SearchBar searchBar) {
 		this.history = history;
 		this.searchView = searchView;
 		this.searchBar = searchBar;

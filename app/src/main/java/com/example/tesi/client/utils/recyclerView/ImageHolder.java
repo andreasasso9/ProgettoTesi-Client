@@ -1,4 +1,4 @@
-package com.example.tesi.utils.recyclerView;
+package com.example.tesi.client.utils.recyclerView;
 
 import android.view.View;
 import android.widget.ImageView;

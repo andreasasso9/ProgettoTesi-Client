@@ -1,4 +1,4 @@
-package com.example.tesi.utils.recyclerView;
+package com.example.tesi.client.utils.recyclerView;
 
 import android.graphics.BitmapFactory;
 
@@ -11,14 +11,14 @@ import com.example.tesi.entity.User;
 
 import java.util.ArrayList;
 
-public class RecyclerViewProdottiPreferitiAdapter extends RecyclerViewProdottoAdapter {
-	public RecyclerViewProdottiPreferitiAdapter(User currentUser) {
-		super(null, currentUser);
+public class ProdottiPreferitiAdapter extends ProdottoAdapter {
+	public ProdottiPreferitiAdapter(User currentUser) {
+		super(null, currentUser, true);
 		prodotti=new ArrayList<>(currentUser.getProdottiPreferiti());
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull ViewProdottoItemHolder holder, int position) {
+	public void onBindViewHolder(@NonNull ProdottoHolder holder, int position) {
 		Prodotto p=prodotti.get(holder.getAdapterPosition());
 
 		FotoByteArray foto=fotoController.findFirst(p);

@@ -1,4 +1,4 @@
-package com.example.tesi.utils;
+package com.example.tesi.client.utils;
 
 import com.example.tesi.entity.FotoByteArray;
 import com.google.gson.JsonDeserializationContext;

@@ -21,10 +21,9 @@ import com.example.tesi.client.R;
 import com.example.tesi.control.NotificheController;
 import com.example.tesi.control.NotificheControllerImpl;
 import com.example.tesi.entity.Notifica;
-import com.example.tesi.utils.Session;
-import com.example.tesi.utils.recyclerView.RecyclerViewNotificheAdapter;
-import com.example.tesi.utils.recyclerView.ViewNotificheItemHolder;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.tesi.client.utils.Session;
+import com.example.tesi.client.utils.recyclerView.NotificheAdapter;
+import com.example.tesi.client.utils.recyclerView.NotificheHolder;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +37,6 @@ public class NotificheFragment extends Fragment {
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v=inflater.inflate(R.layout.notifiche_layout, container, false);
-		Toast.makeText(requireContext(), "ciaooooo", Toast.LENGTH_SHORT).show();
 
 		notificheController=new NotificheControllerImpl();
 
@@ -51,7 +49,7 @@ public class NotificheFragment extends Fragment {
 
 		if (notifiche != null && !notifiche.isEmpty()) {
 			Collections.reverse(notifiche);
-			RecyclerViewNotificheAdapter adapter = new RecyclerViewNotificheAdapter(notifiche);
+			NotificheAdapter adapter = new NotificheAdapter(notifiche);
 			listaNotifiche.setAdapter(adapter);
 
 			createEliminaNotifica(listaNotifiche, inflater, container, savedInstanceState);
@@ -69,14 +67,14 @@ public class NotificheFragment extends Fragment {
 
 			@Override
 			public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-				ViewNotificheItemHolder holder = (ViewNotificheItemHolder) viewHolder;
+				NotificheHolder holder = (NotificheHolder) viewHolder;
 
 				if (direction==ItemTouchHelper.LEFT) {
 					int position = holder.getAdapterPosition();
 
 					notificheController.delete(holder.descrizione.getText() + "");
 
-					RecyclerViewNotificheAdapter adapter = (RecyclerViewNotificheAdapter) recyclerView.getAdapter();
+					NotificheAdapter adapter = (NotificheAdapter) recyclerView.getAdapter();
 
 					assert adapter != null;
 					adapter.getNotifiche().remove(position);
@@ -91,7 +89,7 @@ public class NotificheFragment extends Fragment {
 			@Override
 			public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 				super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-				ViewNotificheItemHolder holder = (ViewNotificheItemHolder) viewHolder;
+				NotificheHolder holder = (NotificheHolder) viewHolder;
 				Paint paint=new Paint();
 				paint.setColor(Color.rgb(183, 28, 28));
 

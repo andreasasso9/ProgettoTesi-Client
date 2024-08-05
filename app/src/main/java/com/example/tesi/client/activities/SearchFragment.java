@@ -17,9 +17,9 @@ import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
-import com.example.tesi.utils.Session;
-import com.example.tesi.utils.recyclerView.RecyclerViewHistoryAdapter;
-import com.example.tesi.utils.recyclerView.RecyclerViewProdottoAdapter;
+import com.example.tesi.client.utils.Session;
+import com.example.tesi.client.utils.recyclerView.HistoryAdapter;
+import com.example.tesi.client.utils.recyclerView.ProdottoAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
@@ -59,10 +59,10 @@ public class SearchFragment extends Fragment {
 		prodotti.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
 		prodottiCercati=new ArrayList<>();
-		RecyclerViewProdottoAdapter prodottoAdapter=new RecyclerViewProdottoAdapter(prodottiCercati, currentUser);
+		ProdottoAdapter prodottoAdapter=new ProdottoAdapter(prodottiCercati, currentUser, true);
 		prodotti.setAdapter(prodottoAdapter);
 
-		RecyclerViewHistoryAdapter historyAdapter; historyAdapter=new RecyclerViewHistoryAdapter(listHistory, searchView, searchBar);
+		HistoryAdapter historyAdapter; historyAdapter=new HistoryAdapter(listHistory, searchView, searchBar);
 		historySearch.setAdapter(historyAdapter);
 
 		searchView.getEditText().setOnEditorActionListener((t, actionId, event) -> {

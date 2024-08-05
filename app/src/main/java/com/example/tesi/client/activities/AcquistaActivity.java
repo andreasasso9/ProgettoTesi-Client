@@ -20,12 +20,17 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.example.tesi.client.R;
+import com.example.tesi.control.FotoProdottoControllerImpl;
+import com.example.tesi.control.NotificheController;
+import com.example.tesi.control.NotificheControllerImpl;
 import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
+import com.example.tesi.entity.FotoByteArray;
+import com.example.tesi.entity.Notifica;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
-import com.example.tesi.utils.CheckNotEmptyStrings;
-import com.example.tesi.utils.Session;
+import com.example.tesi.client.utils.CheckNotEmptyStrings;
+import com.example.tesi.client.utils.Session;
 
 import java.util.Calendar;
 
@@ -125,6 +130,9 @@ public class AcquistaActivity extends AppCompatActivity {
 
 					ProdottoController prodottoController=new ProdottoControllerImpl();
 					prodottoController.update(p);
+					FotoByteArray fotoNotifica=new FotoProdottoControllerImpl().findFirst(p);
+					Notifica notifica=new Notifica(currentUser.getId(), p.getIdProprietario(), String.format("%s ha acquistato il tuo articolo %s", currentUser.getUsername(), p.getTitolo()), fotoNotifica.getValue());
+					new NotificheControllerImpl().save(notifica);
 					Toast.makeText(this, "Il pagamento è andato a buon fine", Toast.LENGTH_SHORT).show();
 
 					Intent intent=new Intent(this, MainActivity.class);

@@ -3,7 +3,7 @@ package com.example.tesi.control;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.service.FotoProdottoServiceRetrofit;
-import com.example.tesi.utils.FotoByteArrayDeserializer;
+import com.example.tesi.client.utils.FotoByteArrayDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

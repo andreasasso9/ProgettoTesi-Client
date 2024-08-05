@@ -37,18 +37,18 @@
                 android:padding="20dp">
 
                 <TextView android:id="@+id/proprietario"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="user"
                     android:textSize="@dimen/text_view_size"
                     android:layout_weight="1"/>
 
                 <Button android:id="@+id/chiediInfo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Chiedi info"
                     android:textSize="25dp"
-                    android:layout_weight="0"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 

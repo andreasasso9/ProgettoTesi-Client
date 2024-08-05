@@ -1,4 +1,4 @@
-package com.example.tesi.utils.recyclerView;
+package com.example.tesi.client.utils.recyclerView;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
 
-public class ViewProdottoItemHolder extends RecyclerView.ViewHolder {
+public class ProdottoHolder extends RecyclerView.ViewHolder {
 	public ImageView fotoProdottoItem;
 	public TextView miPiaceProdottoItem, titoloProdottoItem, prezzoProdottoItem;
 	public ImageView iconaMiPiace;
 	public SwitchCompat switcMiPiace;
 	public LinearLayout acquistato;
-	public ViewProdottoItemHolder(@NonNull View itemView) {
+	public ProdottoHolder(@NonNull View itemView) {
 		super(itemView);
 		fotoProdottoItem=itemView.findViewById(R.id.foto_prodotto_item);
 		miPiaceProdottoItem =itemView.findViewById(R.id.miPiace_prodotto_item);

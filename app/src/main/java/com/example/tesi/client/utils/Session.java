@@ -1,4 +1,4 @@
-package com.example.tesi.utils;
+package com.example.tesi.client.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -77,11 +78,11 @@ public class Session {
 	public List<String> getSearchHistory() {
 		String jsonHistory = historyPreferences.getString("history " + currentUser.getId(), null);
 		if (jsonHistory != null) {
-			Type type = new TypeToken<Stack<String>>() {
+			Type type = new TypeToken<List<String>>() {
 			}.getType();
 			return gson.fromJson(jsonHistory, type);
 		} else
-			return new Stack<>();
+			return new ArrayList<>();
 	}
 
 	public void setSearchHistory(List<String> searchHistory) {

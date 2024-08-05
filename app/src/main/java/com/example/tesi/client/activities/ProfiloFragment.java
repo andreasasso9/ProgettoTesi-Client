@@ -7,7 +7,6 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,7 @@ import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
 import com.example.tesi.client.R;
-import com.example.tesi.utils.Session;
+import com.example.tesi.client.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfiloFragment extends Fragment {

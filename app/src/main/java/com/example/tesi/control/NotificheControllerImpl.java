@@ -18,13 +18,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import com.example.tesi.utils.NotificheDeserializer;
+import com.example.tesi.client.utils.NotificheDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class NotificheControllerImpl implements NotificheController {
-	private NotificheServiceRetrofit notificheServiceRetrofit;
+	private final NotificheServiceRetrofit notificheServiceRetrofit;
 
 	public NotificheControllerImpl() {
 		this.notificheServiceRetrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:8080/notifiche/")
@@ -86,7 +86,7 @@ public class NotificheControllerImpl implements NotificheController {
 		try {
 			return future.get();
 		} catch (ExecutionException | InterruptedException e) {
-			throw new RuntimeException(e);
+			return null;
 		}
 	}
 
@@ -106,7 +106,7 @@ public class NotificheControllerImpl implements NotificheController {
 
 		try {
 			future.get();
-		} catch (InterruptedException | ExecutionException e) {
+		} catch (InterruptedException | ExecutionException ignored) {
 		}
 	}
 

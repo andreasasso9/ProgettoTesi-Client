@@ -17,8 +17,8 @@ import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
-import com.example.tesi.utils.Session;
-import com.example.tesi.utils.recyclerView.RecyclerViewProdottoAdapter;
+import com.example.tesi.client.utils.Session;
+import com.example.tesi.client.utils.recyclerView.ProdottoAdapter;
 
 import java.util.List;
 
@@ -39,9 +39,8 @@ public class IMieiAcquistiFragment extends Fragment {
 		User currentUser= Session.getInstance(requireContext()).getCurrentUser();
 		List<Prodotto> acquisti=prodottoController.findByCompratore(currentUser);
 
-		RecyclerViewProdottoAdapter adapter=new RecyclerViewProdottoAdapter(acquisti, currentUser);
+		ProdottoAdapter adapter=new ProdottoAdapter(acquisti, currentUser, false);
 		recyclerView.setAdapter(adapter);
-
 
 		return v;
 	}

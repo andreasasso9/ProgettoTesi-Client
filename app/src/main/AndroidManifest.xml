@@ -32,6 +32,7 @@
         <activity android:name=".activities.AddProdottoActivity"/>
         <activity android:name=".activities.VisualizzaProdottoActivity"/>
         <activity android:name=".activities.AcquistaActivity"/>
+        <activity android:name=".activities.ChatActivity"/>
     </application>
 
 </manifest>

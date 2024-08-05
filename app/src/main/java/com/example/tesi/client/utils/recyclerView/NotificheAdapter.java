@@ -1,4 +1,4 @@
-package com.example.tesi.utils.recyclerView;
+package com.example.tesi.client.utils.recyclerView;
 
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -18,22 +18,22 @@ import com.example.tesi.entity.User;
 
 import java.util.List;
 
-public class RecyclerViewNotificheAdapter extends RecyclerView.Adapter<ViewNotificheItemHolder> {
+public class NotificheAdapter extends RecyclerView.Adapter<NotificheHolder> {
 	private final List<Notifica> notifiche;
 
-	public RecyclerViewNotificheAdapter(List<Notifica> notifiche) {
+	public NotificheAdapter(List<Notifica> notifiche) {
 		this.notifiche = notifiche;
 	}
 
 	@NonNull
 	@Override
-	public ViewNotificheItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+	public NotificheHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.notifica_item_layout, parent, false);
-		return new ViewNotificheItemHolder(v);
+		return new NotificheHolder(v);
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull ViewNotificheItemHolder holder, int position) {
+	public void onBindViewHolder(@NonNull NotificheHolder holder, int position) {
 		Notifica n=notifiche.get(holder.getAdapterPosition());
 
 		User sender=new UserControllerImpl().findById(n.getSender());

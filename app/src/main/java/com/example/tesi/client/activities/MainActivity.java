@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.tesi.client.R;
+import com.example.tesi.client.utils.File;
+import com.example.tesi.client.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		//File.deleteFile(this, "chats-"+ Session.getInstance(this).getCurrentUser().getId());
 
 		navbar=findViewById(R.id.navbar);
 

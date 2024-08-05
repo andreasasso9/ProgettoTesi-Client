@@ -17,8 +17,8 @@ import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
-import com.example.tesi.utils.Session;
-import com.example.tesi.utils.recyclerView.RecyclerViewMieiProdottiAdapter;
+import com.example.tesi.client.utils.Session;
+import com.example.tesi.client.utils.recyclerView.MieiProdottiAdapter;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class IMieiArticoliFragment extends Fragment {
 		RecyclerView recyclerView = v.findViewById(R.id.list_prodotti);
 		recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-		RecyclerViewMieiProdottiAdapter adapter=new RecyclerViewMieiProdottiAdapter(prodotti, currentUser);
+		MieiProdottiAdapter adapter=new MieiProdottiAdapter(prodotti, currentUser);
 		recyclerView.setAdapter(adapter);
 
 		return v;

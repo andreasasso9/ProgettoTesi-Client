@@ -13,13 +13,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
-import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
-import com.example.tesi.utils.Session;
-import com.example.tesi.utils.recyclerView.RecyclerViewProdottiPreferitiAdapter;
-
-import java.util.Set;
-import java.util.UUID;
+import com.example.tesi.client.utils.Session;
+import com.example.tesi.client.utils.recyclerView.ProdottiPreferitiAdapter;
 
 public class ArticoliPreferitiFragment extends Fragment {
 	@Nullable
@@ -36,7 +32,7 @@ public class ArticoliPreferitiFragment extends Fragment {
 
 		User currentuser=Session.getInstance(requireContext()).getCurrentUser();
 
-		RecyclerViewProdottiPreferitiAdapter adapter=new RecyclerViewProdottiPreferitiAdapter(currentuser);
+		ProdottiPreferitiAdapter adapter=new ProdottiPreferitiAdapter(currentuser);
 		recyclerView.setAdapter(adapter);
 
 		return v;

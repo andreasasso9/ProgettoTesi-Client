@@ -13,13 +13,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.tesi.client.R;
+import com.example.tesi.client.chat.Chat;
+import com.example.tesi.client.utils.File;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
-import com.example.tesi.utils.Session;
-import com.example.tesi.utils.recyclerView.RecyclerViewImageAdapter;
+import com.example.tesi.client.utils.Session;
+import com.example.tesi.client.utils.recyclerView.ImageAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class VisualizzaProdottoActivity extends AppCompatActivity {
 	@Override
@@ -37,7 +44,6 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		Intent i=getIntent();
 
 		int screenHeight= Session.getInstance(this).getScreenHeight();
-		//int screenWidth= Session.getInstance(this).getScreenWidth();
 
 		Prodotto prodotto;
 		User proprietario;
@@ -59,12 +65,14 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 
 
 
-		RecyclerViewImageAdapter imageAdapter=new RecyclerViewImageAdapter(foto);
+		ImageAdapter imageAdapter=new ImageAdapter(foto);
 		containerFoto.setAdapter(imageAdapter);
 
 		TabLayout tabLayout=findViewById(R.id.tabLayout);
 		new TabLayoutMediator(tabLayout, containerFoto, (tab, position)->{}).attach();
 
+		assert proprietario!=null;
+		assert prodotto!=null;
 
 		TextView t=findViewById(R.id.proprietario);
 		t.setText(proprietario.getUsername());
@@ -86,6 +94,24 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 			Intent intent=new Intent(this, AcquistaActivity.class);
 			intent.putExtra("prodotto", prodotto);
 			startActivity(intent);
+		});
+
+		UUID idCurrentUser=Session.getInstance(this).getCurrentUser().getId();
+		Button chiediInfo=findViewById(R.id.chiediInfo);
+		chiediInfo.setOnClickListener(v->{
+			List<?> chatsObjects= (List<?>) File.readObjectFromFile(v.getContext(), "chats-"+idCurrentUser);
+			List<Chat> chats=new ArrayList<>();
+			if (chatsObjects!=null)
+				for (Object o:chatsObjects) {
+					Chat c= (Chat) o;
+					chats.add(c);
+				}
+
+			Optional<Chat> optionalChat=chats.parallelStream().filter(chat->chat.getReceiver().getId().equals(proprietario.getId())).findAny();
+			if (!optionalChat.isPresent()) {
+				chats.add(new Chat(proprietario, new ArrayList<>()));
+				File.saveObjectToFile(v.getContext(), "chats-" + idCurrentUser, chats);
+			}
 		});
 
 	}

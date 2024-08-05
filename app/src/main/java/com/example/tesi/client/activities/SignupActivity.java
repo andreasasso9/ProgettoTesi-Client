@@ -19,11 +19,11 @@ import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.example.tesi.control.UserController;
 import com.example.tesi.control.UserControllerImpl;
-import com.example.tesi.utils.CheckNotEmptyStrings;
+import com.example.tesi.client.utils.CheckNotEmptyStrings;
 import com.example.tesi.client.R;
 import com.example.tesi.entity.User;
-import com.example.tesi.utils.EmailRegex;
-import com.example.tesi.utils.Session;
+import com.example.tesi.client.utils.EmailRegex;
+import com.example.tesi.client.utils.Session;
 
 public class SignupActivity extends AppCompatActivity {
 	private EditText signupEmail, signupUsername, signupIndirizzo, signupPassword, signupConfPassword;

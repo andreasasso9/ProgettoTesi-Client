@@ -1,4 +1,4 @@
-package com.example.tesi.utils;
+package com.example.tesi.client.utils;
 
 public class CheckNotEmptyStrings {
 	public static boolean check(String... strings) {

@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -39,7 +38,7 @@ import com.example.tesi.entity.entityoptions.Brand;
 import com.example.tesi.entity.entityoptions.Categoria;
 import com.example.tesi.entity.entityoptions.Condizioni;
 import com.example.tesi.entity.entityoptions.Option;
-import com.example.tesi.utils.Session;
+import com.example.tesi.client.utils.Session;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;

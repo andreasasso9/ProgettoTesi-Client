@@ -1,4 +1,4 @@
-package com.example.tesi.utils.recyclerView;
+package com.example.tesi.client.utils.recyclerView;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -25,35 +25,36 @@ import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdottoItemHolder> {
+public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 	protected List<Prodotto> prodotti;
 	protected final User currentUser;
 	protected final NotificheController notificheController;
 	protected final ProdottoController prodottoController;
 	protected final FotoProdottoController fotoController;
 	protected final UserController userController;
+	protected boolean miPiaceEnabled;
 
-	public RecyclerViewProdottoAdapter(List<Prodotto> prodotti, User currentUser) {
+	public ProdottoAdapter(List<Prodotto> prodotti, User currentUser, boolean miPiaceEnabled) {
 		this.prodotti=prodotti;
 		this.currentUser=currentUser;
 		notificheController=new NotificheControllerImpl();
 		prodottoController=new ProdottoControllerImpl();
 		fotoController=new FotoProdottoControllerImpl();
 		userController=new UserControllerImpl();
+		this.miPiaceEnabled=miPiaceEnabled;
 	}
 
 	@NonNull
 	@Override
-	public ViewProdottoItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+	public ProdottoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View v=LayoutInflater.from(parent.getContext()).inflate(R.layout.prodotto_item_layout, parent, false);
-		return new ViewProdottoItemHolder(v);
+		return new ProdottoHolder(v);
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull ViewProdottoItemHolder holder, int position) {
+	public void onBindViewHolder(@NonNull ProdottoHolder holder, int position) {
 		Prodotto p=prodotti.get(position);
 
 		FotoByteArray foto=fotoController.findFirst(p);
@@ -70,7 +71,8 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 			holder.switcMiPiace.setChecked(true);
 		}
 
-		holder.switcMiPiace.setOnCheckedChangeListener(createMiPiaceClickListener(holder, p));
+		if (miPiaceEnabled)
+			holder.switcMiPiace.setOnCheckedChangeListener(createMiPiaceClickListener(holder, p));
 		holder.itemView.setOnClickListener(createVisualizzaProdottoListener(p));
 	}
 
@@ -81,7 +83,7 @@ public class RecyclerViewProdottoAdapter extends RecyclerView.Adapter<ViewProdot
 		return 0;
 	}
 
-	private CompoundButton.OnCheckedChangeListener createMiPiaceClickListener(ViewProdottoItemHolder holder, Prodotto p) {
+	private CompoundButton.OnCheckedChangeListener createMiPiaceClickListener(ProdottoHolder holder, Prodotto p) {
 		return (button, isChecked)->{
 			if (isChecked) {
 				p.setMiPiace(p.getMiPiace()+1);

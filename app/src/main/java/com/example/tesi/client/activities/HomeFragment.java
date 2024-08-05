@@ -16,8 +16,8 @@ import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
-import com.example.tesi.utils.recyclerView.RecyclerViewProdottoAdapter;
-import com.example.tesi.utils.Session;
+import com.example.tesi.client.utils.recyclerView.ProdottoAdapter;
+import com.example.tesi.client.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
 
 
 		if (prodotti != null) {
-			RecyclerViewProdottoAdapter adapter = new RecyclerViewProdottoAdapter(prodotti, currentUser);
+			ProdottoAdapter adapter = new ProdottoAdapter(prodotti, currentUser, true);
 			list_prodotti.setAdapter(adapter);
 		}
 

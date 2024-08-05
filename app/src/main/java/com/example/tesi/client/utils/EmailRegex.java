@@ -1,4 +1,4 @@
-package com.example.tesi.utils;
+package com.example.tesi.client.utils;
 
 import java.util.regex.Pattern;
 

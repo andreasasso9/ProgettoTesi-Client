@@ -1,4 +1,4 @@
-package com.example.tesi.utils.recyclerView;
+package com.example.tesi.client.utils.recyclerView;
 
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tesi.client.R;
 import com.example.tesi.entity.FotoByteArray;
 
-public class RecyclerViewImageAdapter extends RecyclerView.Adapter<ImageHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageHolder> {
 	private FotoByteArray[] foto;
 
-	public RecyclerViewImageAdapter(FotoByteArray[] foto) {
+	public ImageAdapter(FotoByteArray[] foto) {
 		this.foto = foto;
 	}
 

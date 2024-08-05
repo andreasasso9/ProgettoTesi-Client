@@ -1,4 +1,4 @@
-package com.example.tesi.utils.recyclerView;
+package com.example.tesi.client.utils.recyclerView;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
 
-public class ViewNotificheItemHolder extends RecyclerView.ViewHolder {
+public class NotificheHolder extends RecyclerView.ViewHolder {
 	public TextView sender, descrizione, elimina;
 	public ImageView foto;
 	public LinearLayout container;
-	public ViewNotificheItemHolder(@NonNull View itemView) {
+	public NotificheHolder(@NonNull View itemView) {
 		super(itemView);
 		sender=itemView.findViewById(R.id.sender);
 		descrizione=itemView.findViewById(R.id.descrizione_notifica);

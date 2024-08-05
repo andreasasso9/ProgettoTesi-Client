@@ -1,14 +1,15 @@
-package com.example.tesi.utils;
+package com.example.tesi.client.utils;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.tesi.client.activities.MessaggiFragment;
 import com.example.tesi.client.activities.NotificheFragment;
-import com.example.tesi.client.activities.SearchFragment;
 
 public class InboxPagerAdapter extends FragmentStateAdapter {
 	private NotificheFragment notificheFragment;
+	private MessaggiFragment messaggiFragment;
 	public InboxPagerAdapter(@NonNull Fragment fragment) {
 		super(fragment);
 	}
@@ -21,7 +22,9 @@ public class InboxPagerAdapter extends FragmentStateAdapter {
 				notificheFragment = new NotificheFragment();
 			return notificheFragment;
 		} else {
-			return new SearchFragment();
+			if (messaggiFragment==null)
+				messaggiFragment=new MessaggiFragment();
+			return messaggiFragment;
 		}
 	}
 
