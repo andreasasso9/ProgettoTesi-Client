@@ -99,19 +99,19 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		UUID idCurrentUser=Session.getInstance(this).getCurrentUser().getId();
 		Button chiediInfo=findViewById(R.id.chiediInfo);
 		chiediInfo.setOnClickListener(v->{
-			List<?> chatsObjects= (List<?>) File.readObjectFromFile(v.getContext(), "chats-"+idCurrentUser);
-			List<Chat> chats=new ArrayList<>();
-			if (chatsObjects!=null)
-				for (Object o:chatsObjects) {
-					Chat c= (Chat) o;
-					chats.add(c);
-				}
-
-			Optional<Chat> optionalChat=chats.parallelStream().filter(chat->chat.getReceiver().getId().equals(proprietario.getId())).findAny();
-			if (!optionalChat.isPresent()) {
-				chats.add(new Chat(proprietario, new ArrayList<>()));
-				File.saveObjectToFile(v.getContext(), "chats-" + idCurrentUser, chats);
+			Chat chat= (Chat) File.readObjectFromFile(v.getContext(), "chat-"+idCurrentUser+proprietario);
+			if (chat==null) {
+				chat=new Chat(proprietario, new ArrayList<>());
+				File.saveObjectToFile(v.getContext(), "chat-"+idCurrentUser+proprietario, chat);
+				Session.getInstance(v.getContext()).getFileChatsNames().add("chat-"+idCurrentUser+proprietario);
+				File.deleteFile(v.getContext(), "fileChatsNames");
+				File.saveObjectToFile(v.getContext(), "fileChatsNames", Session.getInstance(v.getContext()).getFileChatsNames());
 			}
+
+			Intent chatIntent=new Intent(v.getContext(), ChatActivity.class);
+			chatIntent.putExtra("chat", chat);
+			v.getContext().startActivity(chatIntent);
+
 		});
 
 	}

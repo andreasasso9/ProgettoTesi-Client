@@ -21,4 +21,8 @@ public class Chat implements Serializable {
 	public List<Text> getTexts() {
 		return texts;
 	}
+
+	public void setTexts(List<Text> texts) {
+		this.texts = texts;
+	}
 }

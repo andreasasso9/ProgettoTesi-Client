@@ -15,10 +15,10 @@ import com.example.tesi.client.chat.Chat;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
-	private final List<Chat> list;
+	private final List<Chat> chats;
 
-	public ChatAdapter(List<Chat> list) {
-		this.list = list;
+	public ChatAdapter(List<Chat> chats) {
+		this.chats = chats;
 	}
 
 	@NonNull
@@ -30,8 +30,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 
 	@Override
 	public void onBindViewHolder(@NonNull ChatHolder holder, int position) {
-		if (!list.isEmpty()) {
-			Chat chat = list.get(holder.getAdapterPosition());
+		if (!chats.isEmpty()) {
+			Chat chat = chats.get(holder.getAdapterPosition());
 			holder.user.setText(chat.getReceiver().getUsername());
 
 			int indexLastText = chat.getTexts().size() - 1;
@@ -42,6 +42,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 
 			holder.itemView.setOnClickListener(v->{
 				Intent i=new Intent(v.getContext(), ChatActivity.class);
+				i.putExtra("chat", chat);
 				v.getContext().startActivity(i);
 			});
 		}
@@ -49,6 +50,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 
 	@Override
 	public int getItemCount() {
-		return list.size();
+		return chats.size();
 	}
 }

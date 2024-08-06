@@ -23,6 +23,7 @@ public class Session {
 	private static Session instance;
 	public static final String SESSION_PREFERENCES="session_preferences";
 	private final Gson gson;
+	private List<String> fileChatsNames;
 
 	private Session(Context context) {
 		preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
@@ -34,6 +35,14 @@ public class Session {
 		historyEditor.apply();
 
 		gson=new Gson();
+
+		fileChatsNames=new ArrayList<>();
+		List<?> fileChatNamesObjects= (List<?>) File.readObjectFromFile(context, "fileChatsNames");
+		if (fileChatNamesObjects!=null)
+			for (Object o:fileChatNamesObjects) {
+			String s= (String) o;
+			fileChatsNames.add(s);
+		}
 	}
 
 	public static Session getInstance(Context context) {
@@ -89,5 +98,13 @@ public class Session {
 		String jsonHistory=gson.toJson(searchHistory);
 
 		historyEditor.putString("history "+currentUser.getId(), jsonHistory).apply();
+	}
+
+	public List<String> getFileChatsNames() {
+		return fileChatsNames;
+	}
+
+	public void setFileChatsNames(List<String> fileChatsNames) {
+		this.fileChatsNames = fileChatsNames;
 	}
 }
