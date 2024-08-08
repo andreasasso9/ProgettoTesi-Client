@@ -2,12 +2,13 @@ package com.example.tesi.client.activities;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,9 +22,11 @@ import com.example.tesi.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class MessaggiFragment extends Fragment {
 	private RecyclerView recyclerView;
+	private User currentUser;
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,11 +37,14 @@ public class MessaggiFragment extends Fragment {
 		recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
 		List<Chat> chats=new ArrayList<>();
-		List<String> fileChatsNames=Session.getInstance(requireContext()).getFileChatsNames();
+		Set<String> fileChatsNames=Session.getInstance(requireContext()).getFileChatsNames();
 
+		currentUser=Session.getInstance(requireContext()).getCurrentUser();
 		for (String s:fileChatsNames) {
 			Chat chat= (Chat) File.readObjectFromFile(requireContext(), s);
-			chats.add(chat);
+			assert chat != null;
+			if (chat.getId().contains(currentUser.getId().toString()) && !chat.getId().endsWith(currentUser.getId().toString()))
+				chats.add(chat);
 		}
 
 		ChatAdapter chatAdapter=new ChatAdapter(chats);
@@ -51,11 +57,13 @@ public class MessaggiFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		List<Chat> chats=new ArrayList<>();
-		List<String> fileChatsNames=Session.getInstance(requireContext()).getFileChatsNames();
+		Set<String> fileChatsNames=Session.getInstance(requireContext()).getFileChatsNames();
 
 		for (String s:fileChatsNames) {
 			Chat chat= (Chat) File.readObjectFromFile(requireContext(), s);
-			chats.add(chat);
+			assert chat != null;
+			if (chat.getId().contains(currentUser.getId().toString()) && !chat.getId().endsWith(currentUser.getId().toString()))
+				chats.add(chat);
 		}
 
 		ChatAdapter chatAdapter=new ChatAdapter(chats);

@@ -6,7 +6,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,9 +18,6 @@ import com.example.tesi.client.utils.File;
 import com.example.tesi.client.utils.Session;
 import com.example.tesi.client.utils.recyclerView.TextAdapter;
 import com.example.tesi.entity.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 	@Override
@@ -41,12 +37,10 @@ public class ChatActivity extends AppCompatActivity {
 
 		ImageButton indietro=findViewById(R.id.indietro);
 		indietro.setOnClickListener(v->{
-			File.deleteFile(v.getContext(), "chat-"+currentUser.getId()+chat.getReceiver());
-			File.saveObjectToFile(v.getContext(), "chat-"+currentUser.getId()+chat.getReceiver(), chat);
+			File.deleteFile(v.getContext(), "chat-"+currentUser.getId()+"-"+chat.getReceiver());
+			File.saveObjectToFile(v.getContext(), "chat-"+currentUser.getId()+"-"+chat.getReceiver(), chat);
 			getOnBackPressedDispatcher().onBackPressed();
 		});
-
-
 
 		RecyclerView recyclerView=findViewById(R.id.listTexts);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

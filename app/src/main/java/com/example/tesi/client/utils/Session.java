@@ -11,38 +11,35 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 public class Session {
 	private final SharedPreferences.Editor editor;
 	private final SharedPreferences preferences;
-	private final SharedPreferences.Editor historyEditor;
-	private final SharedPreferences historyPreferences;
 	private User currentUser;
 	private static Session instance;
 	public static final String SESSION_PREFERENCES="session_preferences";
 	private final Gson gson;
-	private List<String> fileChatsNames;
+	private Set<String> fileChatsNames;
 
 	private Session(Context context) {
 		preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
 		editor= preferences.edit();
-		editor.apply();
-
-		historyPreferences=context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
-		historyEditor=historyPreferences.edit();
-		historyEditor.apply();
+		editor.commit();
 
 		gson=new Gson();
 
-		fileChatsNames=new ArrayList<>();
-		List<?> fileChatNamesObjects= (List<?>) File.readObjectFromFile(context, "fileChatsNames");
-		if (fileChatNamesObjects!=null)
-			for (Object o:fileChatNamesObjects) {
-			String s= (String) o;
-			fileChatsNames.add(s);
-		}
+//		List<?> fileChatNamesObjects= (List<?>) File.readObjectFromFile(context, "fileChatsNames");
+//		if (fileChatNamesObjects!=null)
+//			for (Object o:fileChatNamesObjects) {
+//			String s= (String) o;
+//			fileChatsNames.add(s);
+//		}
+		fileChatsNames=preferences.getStringSet("fileChatsNames", new HashSet<>());
 	}
 
 	public static Session getInstance(Context context) {
@@ -58,8 +55,7 @@ public class Session {
 			username=null;
 		else
 			username=user.getUsername();
-		editor.putString("username", username).putString("password", password);
-		editor.apply();
+		editor.putString("username", username).putString("password", password).commit();
 	}
 
 	public User getCurrentUser() {
@@ -71,8 +67,7 @@ public class Session {
 	}
 
 	public void setScreenWidth(int screenWidth) {
-		editor.putInt("screenWidth", screenWidth);
-		editor.apply();
+		editor.putInt("screenWidth", screenWidth).commit();
 	}
 
 	public int getScreenHeight() {
@@ -80,12 +75,11 @@ public class Session {
 	}
 
 	public void setScreenHeight(int screenHeight) {
-		editor.putInt("screenHeight", screenHeight);
-		editor.apply();
+		editor.putInt("screenHeight", screenHeight).commit();
 	}
 
 	public List<String> getSearchHistory() {
-		String jsonHistory = historyPreferences.getString("history " + currentUser.getId(), null);
+		String jsonHistory =preferences.getString("history " + currentUser.getId(), null);
 		if (jsonHistory != null) {
 			Type type = new TypeToken<List<String>>() {
 			}.getType();
@@ -97,14 +91,16 @@ public class Session {
 	public void setSearchHistory(List<String> searchHistory) {
 		String jsonHistory=gson.toJson(searchHistory);
 
-		historyEditor.putString("history "+currentUser.getId(), jsonHistory).apply();
+		editor.putString("history "+currentUser.getId(), jsonHistory).commit();
 	}
 
-	public List<String> getFileChatsNames() {
+	public Set<String> getFileChatsNames() {
 		return fileChatsNames;
 	}
 
-	public void setFileChatsNames(List<String> fileChatsNames) {
+	public void setFileChatsNames(Set<String> fileChatsNames) {
 		this.fileChatsNames = fileChatsNames;
+
+		editor.putStringSet("fileChatsNames", this.fileChatsNames).commit();
 	}
 }

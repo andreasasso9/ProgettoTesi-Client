@@ -1,6 +1,7 @@
 package com.example.tesi.client.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -99,13 +100,13 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		UUID idCurrentUser=Session.getInstance(this).getCurrentUser().getId();
 		Button chiediInfo=findViewById(R.id.chiediInfo);
 		chiediInfo.setOnClickListener(v->{
-			Chat chat= (Chat) File.readObjectFromFile(v.getContext(), "chat-"+idCurrentUser+proprietario);
+			Chat chat= (Chat) File.readObjectFromFile(v.getContext(), "chat-"+idCurrentUser+"-"+proprietario);
 			if (chat==null) {
-				chat=new Chat(proprietario, new ArrayList<>());
-				File.saveObjectToFile(v.getContext(), "chat-"+idCurrentUser+proprietario, chat);
-				Session.getInstance(v.getContext()).getFileChatsNames().add("chat-"+idCurrentUser+proprietario);
-				File.deleteFile(v.getContext(), "fileChatsNames");
-				File.saveObjectToFile(v.getContext(), "fileChatsNames", Session.getInstance(v.getContext()).getFileChatsNames());
+				chat=new Chat(proprietario, new ArrayList<>(), "chat-"+idCurrentUser+"-"+proprietario);
+				File.saveObjectToFile(v.getContext(), chat.getId(), chat);
+				Session.getInstance(v.getContext()).getFileChatsNames().add("chat-"+idCurrentUser+"-"+proprietario);
+				SharedPreferences.Editor editor= v.getContext().getSharedPreferences(Session.SESSION_PREFERENCES, MODE_PRIVATE).edit();
+				editor.putStringSet("fileChatsNames", Session.getInstance(v.getContext()).getFileChatsNames()).apply();
 			}
 
 			Intent chatIntent=new Intent(v.getContext(), ChatActivity.class);

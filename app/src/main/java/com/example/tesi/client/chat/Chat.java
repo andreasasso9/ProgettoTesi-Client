@@ -6,12 +6,14 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Chat implements Serializable {
-	private User receiver;
+	private String id;
+	private final User receiver;
 	private List<Text> texts;
 
-	public Chat(User receiver, List<Text> texts) {
+	public Chat(User receiver, List<Text> texts, String id) {
 		this.receiver = receiver;
 		this.texts = texts;
+		this.id = id;
 	}
 
 	public User getReceiver() {
@@ -24,5 +26,9 @@ public class Chat implements Serializable {
 
 	public void setTexts(List<Text> texts) {
 		this.texts = texts;
+	}
+
+	public String getId() {
+		return id;
 	}
 }

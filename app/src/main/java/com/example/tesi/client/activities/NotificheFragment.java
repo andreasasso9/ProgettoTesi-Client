@@ -79,10 +79,6 @@ public class NotificheFragment extends Fragment {
 					assert adapter != null;
 					adapter.getNotifiche().remove(position);
 					adapter.notifyItemRemoved(position);
-				} else if (direction==ItemTouchHelper.RIGHT) {
-					ViewGroup.LayoutParams params=new LinearLayout.LayoutParams(holder.elimina.getLayoutParams());
-					params.width=0;
-					holder.elimina.setLayoutParams(params);
 				}
 			}
 
