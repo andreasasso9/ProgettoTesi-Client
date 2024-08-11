@@ -97,14 +97,14 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 			startActivity(intent);
 		});
 
-		UUID idCurrentUser=Session.getInstance(this).getCurrentUser().getId();
+		String usernameCurrentUser=Session.getInstance(this).getCurrentUser().getUsername();
 		Button chiediInfo=findViewById(R.id.chiediInfo);
 		chiediInfo.setOnClickListener(v->{
-			Chat chat= (Chat) File.readObjectFromFile(v.getContext(), "chat-"+idCurrentUser+"-"+proprietario);
+			Chat chat= (Chat) File.readObjectFromFile(v.getContext(), "chat-"+usernameCurrentUser+"-"+proprietario.getUsername());
 			if (chat==null) {
-				chat=new Chat(proprietario, new ArrayList<>(), "chat-"+idCurrentUser+"-"+proprietario);
+				chat=new Chat(proprietario.getUsername(), new ArrayList<>(), "chat-"+usernameCurrentUser+"-"+proprietario.getUsername());
 				File.saveObjectToFile(v.getContext(), chat.getId(), chat);
-				Session.getInstance(v.getContext()).getFileChatsNames().add("chat-"+idCurrentUser+"-"+proprietario);
+				Session.getInstance(v.getContext()).getFileChatsNames().add("chat-"+usernameCurrentUser+"-"+proprietario.getUsername());
 				SharedPreferences.Editor editor= v.getContext().getSharedPreferences(Session.SESSION_PREFERENCES, MODE_PRIVATE).edit();
 				editor.putStringSet("fileChatsNames", Session.getInstance(v.getContext()).getFileChatsNames()).apply();
 			}

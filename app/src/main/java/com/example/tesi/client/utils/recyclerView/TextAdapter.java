@@ -39,7 +39,7 @@ public class TextAdapter extends RecyclerView.Adapter<TextHolder> {
 
 			RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) holder.text.getLayoutParams();
 
-			if (text.getIdSender().equals(currentUser.getId()))
+			if (text.getSender().equals(currentUser.getUsername()))
 				params.addRule(RelativeLayout.ALIGN_PARENT_END);
 			else
 				params.addRule(RelativeLayout.ALIGN_PARENT_START);
@@ -51,5 +51,9 @@ public class TextAdapter extends RecyclerView.Adapter<TextHolder> {
 	@Override
 	public int getItemCount() {
 		return texts.size();
+	}
+
+	public List<Text> getTexts() {
+		return texts;
 	}
 }

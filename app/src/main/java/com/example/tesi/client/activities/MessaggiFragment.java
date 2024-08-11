@@ -2,13 +2,11 @@ package com.example.tesi.client.activities;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,7 +41,7 @@ public class MessaggiFragment extends Fragment {
 		for (String s:fileChatsNames) {
 			Chat chat= (Chat) File.readObjectFromFile(requireContext(), s);
 			assert chat != null;
-			if (chat.getId().contains(currentUser.getId().toString()) && !chat.getId().endsWith(currentUser.getId().toString()))
+			if (chat.getId().contains(currentUser.getUsername()) && !chat.getId().endsWith(currentUser.getUsername()))
 				chats.add(chat);
 		}
 
@@ -62,7 +60,7 @@ public class MessaggiFragment extends Fragment {
 		for (String s:fileChatsNames) {
 			Chat chat= (Chat) File.readObjectFromFile(requireContext(), s);
 			assert chat != null;
-			if (chat.getId().contains(currentUser.getId().toString()) && !chat.getId().endsWith(currentUser.getId().toString()))
+			if (chat.getId().contains(currentUser.getUsername()) && !chat.getId().endsWith(currentUser.getUsername()))
 				chats.add(chat);
 		}
 

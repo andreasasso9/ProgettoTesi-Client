@@ -1,23 +1,28 @@
 package com.example.tesi.client.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.Nullable;
 
+import com.example.tesi.client.chat.Chat;
+import com.example.tesi.client.chat.Text;
 import com.example.tesi.entity.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Stack;
+
+import ua.naiksoftware.stomp.Stomp;
+import ua.naiksoftware.stomp.StompClient;
 
 public class Session {
+	private final Context context;
 	private final SharedPreferences.Editor editor;
 	private final SharedPreferences preferences;
 	private User currentUser;
@@ -25,20 +30,17 @@ public class Session {
 	public static final String SESSION_PREFERENCES="session_preferences";
 	private final Gson gson;
 	private Set<String> fileChatsNames;
+	private StompClient stompClient;
 
 	private Session(Context context) {
+		this.context=context;
+
 		preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
 		editor= preferences.edit();
 		editor.commit();
 
 		gson=new Gson();
 
-//		List<?> fileChatNamesObjects= (List<?>) File.readObjectFromFile(context, "fileChatsNames");
-//		if (fileChatNamesObjects!=null)
-//			for (Object o:fileChatNamesObjects) {
-//			String s= (String) o;
-//			fileChatsNames.add(s);
-//		}
 		fileChatsNames=preferences.getStringSet("fileChatsNames", new HashSet<>());
 	}
 
@@ -102,5 +104,38 @@ public class Session {
 		this.fileChatsNames = fileChatsNames;
 
 		editor.putStringSet("fileChatsNames", this.fileChatsNames).commit();
+	}
+
+	public StompClient getStompClient() {
+		return stompClient;
+	}
+
+	public void setStompClient(StompClient stompClient) {
+		this.stompClient = stompClient;
+	}
+
+	@SuppressLint("CheckResult")
+	public void createStompClient() {
+		stompClient= Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://10.0.2.2:8080/cloneVinted/websocket");
+		stompClient.connect();
+		stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
+
+			Text text=gson.fromJson(message.getPayload(), Text.class);
+			String nameChat="chat-"+text.getReceiver()+"-"+text.getSender();
+			Chat chat;
+			if (fileChatsNames.contains(nameChat)) {
+				chat = (Chat) File.readObjectFromFile(context, nameChat);
+				assert chat != null;
+				chat.getTexts().add(text);
+				File.deleteFile(context, nameChat);
+			} else {
+				fileChatsNames.add(nameChat);
+				List<Text> texts=new ArrayList<>();
+				texts.add(text);
+				chat=new Chat(text.getReceiver(), texts, nameChat);
+			}
+
+			File.saveObjectToFile(context, nameChat, chat);
+		});
 	}
 }

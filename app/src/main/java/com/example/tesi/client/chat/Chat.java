@@ -7,16 +7,16 @@ import java.util.List;
 
 public class Chat implements Serializable {
 	private String id;
-	private final User receiver;
+	private final String receiver;
 	private List<Text> texts;
 
-	public Chat(User receiver, List<Text> texts, String id) {
+	public Chat(String receiver, List<Text> texts, String id) {
 		this.receiver = receiver;
 		this.texts = texts;
 		this.id = id;
 	}
 
-	public User getReceiver() {
+	public String getReceiver() {
 		return receiver;
 	}
 

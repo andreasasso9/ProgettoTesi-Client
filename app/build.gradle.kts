@@ -30,6 +30,8 @@ android {
 
 dependencies {
 
+    implementation (libs.rxjava)
+    implementation (libs.stompProtocolAndroid)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

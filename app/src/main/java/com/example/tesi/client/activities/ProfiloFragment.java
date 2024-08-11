@@ -63,6 +63,8 @@ public class ProfiloFragment extends Fragment {
 			new Handler(Looper.getMainLooper()).postDelayed(()->{
 				Session session=Session.getInstance(getContext());
 				session.setCurrentUser(null, null);
+				session.getStompClient().disconnect();
+				session.setStompClient(null);
 
 				Intent i=new Intent(getContext(), LoginActivity.class);
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

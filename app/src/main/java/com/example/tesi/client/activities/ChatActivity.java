@@ -1,5 +1,6 @@
 package com.example.tesi.client.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
@@ -18,8 +19,18 @@ import com.example.tesi.client.utils.File;
 import com.example.tesi.client.utils.Session;
 import com.example.tesi.client.utils.recyclerView.TextAdapter;
 import com.example.tesi.entity.User;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import ua.naiksoftware.stomp.StompClient;
 
 public class ChatActivity extends AppCompatActivity {
+
+	private StompClient stompClient;
+	@SuppressLint("CheckResult")
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,16 +62,54 @@ public class ChatActivity extends AppCompatActivity {
 
 		EditText editText=findViewById(R.id.editText);
 
+		stompClient=Session.getInstance(this).getStompClient();
+		stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
+			Text text=new Gson().fromJson(message.getPayload(), Text.class);
+
+			chat.getTexts().add(text);
+			textAdapter.notifyItemInserted(textAdapter.getItemCount());
+		});
+
 		Button send=findViewById(R.id.send);
 		send.setOnClickListener(v->{
 			String textString=editText.getText()+"";
 			if (!textString.isEmpty()) {
-				Text text = new Text(textString, currentUser.getId());
+				Text text = new Text(textString, currentUser.getUsername(), chat.getReceiver());
 				chat.getTexts().add(text);
-				textAdapter.notifyItemInserted(chat.getTexts().size());
+				textAdapter.notifyItemInserted(textAdapter.getItemCount());
 
 				editText.setText("");
+
+				stompClient.send("/app/chat", new Gson().toJson(text)).subscribe();
 			}
 		});
+	}
+
+	@SuppressLint("CheckResult")
+	@Override
+	protected void onPause() {
+		Session session=Session.getInstance(this);
+		User currentUser=session.getCurrentUser();
+		Set<String> fileChatsNames=session.getFileChatsNames();
+
+		stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
+			Text text=new Gson().fromJson(message.getPayload(), Text.class);
+			String nameChat="chat-"+text.getSender()+"-"+text.getReceiver();
+			Chat chat;
+			if (fileChatsNames.contains(nameChat)) {
+				chat = (Chat) File.readObjectFromFile(this, nameChat);
+				assert chat != null;
+				chat.getTexts().add(text);
+				File.deleteFile(this, nameChat);
+			} else {
+				fileChatsNames.add(nameChat);
+				List<Text> texts=new ArrayList<>();
+				texts.add(text);
+				chat=new Chat(text.getReceiver(), texts, nameChat);
+			}
+
+			File.saveObjectToFile(this, nameChat, chat);
+		});
+		super.onPause();
 	}
 }

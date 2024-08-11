@@ -36,7 +36,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 	public void onBindViewHolder(@NonNull ChatHolder holder, int position) {
 		if (!chats.isEmpty()) {
 			Chat chat = chats.get(holder.getAdapterPosition());
-			holder.user.setText(chat.getReceiver().getUsername());
+			holder.user.setText(chat.getReceiver());
 			holder.id=chat.getId();
 
 			int indexLastText = chat.getTexts().size() - 1;
