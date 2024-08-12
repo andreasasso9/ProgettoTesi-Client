@@ -1,5 +1,6 @@
 package com.example.tesi.client.utils.recyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tesi.client.R;
 import com.example.tesi.client.activities.ChatActivity;
 import com.example.tesi.client.chat.Chat;
+import com.example.tesi.client.chat.Text;
 import com.example.tesi.client.utils.File;
 import com.example.tesi.client.utils.Session;
+import com.example.tesi.entity.User;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import ua.naiksoftware.stomp.StompClient;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 	private final List<Chat> chats;
@@ -32,6 +39,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 		return new ChatHolder(v);
 	}
 
+	@SuppressLint("CheckResult")
 	@Override
 	public void onBindViewHolder(@NonNull ChatHolder holder, int position) {
 		if (!chats.isEmpty()) {
@@ -64,6 +72,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 				}
 
 				return true;
+			});
+
+			Session session=Session.getInstance(holder.itemView.getContext());
+			StompClient stompClient=session.getStompClient();
+			User currentUser=session.getCurrentUser();
+			stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
+				Text text=new Gson().fromJson(message.getPayload(), Text.class);
+
+				chat.getTexts().add(text);
+				holder.lastText.setText(text.getText());
 			});
 		}
 	}

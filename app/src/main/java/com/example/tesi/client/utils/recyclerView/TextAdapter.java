@@ -39,12 +39,15 @@ public class TextAdapter extends RecyclerView.Adapter<TextHolder> {
 
 			RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) holder.text.getLayoutParams();
 
+			params.removeRule(RelativeLayout.ALIGN_PARENT_END);
+			params.removeRule(RelativeLayout.ALIGN_PARENT_START);
+
 			if (text.getSender().equals(currentUser.getUsername()))
 				params.addRule(RelativeLayout.ALIGN_PARENT_END);
 			else
 				params.addRule(RelativeLayout.ALIGN_PARENT_START);
 
-			holder.itemView.setLayoutParams(params);
+			holder.text.setLayoutParams(params);
 		}
 	}
 

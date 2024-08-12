@@ -1,10 +1,8 @@
 package com.example.tesi.client.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,7 +18,7 @@ public class File {
 	}
 
 	public static Object readObjectFromFile(Context context, String fileName) {
-		Object object = null;
+		Object object;
 		try (FileInputStream fis = context.openFileInput(fileName);
 		     ObjectInputStream ois = new ObjectInputStream(fis)) {
 			object = ois.readObject();

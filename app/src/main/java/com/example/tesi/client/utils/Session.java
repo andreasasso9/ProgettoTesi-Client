@@ -119,20 +119,19 @@ public class Session {
 		stompClient= Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://10.0.2.2:8080/cloneVinted/websocket");
 		stompClient.connect();
 		stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
-
 			Text text=gson.fromJson(message.getPayload(), Text.class);
 			String nameChat="chat-"+text.getReceiver()+"-"+text.getSender();
 			Chat chat;
 			if (fileChatsNames.contains(nameChat)) {
 				chat = (Chat) File.readObjectFromFile(context, nameChat);
-				assert chat != null;
-				chat.getTexts().add(text);
+				if (chat!=null)
+					chat.getTexts().add(text);
 				File.deleteFile(context, nameChat);
 			} else {
 				fileChatsNames.add(nameChat);
 				List<Text> texts=new ArrayList<>();
 				texts.add(text);
-				chat=new Chat(text.getReceiver(), texts, nameChat);
+				chat=new Chat(text.getSender(), texts, nameChat);
 			}
 
 			File.saveObjectToFile(context, nameChat, chat);
