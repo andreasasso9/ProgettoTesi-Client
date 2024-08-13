@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/background_dark">
+
+    <ImageView android:id="@+id/mainFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@null"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="100dp"
+        android:layout_centerHorizontal="true"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mainFoto"
+        android:layout_toStartOf="@id/sendFoto">
+        <LinearLayout android:id="@+id/containerFoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center" />
+    </HorizontalScrollView>
+
+    <ImageButton android:id="@+id/sendFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icons8_aereo_di_carta_30"
+        android:contentDescription="@null"
+        android:layout_below="@id/mainFoto"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>

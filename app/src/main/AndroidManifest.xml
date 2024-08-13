@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED"/>
@@ -32,8 +37,7 @@
         <activity android:name=".activities.AddProdottoActivity"/>
         <activity android:name=".activities.VisualizzaProdottoActivity"/>
         <activity android:name=".activities.AcquistaActivity"/>
-        <activity android:name=".activities.ChatActivity"
-            android:windowSoftInputMode="adjustPan|stateVisible"/>
+        <activity android:name=".activities.ChatActivity"/>
     </application>
 
 </manifest>

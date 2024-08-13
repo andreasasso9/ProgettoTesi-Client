@@ -78,7 +78,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 		formPrezzo=findViewById(R.id.formPrezzo);
 		Button cancelButton=findViewById(R.id.cancelButton);
 
-		createLauncher();
+		createAddFotoLauncher();
 
 		formTitolo.addTextChangedListener(createContatoreEditTextListener(contatoreTitolo));
 		formDescrizione.addTextChangedListener(createContatoreEditTextListener(contatoreDescrizione));
@@ -102,7 +102,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 
 	}
 
-	private void createLauncher() {
+	private void createAddFotoLauncher() {
 		ActivityResultContract<Intent, ClipData> contract=new ActivityResultContract<Intent, ClipData>() {
 			@NonNull
 			@Override
@@ -130,7 +130,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 
 						b=Bitmap.createScaledBitmap(b, b.getWidth()/2,b.getHeight()/2,false);
 
-						b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+						b.compress(Bitmap.CompressFormat.WEBP, 100, stream);
 
 						list.add(new FotoByteArray(stream.toByteArray()));
 					} catch (FileNotFoundException e) {
@@ -172,24 +172,6 @@ public class AddProdottoActivity extends AppCompatActivity {
 			}
 		};
 	}
-//	private void createContatoreDescrizioneListener() {
-//		formDescrizione.addTextChangedListener(new TextWatcher() {
-//			@Override
-//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//			}
-//
-//			@Override
-//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-//				contatoreDescrizione.setText("Caratteri: "+s.length());
-//			}
-//
-//			@Override
-//			public void afterTextChanged(Editable s) {
-//
-//			}
-//		});
-//	}
 	
 	private void createScelte(LinearLayout layout, RadioGroup optionsGroup, Option... opzioni) {
 		TextView t=createTextView(">", 30, 0, 0, 20, 0);

@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class Text implements Serializable {
 	private final String text;
-	private final String sender, receiver;
+	protected final String sender, receiver;
 
-	public Text(String text, String idSender, String idReceiver) {
+	public Text(String text, String sender, String receiver) {
 		this.text = text;
-		this.sender = idSender;
-		this.receiver = idReceiver;
+		this.sender = sender;
+		this.receiver = receiver;
 	}
 
 	public String getText() {
