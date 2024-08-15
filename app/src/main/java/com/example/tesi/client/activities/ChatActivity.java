@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
 import com.example.tesi.client.chat.Chat;
+import com.example.tesi.client.chat.Image;
 import com.example.tesi.client.chat.Text;
 import com.example.tesi.client.utils.File;
 import com.example.tesi.client.utils.Session;
@@ -48,6 +50,8 @@ import com.google.gson.Gson;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -61,12 +65,15 @@ public class ChatActivity extends AppCompatActivity {
 	private Chat chat;
 	private User currentUser;
 	private RelativeLayout fotoDaInviareLayout;
+	private Gson gson;
 
 	@SuppressLint("CheckResult")
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chat_layout);
+
+		gson=new Gson();
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
 			chat=getIntent().getSerializableExtra("chat", Chat.class);
@@ -102,12 +109,19 @@ public class ChatActivity extends AppCompatActivity {
 
 		stompClient=Session.getInstance(this).getStompClient();
 		stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
-			Text text=new Gson().fromJson(message.getPayload(), Text.class);
 
-			chat.getTexts().add(text);
+			Text text=gson.fromJson(message.getPayload(), Text.class);
+
+			if (text.getText()==null) {
+				Image image = gson.fromJson(message.getPayload(), Image.class);
+				chat.getTexts().add(image);
+			} else
+				chat.getTexts().add(text);
+
+
 
 			runOnUiThread(()->{
-				textAdapter.notifyItemInserted(textAdapter.getItemCount()+1);
+				textAdapter.notifyItemInserted(textAdapter.getItemCount());
 			});
 		});
 
@@ -122,7 +136,7 @@ public class ChatActivity extends AppCompatActivity {
 
 				editText.setText("");
 
-				stompClient.send("/app/chat", new Gson().toJson(text)).subscribe();
+				stompClient.send("/app/chat", gson.toJson(text)).subscribe();
 			}
 		});
 
@@ -138,8 +152,28 @@ public class ChatActivity extends AppCompatActivity {
 		sendFoto.setOnClickListener(v->{
 			for (int i=0; i<containerFoto.getChildCount(); i++) {
 				ImageView image= (ImageView) containerFoto.getChildAt(i);
+				Bitmap bitmap=((BitmapDrawable) image.getDrawable()).getBitmap();
+				ByteArrayOutputStream stream=new ByteArrayOutputStream();
+				bitmap.compress(Bitmap.CompressFormat.WEBP, 30, stream);
 
+				byte[] imageByte=stream.toByteArray();
+				String imageString= Base64.getEncoder().encodeToString(imageByte);
+
+				Image imageToSend=new Image(imageString, currentUser.getUsername(), chat.getReceiver());
+
+				chat.getTexts().add(imageToSend);
+
+				textAdapter.notifyItemInserted(textAdapter.getItemCount());
+				recyclerView.scrollToPosition(textAdapter.getItemCount()-1);
+
+				editText.setText("");
+
+				stompClient.send("/app/chat", gson.toJson(imageToSend)).subscribe();
+				runOnUiThread(()->{
+					Toast.makeText(this, "foto inviate", Toast.LENGTH_SHORT).show();
+				});
 			}
+			fotoDaInviareLayout.setVisibility(View.GONE);
 		});
 	}
 
@@ -152,14 +186,13 @@ public class ChatActivity extends AppCompatActivity {
 	}
 
 	private void createSendFotoLauncher(LinearLayout containerFoto) {
+		//todo aggiungere tasti per annullare e per eliminare le foto selezionate
 		ImageView mainFoto=findViewById(R.id.mainFoto);
 		containerFoto=findViewById(R.id.containerFoto);
 		ActivityResultContract<Intent, ClipData> contract=new ActivityResultContract<Intent, ClipData>() {
 			@NonNull
 			@Override
 			public Intent createIntent(@NonNull Context context, Intent intent) {
-				fotoDaInviareLayout.setVisibility(View.VISIBLE);
-				fotoDaInviareLayout.bringToFront();
 				intent.setAction(Intent.ACTION_GET_CONTENT);
 				intent.setType("image/*");
 				intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -207,6 +240,8 @@ public class ChatActivity extends AppCompatActivity {
 					});
 				}
 			}
+			fotoDaInviareLayout.setVisibility(View.VISIBLE);
+			fotoDaInviareLayout.bringToFront();
 		};
 
 		sendFotoLauncher=registerForActivityResult(contract, callback);

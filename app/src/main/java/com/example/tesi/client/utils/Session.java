@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import androidx.annotation.Nullable;
 
 import com.example.tesi.client.chat.Chat;
+import com.example.tesi.client.chat.Image;
 import com.example.tesi.client.chat.Text;
 import com.example.tesi.entity.User;
 import com.google.gson.Gson;
@@ -120,18 +121,37 @@ public class Session {
 		stompClient.connect();
 		stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
 			Text text=gson.fromJson(message.getPayload(), Text.class);
+			Image image=null;
+
 			String nameChat="chat-"+text.getReceiver()+"-"+text.getSender();
 			Chat chat;
+
+			if (text.getText()==null) {
+				image = gson.fromJson(message.getPayload(), Image.class);
+				text=null;
+			}
+
 			if (fileChatsNames.contains(nameChat)) {
 				chat = (Chat) File.readObjectFromFile(context, nameChat);
 				if (chat!=null)
-					chat.getTexts().add(text);
+					if (text!=null)
+						chat.getTexts().add(text);
+					else
+						chat.getTexts().add(image);
+
 				File.deleteFile(context, nameChat);
 			} else {
 				fileChatsNames.add(nameChat);
 				List<Text> texts=new ArrayList<>();
-				texts.add(text);
-				chat=new Chat(text.getSender(), texts, nameChat);
+				String sender;
+				if (text!=null) {
+					texts.add(text);
+					sender=text.getSender();
+				} else {
+					texts.add(image);
+					sender=image.getSender();
+				}
+				chat=new Chat(sender, texts, nameChat);
 			}
 
 			File.saveObjectToFile(context, nameChat, chat);

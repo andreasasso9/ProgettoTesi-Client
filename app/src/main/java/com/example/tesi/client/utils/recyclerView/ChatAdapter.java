@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tesi.client.R;
 import com.example.tesi.client.activities.ChatActivity;
 import com.example.tesi.client.chat.Chat;
+import com.example.tesi.client.chat.Image;
 import com.example.tesi.client.chat.Text;
 import com.example.tesi.client.utils.File;
 import com.example.tesi.client.utils.Session;
@@ -48,9 +49,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 			holder.id=chat.getId();
 
 			int indexLastText = chat.getTexts().size() - 1;
-			if (indexLastText>=0)
-				holder.lastText.setText(chat.getTexts().get(indexLastText).getText());
-			else
+			if (indexLastText>=0) {
+				String lastText=chat.getTexts().get(indexLastText).getText();
+				if (lastText==null)
+					holder.lastText.setText("📷");
+				else
+					holder.lastText.setText(lastText);
+			} else
 				holder.lastText.setText("");
 
 			holder.container.setOnClickListener(v->{
@@ -78,10 +83,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 			StompClient stompClient=session.getStompClient();
 			User currentUser=session.getCurrentUser();
 			stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
-				Text text=new Gson().fromJson(message.getPayload(), Text.class);
-
-				chat.getTexts().add(text);
-				holder.lastText.setText(text.getText());
+				Gson gson=new Gson();
+				Text text=gson.fromJson(message.getPayload(), Text.class);
+				Image image=null;
+				if (text.getText()==null) {
+					image = gson.fromJson(message.getPayload(), Image.class);
+					chat.getTexts().add(image);
+					holder.lastText.setText("📷");
+				} else {
+					chat.getTexts().add(text);
+					holder.lastText.setText(text.getText());
+				}
 			});
 		}
 	}
