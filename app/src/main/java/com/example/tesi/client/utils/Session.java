@@ -23,7 +23,6 @@ import ua.naiksoftware.stomp.Stomp;
 import ua.naiksoftware.stomp.StompClient;
 
 public class Session {
-	private final Context context;
 	private final SharedPreferences.Editor editor;
 	private final SharedPreferences preferences;
 	private User currentUser;
@@ -34,8 +33,6 @@ public class Session {
 	private StompClient stompClient;
 
 	private Session(Context context) {
-		this.context=context;
-
 		preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
 		editor= preferences.edit();
 		editor.commit();
@@ -101,12 +98,6 @@ public class Session {
 		return fileChatsNames;
 	}
 
-	public void setFileChatsNames(Set<String> fileChatsNames) {
-		this.fileChatsNames = fileChatsNames;
-
-		editor.putStringSet("fileChatsNames", this.fileChatsNames).commit();
-	}
-
 	public StompClient getStompClient() {
 		return stompClient;
 	}
@@ -116,7 +107,7 @@ public class Session {
 	}
 
 	@SuppressLint("CheckResult")
-	public void createStompClient() {
+	public void createStompClient(Context context) {
 		stompClient= Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://10.0.2.2:8080/cloneVinted/websocket");
 		stompClient.connect();
 		stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{

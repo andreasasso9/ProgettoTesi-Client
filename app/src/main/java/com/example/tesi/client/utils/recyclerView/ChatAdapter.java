@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +19,6 @@ import com.example.tesi.client.utils.Session;
 import com.example.tesi.entity.User;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ua.naiksoftware.stomp.StompClient;
@@ -85,7 +82,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 			stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
 				Gson gson=new Gson();
 				Text text=gson.fromJson(message.getPayload(), Text.class);
-				Image image=null;
+				Image image;
 				if (text.getText()==null) {
 					image = gson.fromJson(message.getPayload(), Image.class);
 					chat.getTexts().add(image);

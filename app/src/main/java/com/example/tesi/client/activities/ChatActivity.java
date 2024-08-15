@@ -1,22 +1,15 @@
 package com.example.tesi.client.activities;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,9 +23,6 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,8 +39,6 @@ import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
@@ -98,9 +86,7 @@ public class ChatActivity extends AppCompatActivity {
 
 		recyclerView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
 			if (bottom<oldBottom && textAdapter.getItemCount()>0) {
-				recyclerView.postDelayed(()->{
-					recyclerView.scrollToPosition(textAdapter.getItemCount()-1);
-				}, 100);
+				recyclerView.postDelayed(()-> recyclerView.scrollToPosition(textAdapter.getItemCount()-1), 100);
 			}
 		});
 
@@ -120,9 +106,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
-			runOnUiThread(()->{
-				textAdapter.notifyItemInserted(textAdapter.getItemCount());
-			});
+			runOnUiThread(()-> textAdapter.notifyItemInserted(textAdapter.getItemCount()));
 		});
 
 		ImageButton send=findViewById(R.id.send);
@@ -169,9 +153,7 @@ public class ChatActivity extends AppCompatActivity {
 				editText.setText("");
 
 				stompClient.send("/app/chat", gson.toJson(imageToSend)).subscribe();
-				runOnUiThread(()->{
-					Toast.makeText(this, "foto inviate", Toast.LENGTH_SHORT).show();
-				});
+				runOnUiThread(()-> Toast.makeText(this, "foto inviate", Toast.LENGTH_SHORT).show());
 			}
 			fotoDaInviareLayout.setVisibility(View.GONE);
 		});
@@ -188,7 +170,6 @@ public class ChatActivity extends AppCompatActivity {
 	private void createSendFotoLauncher(LinearLayout containerFoto) {
 		//todo aggiungere tasti per annullare e per eliminare le foto selezionate
 		ImageView mainFoto=findViewById(R.id.mainFoto);
-		containerFoto=findViewById(R.id.containerFoto);
 		ActivityResultContract<Intent, ClipData> contract=new ActivityResultContract<Intent, ClipData>() {
 			@NonNull
 			@Override
@@ -206,7 +187,6 @@ public class ChatActivity extends AppCompatActivity {
 			}
 		};
 
-		LinearLayout finalContainerFoto = containerFoto;
 		ActivityResultCallback<ClipData> callback= clipData -> {
 			if (clipData!=null) {
 				List<FotoByteArray> list=new LinkedList<>();
@@ -225,19 +205,17 @@ public class ChatActivity extends AppCompatActivity {
 					}
 				}
 				foto.addAll(list);
-				finalContainerFoto.removeAllViews();
+				containerFoto.removeAllViews();
 				for (FotoByteArray b:foto) {
 					ImageView image=new ImageView(this);
 					Bitmap bitmap=BitmapFactory.decodeByteArray(b.getValue(), 0, b.getValue().length);
 					bitmap.compress(Bitmap.CompressFormat.WEBP, 100, stream);
-					image.setImageBitmap(bitmap);
+					image.setImageBitmap(BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size()));
 					image.setLayoutParams(new LinearLayout.LayoutParams(
 							500,500
 					));
-					finalContainerFoto.addView(image);
-					image.setOnClickListener(v->{
-						mainFoto.setImageBitmap(bitmap);
-					});
+					containerFoto.addView(image);
+					image.setOnClickListener(v-> mainFoto.setImageBitmap(bitmap));
 				}
 			}
 			fotoDaInviareLayout.setVisibility(View.VISIBLE);

@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 			if (user != null) {
 				Intent i = new Intent(this, MainActivity.class);
 				Session.getInstance(this).setCurrentUser(user, password);
-				Session.getInstance(this).createStompClient();
+				Session.getInstance(this).createStompClient(this);
 				startActivity(i);
 			}
 		}
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 
 				Intent i=new Intent(this, MainActivity.class);
 				Session.getInstance(this).setCurrentUser(user, password);
-				Session.getInstance(this).createStompClient();
+				Session.getInstance(this).createStompClient(this);
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				startActivity(i);
 			}, 100);
