@@ -1,7 +1,9 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/blob_scene_haikei"
+    android:padding="10dp">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,7 +15,10 @@
             android:layout_height="wrap_content"
             android:hint="Cerca un articolo" />
 
-        <include layout="@layout/lista_di_prodotti_layout" />
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/list_prodotti"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -22,7 +27,8 @@
             android:textSize="30dp"
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
-            android:drawableBottom="@drawable/icons8_non_abbiamo_trovato_nulla_100" />
+            android:drawableBottom="@drawable/icons8_non_abbiamo_trovato_nulla_100"
+            android:textColor="@color/black"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

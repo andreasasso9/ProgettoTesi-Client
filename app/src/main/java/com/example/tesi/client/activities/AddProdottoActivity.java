@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -76,7 +77,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 		opzioniCondizioni=findViewById(R.id.opzioniCondizioni);
 		sceltaPrezzo=findViewById(R.id.sceltaPrezzo);
 		formPrezzo=findViewById(R.id.formPrezzo);
-		Button cancelButton=findViewById(R.id.cancelButton);
+		ImageButton cancelButton=findViewById(R.id.cancelButton);
 
 		createAddFotoLauncher();
 
@@ -174,13 +175,14 @@ public class AddProdottoActivity extends AppCompatActivity {
 	}
 	
 	private void createScelte(LinearLayout layout, RadioGroup optionsGroup, Option... opzioni) {
-		TextView t=createTextView(">", 30, 0, 0, 20, 0);
+		TextView t=createTextView();
 
 		layout.addView(t);
 
 		for (Option o:opzioni) {
 			RadioButton rb=new RadioButton(AddProdottoActivity.this);
 			rb.setText(o.getNome());
+			rb.setTextColor(getResources().getColor(R.color.black, null));
 			optionsGroup.addView(rb);
 		}
 		layout.setOnClickListener(v -> {
@@ -195,17 +197,18 @@ public class AddProdottoActivity extends AppCompatActivity {
 		});
 	}
 
-	private TextView createTextView(String text, int size, int leftPadding, int topPadding, int rightPadding, int bottomPadding) {
+	private TextView createTextView() {
 		TextView t=new TextView(AddProdottoActivity.this);
-		t.setText(text);
-		t.setTextSize(size);
-		t.setPadding(leftPadding, topPadding, rightPadding, bottomPadding);
+		t.setText(">");
+		t.setTextSize(30);
+		t.setPadding(0, 0, 20, 0);
+		t.setTextColor(getResources().getColor(R.color.black, null));
 
 		return t;
 	}
 
 	private void createSceltaPrezzo() {
-		TextView t=createTextView(">", 30, 0, 0, 20, 0);
+		TextView t=createTextView();
 		sceltaPrezzo.addView(t);
 
 		formPrezzo.setSelection(1);

@@ -40,8 +40,6 @@ public class SearchFragment extends Fragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v = inflater.inflate(R.layout.search_layout, container, false);
 
-		v.findViewById(R.id.indietro).setVisibility(View.GONE);
-
 		currentUser=Session.getInstance(requireContext()).getCurrentUser();
 
 		prodottoController=new ProdottoControllerImpl();

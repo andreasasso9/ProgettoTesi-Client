@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:text="text"
         android:textSize="@dimen/text_view_size"
+        android:textColor="@color/black"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="5dp"/>
 

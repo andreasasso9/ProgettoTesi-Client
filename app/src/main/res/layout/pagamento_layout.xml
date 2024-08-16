@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/blob_scene_haikei">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -11,7 +12,8 @@
         android:layout_margin="8dp"
         app:cardElevation="8dp"
         android:layout_marginTop="20dp"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +38,9 @@
                 android:autofillHints="creditCardNumber"
                 android:background="@drawable/shape_edittext"
                 android:layout_marginBottom="15dp"
-                android:maxLength="19"/>
+                android:maxLength="19"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"/>
 
             <EditText
                 android:id="@+id/titolare"
@@ -46,7 +50,9 @@
                 android:inputType="text"
                 android:autofillHints="name"
                 android:background="@drawable/shape_edittext"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,7 +68,9 @@
                     android:autofillHints="creditCardExpirationDate"
                     android:background="@drawable/shape_edittext"
                     android:maxLength="5"
-                    android:digits="0123456789"/>
+                    android:digits="0123456789"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"/>
 
                 <EditText
                     android:id="@+id/cvv"
@@ -74,7 +82,9 @@
                     android:layout_marginStart="30dp"
                     android:autofillHints="creditCardSecurityCode"
                     android:background="@drawable/shape_edittext"
-                    android:maxLength="3"/>
+                    android:maxLength="3"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"/>
             </LinearLayout>
 
             <Button
@@ -82,7 +92,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Paga"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/blue"/>
 
         </LinearLayout>
 

@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background">
 
     <include layout="@layout/tasto_indietro_layout" />
 
@@ -41,14 +42,16 @@
                     android:layout_height="wrap_content"
                     android:text="user"
                     android:textSize="@dimen/text_view_size"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:textColor="@color/black"/>
 
                 <Button android:id="@+id/chiediInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Chiedi info"
                     android:textSize="25dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/blue"/>
 
             </LinearLayout>
 
@@ -63,19 +66,23 @@
                     android:layout_height="wrap_content"
                     android:text="titolo"
                     android:textSize="30dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
 
                 <TextView android:id="@+id/condizioni"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="condizioni"
-                    android:textSize="@dimen/text_view_size"/>
+                    android:textSize="@dimen/text_view_size"
+                    android:textColor="@color/black"/>
 
-                <TextView android:id="@+id/prezzo"
+                <TextView
+                    android:id="@+id/prezzo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="prezzo"
-                    android:textSize="@dimen/text_view_size"/>
+                    android:textSize="@dimen/text_view_size"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -89,13 +96,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Descrizione dell'articolo"
-                    android:textSize="@dimen/text_view_size"/>
+                    android:textSize="@dimen/text_view_size"
+                    android:textColor="@color/black"/>
 
                 <TextView android:id="@+id/descrizione"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="descrizione"
-                    android:textSize="30dp" />
+                    android:textSize="30dp"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -109,14 +118,16 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:paddingBottom="50dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
         android:background="@android:color/background_light">
 
         <Button android:id="@+id/acquista"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Acquista"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:backgroundTint="@color/blue"/>
 
     </LinearLayout>
 

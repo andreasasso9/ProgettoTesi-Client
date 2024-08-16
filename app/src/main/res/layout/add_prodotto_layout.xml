@@ -3,24 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@color/background">
 
         <RelativeLayout android:id="@+id/cancelContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
+            <ImageButton
                 android:id="@+id/cancelButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/icons8_rimuovi" />
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:src="@drawable/icons8_rimuovi"
+                android:scaleType="fitCenter"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Vendi un articolo"
                 android:textSize="30dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textColor="@color/black"/>
 
         </RelativeLayout>
 
@@ -50,7 +54,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="+ Carica le foto"
-                android:textSize="25dp" />
+                android:textSize="25dp"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,14 +72,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Titolo"
-                        android:textSize="@dimen/text_view_size"/>
+                        android:textSize="@dimen/text_view_size"
+                        android:textColor="@color/black"/>
 
                     <TextView android:id="@+id/contatoreTitolo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Caratteri: 0"
                         android:textSize="15dp"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
 
 
@@ -81,11 +89,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="es. maglione bianco (max 30 caratteri)"
+                    android:textColorHint="@color/gray"
                     android:maxLength="30"
                     android:maxLines="1"
                     android:background="@drawable/shape_edittext"
                     android:padding="13dp"
-                    android:layout_marginBottom="15dp"/>
+                    android:layout_marginBottom="15dp"
+                    android:textColor="@color/black"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -96,14 +106,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Descrivi il tuo articolo"
-                        android:textSize="@dimen/text_view_size"/>
+                        android:textSize="@dimen/text_view_size"
+                        android:textColor="@color/black"/>
 
                     <TextView android:id="@+id/contatoreDescrizione"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Caratteri: 0"
                         android:textSize="15dp"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
 
                 <EditText
@@ -113,9 +125,11 @@
                     android:background="@drawable/shape_edittext"
                     android:gravity="start"
                     android:hint="es. indossato poche volte, condizione ottime,... (max 150 caratteri)"
+                    android:textColorHint="@color/gray"
                     android:maxLength="150"
                     android:padding="17dp"
-                    android:layout_marginBottom="15dp"/>
+                    android:layout_marginBottom="15dp"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -130,7 +144,8 @@
                     android:text="Categoria"
                     android:textSize="30dp"
                     android:textStyle="bold"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -150,7 +165,8 @@
                     android:text="Brand"
                     android:textSize="30dp"
                     android:textStyle="bold"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -170,7 +186,8 @@
                     android:text="Condizioni"
                     android:textSize="30dp"
                     android:textStyle="bold"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -191,7 +208,8 @@
                     android:text="Prezzo"
                     android:textSize="30dp"
                     android:textStyle="bold"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -210,7 +228,9 @@
                 android:layout_height="wrap_content"
                 android:text="Carica"
                 android:textSize="30dp"
-                android:layout_margin="40dp"/>
+                android:layout_margin="40dp"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
     </ScrollView>

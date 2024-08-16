@@ -2,8 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/background_dark">
+    android:background="@color/black">
+
+    <ImageButton android:id="@+id/cancel"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/icons8_cancel_50"
+        android:contentDescription="@null"
+        android:background="@android:color/transparent"/>
 
     <ImageView android:id="@+id/mainFoto"
         android:layout_width="wrap_content"
@@ -26,10 +32,11 @@
     </HorizontalScrollView>
 
     <ImageButton android:id="@+id/sendFoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:src="@drawable/icons8_aereo_di_carta_30"
         android:contentDescription="@null"
         android:layout_below="@id/mainFoto"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        android:background="@color/white"/>
 </RelativeLayout>

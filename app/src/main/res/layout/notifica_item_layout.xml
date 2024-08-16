@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/mainContainer"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/background">
 
     <LinearLayout android:id="@+id/containerItem"
         android:layout_width="wrap_content"
@@ -19,14 +20,16 @@
             android:layout_height="wrap_content"
             android:textSize="30dp"
             android:text="user"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
         <TextView android:id="@+id/descrizione_notifica"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="descrizione"
             android:textSize="@dimen/text_view_size"
-            android:maxLines="2"/>
+            android:maxLines="2"
+            android:textColor="@color/black"/>
 
         <ImageView android:id="@+id/foto_notifica"
             android:layout_width="50dp"

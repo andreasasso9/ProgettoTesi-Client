@@ -2,14 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/blob_scene_haikei">
 
     <TextView android:id="@+id/articoli"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:text="I miei articoli"
         android:textSize="@dimen/text_view_size"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:textColor="@color/black"/>
 
     <TextView android:id="@+id/preferiti"
         android:layout_width="match_parent"
@@ -17,7 +19,8 @@
         android:text="Preferiti"
         android:textSize="@dimen/text_view_size"
         android:padding="10dp"
-        android:layout_below="@id/articoli"/>
+        android:layout_below="@id/articoli"
+        android:textColor="@color/black"/>
 
     <TextView android:id="@+id/iMieiAcquisti"
         android:layout_width="match_parent"
@@ -25,7 +28,8 @@
         android:text="I miei acquisti"
         android:textSize="@dimen/text_view_size"
         android:layout_below="@id/preferiti"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:textColor="@color/black"/>
 
     <TextView android:id="@+id/logout"
         android:layout_width="match_parent"
@@ -33,7 +37,8 @@
         android:text="Logout"
         android:textSize="@dimen/text_view_size"
         android:padding="10dp"
-        android:layout_below="@id/iMieiAcquisti"/>
+        android:layout_below="@id/iMieiAcquisti"
+        android:textColor="@color/black"/>
 
 
 

@@ -4,6 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/lista_di_prodotti_layout"/>
+    <include layout="@layout/lista_di_prodotti_layout" />
 
 </LinearLayout>

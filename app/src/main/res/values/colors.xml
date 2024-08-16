@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="new_stroke_color">#FF1100</color>
+    <color name="white">#EAEBED</color>
+    <color name="platinum">#DDE0E3</color>
+
+    <color name="black">#1E1E24</color>
+    <color name="orange">#EA9010</color>
+    <color name="gray">#3D4B52</color>
+    <color name="blue">#350B84</color>
+
+    <color name="background">#EAEBED</color>
+
+
 </resources>

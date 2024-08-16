@@ -9,15 +9,17 @@
         android:layout_height="wrap_content"
         android:text="history"
         android:textSize="@dimen/text_view_size"
+        android:textColor="@color/black"
         android:layout_weight="5"
         android:layout_gravity="center"/>
 
     <ImageButton android:id="@+id/elimina"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_weight="1"
         android:src="@drawable/icons8_rimuovi"
         android:background="@android:color/transparent"
-        android:contentDescription="@null" />
+        android:contentDescription="@null"
+        android:scaleType="fitCenter"/>
 
 </LinearLayout>

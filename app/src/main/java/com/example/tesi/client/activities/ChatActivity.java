@@ -157,6 +157,8 @@ public class ChatActivity extends AppCompatActivity {
 			}
 			fotoDaInviareLayout.setVisibility(View.GONE);
 		});
+
+		findViewById(R.id.cancel).setOnClickListener(v->fotoDaInviareLayout.setVisibility(View.GONE));
 	}
 
 	@Override
@@ -206,6 +208,7 @@ public class ChatActivity extends AppCompatActivity {
 				}
 				foto.addAll(list);
 				containerFoto.removeAllViews();
+				boolean first=true;
 				for (FotoByteArray b:foto) {
 					ImageView image=new ImageView(this);
 					Bitmap bitmap=BitmapFactory.decodeByteArray(b.getValue(), 0, b.getValue().length);
@@ -216,8 +219,13 @@ public class ChatActivity extends AppCompatActivity {
 					));
 					containerFoto.addView(image);
 					image.setOnClickListener(v-> mainFoto.setImageBitmap(bitmap));
+					if (first) {
+						mainFoto.setImageBitmap(BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size()));
+						first = false;
+					}
 				}
 			}
+			foto.clear();
 			fotoDaInviareLayout.setVisibility(View.VISIBLE);
 			fotoDaInviareLayout.bringToFront();
 		};
