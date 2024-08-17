@@ -271,7 +271,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 			String s=formPrezzo.getText().toString().replace("€", "");
 			double prezzo= Double.parseDouble(s);
 
-			Prodotto prodotto=new Prodotto(Session.getInstance(this).getCurrentUser().getId(), titolo, descrizione, Categoria.valueOf(categoria), Brand.valueOf(brand), Condizioni.valueOf(condizioni), prezzo);
+			Prodotto prodotto=new Prodotto(Session.getInstance(this).getCurrentUser().getUsername(), titolo, descrizione, Categoria.valueOf(categoria), Brand.valueOf(brand), Condizioni.valueOf(condizioni), prezzo);
 
 			new Handler(Looper.getMainLooper()).postDelayed(()->{
 				Prodotto response=prodottoController.add(prodotto);

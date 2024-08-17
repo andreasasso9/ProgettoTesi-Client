@@ -13,7 +13,7 @@ import com.example.tesi.client.R;
 
 public class ProdottoHolder extends RecyclerView.ViewHolder {
 	public ImageView fotoProdottoItem;
-	public TextView miPiaceProdottoItem, titoloProdottoItem, prezzoProdottoItem;
+	public TextView miPiaceProdottoItem, titoloProdottoItem, prezzoProdottoItem, userProdottoItem;
 	public ImageView iconaMiPiace;
 	public SwitchCompat switcMiPiace;
 	public LinearLayout acquistato;
@@ -26,5 +26,6 @@ public class ProdottoHolder extends RecyclerView.ViewHolder {
 		switcMiPiace=itemView.findViewById(R.id.switchMiPiace);
 		iconaMiPiace=itemView.findViewById(R.id.iconaMiPiace);
 		acquistato=itemView.findViewById(R.id.acquistato);
+		userProdottoItem=itemView.findViewById(R.id.user);
 	}
 }

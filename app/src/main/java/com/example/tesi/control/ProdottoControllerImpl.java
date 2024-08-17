@@ -72,7 +72,7 @@ public class ProdottoControllerImpl implements ProdottoController {
 	}
 
 	@Override
-	public List<Prodotto> getAllNotOwnedBy(User user) {
+	public List<Prodotto> getAllNotOwnedBy(String user) {
 		Call<List<Prodotto>> call=prodottoServiceRetrofit.getAllNotOwnedBy(user);
 		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
 			try {
@@ -120,8 +120,8 @@ public class ProdottoControllerImpl implements ProdottoController {
 	}
 
 	@Override
-	public List<Prodotto> findByIdProprietario(UUID idProprietario) {
-		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByIdProprietario(idProprietario);
+	public List<Prodotto> findByProprietario(String proprietario) {
+		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByProprietario(proprietario);
 		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<List<Prodotto>> response=call.execute();
@@ -142,8 +142,8 @@ public class ProdottoControllerImpl implements ProdottoController {
 	}
 
 	@Override
-	public List<Prodotto> findByRicerca(UUID userId, String text) {
-		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByRicerca(userId, text);
+	public List<Prodotto> findByRicerca(String user, String text) {
+		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByRicerca(user, text);
 		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<List<Prodotto>> response=call.execute();
@@ -163,8 +163,8 @@ public class ProdottoControllerImpl implements ProdottoController {
 	}
 
 	@Override
-	public List<Prodotto> findByCompratore(User compratore) {
-		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByCompratore(compratore.getId());
+	public List<Prodotto> findByCompratore(String compratore) {
+		Call<List<Prodotto>> call=prodottoServiceRetrofit.findByCompratore(compratore);
 		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<List<Prodotto>> response=call.execute();

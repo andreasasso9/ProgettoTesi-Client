@@ -48,14 +48,16 @@ public class Session {
 		return instance;
 	}
 
-	public void setCurrentUser(@Nullable User user, String password) {
+	public void setCurrentUser(@Nullable User user, String password, Context context) {
 		currentUser=user;
-		String username;
-		if (user==null)
-			username=null;
-		else
-			username=user.getUsername();
-		editor.putString("username", username).putString("password", password).commit();
+		File.saveObjectToFile(context, "loggedUser", user);
+
+//		String username;
+//		if (user==null)
+//			username=null;
+//		else
+//			username=user.getUsername();
+//		editor.putString("username", username).putString("password", password).commit();
 	}
 
 	public User getCurrentUser() {

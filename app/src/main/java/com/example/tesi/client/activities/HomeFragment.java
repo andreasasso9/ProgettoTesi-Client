@@ -38,14 +38,17 @@ public class HomeFragment extends Fragment {
 
 		User currentUser=Session.getInstance(requireContext()).getCurrentUser();
 
-		ProdottoController prodottoController=new ProdottoControllerImpl();
-		List<Prodotto> prodotti=prodottoController.getAllNotOwnedBy(currentUser);
+		new Thread(()->{
+			ProdottoController prodottoController=new ProdottoControllerImpl();
+			List<Prodotto> prodotti=prodottoController.getAllNotOwnedBy(currentUser.getUsername());
 
-
-		if (prodotti != null) {
-			ProdottoAdapter adapter = new ProdottoAdapter(prodotti, currentUser, true);
-			list_prodotti.setAdapter(adapter);
-		}
+			if (prodotti != null) {
+				getActivity().runOnUiThread(()->{
+					ProdottoAdapter adapter = new ProdottoAdapter(prodotti, currentUser, true);
+					list_prodotti.setAdapter(adapter);
+				});
+			}
+		}).start();
 
 		return v;
 	}

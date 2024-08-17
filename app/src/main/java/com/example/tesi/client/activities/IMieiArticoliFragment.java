@@ -38,7 +38,7 @@ public class IMieiArticoliFragment extends Fragment {
 		ProdottoController prodottoController = new ProdottoControllerImpl();
 		User currentUser=Session.getInstance(requireContext()).getCurrentUser();
 
-		List<Prodotto> prodotti= prodottoController.findByIdProprietario(currentUser.getId());
+		List<Prodotto> prodotti= prodottoController.findByProprietario(currentUser.getUsername());
 
 		RecyclerView recyclerView = v.findViewById(R.id.list_prodotti);
 		recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));

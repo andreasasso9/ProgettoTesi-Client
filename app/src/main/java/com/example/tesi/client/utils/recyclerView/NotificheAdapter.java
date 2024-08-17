@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
 import com.example.tesi.control.NotificheControllerImpl;
-import com.example.tesi.control.UserControllerImpl;
 import com.example.tesi.entity.Notifica;
-import com.example.tesi.entity.User;
 
 import java.util.List;
 
@@ -36,8 +34,7 @@ public class NotificheAdapter extends RecyclerView.Adapter<NotificheHolder> {
 	public void onBindViewHolder(@NonNull NotificheHolder holder, int position) {
 		Notifica n=notifiche.get(holder.getAdapterPosition());
 
-		User sender=new UserControllerImpl().findById(n.getSender());
-		holder.sender.setText(sender.getUsername());
+		holder.sender.setText(n.getSender());
 		holder.descrizione.setText(n.getDescrizione());
 		holder.foto.setImageBitmap(BitmapFactory.decodeByteArray(n.getFoto(), 0, n.getFoto().length));
 

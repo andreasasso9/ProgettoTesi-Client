@@ -6,7 +6,6 @@ import com.example.tesi.entity.entityoptions.Condizioni;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 public class Prodotto implements Serializable {
 	private String titolo;
@@ -16,12 +15,12 @@ public class Prodotto implements Serializable {
 	private Condizioni condizioni;
 	private double prezzo;
 	private int miPiace;
-	private final UUID idProprietario;
+	private final String proprietario;
 	private Long id;
-	private UUID idCompratore;
+	private String compratore;
 
-	public Prodotto(UUID idProprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo) {
-		this.idProprietario = idProprietario;
+	public Prodotto(String proprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo) {
+		this.proprietario = proprietario;
 		this.titolo = titolo;
 		this.descrizione = descrizione;
 		this.categoria = categoria;
@@ -31,8 +30,8 @@ public class Prodotto implements Serializable {
 		this.miPiace = 0;
 	}
 
-	public UUID getIdProprietario() {
-		return idProprietario;
+	public String getProprietario() {
+		return proprietario;
 	}
 
 	public String getTitolo() {
@@ -112,15 +111,15 @@ public class Prodotto implements Serializable {
 		return Objects.hash(id);
 	}
 
-	public void setCompratore(UUID idCompratore) {
-		this.idCompratore = idCompratore;
+	public void setCompratore(String compratore) {
+		this.compratore = compratore;
 	}
 
-	public UUID getCompratore() {
-		return idCompratore;
+	public String getCompratore() {
+		return compratore;
 	}
 
 	public boolean isBought() {
-		return idCompratore!=null;
+		return compratore!=null;
 	}
 }

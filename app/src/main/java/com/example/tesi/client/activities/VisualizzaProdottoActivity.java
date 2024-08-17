@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.tesi.client.R;
 import com.example.tesi.client.chat.Chat;
 import com.example.tesi.client.utils.File;
+import com.example.tesi.control.FotoProdottoControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
@@ -25,9 +26,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 public class VisualizzaProdottoActivity extends AppCompatActivity {
 	@Override
@@ -47,24 +45,21 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		int screenHeight= Session.getInstance(this).getScreenHeight();
 
 		Prodotto prodotto;
-		User proprietario;
-		FotoByteArray[] foto;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 			prodotto =i.getSerializableExtra("prodotto", Prodotto.class);
-			proprietario =i.getSerializableExtra("proprietario", User.class);
-			foto =i.getSerializableExtra("foto", FotoByteArray[].class);
+			//foto =i.getSerializableExtra("foto", FotoByteArray[].class);
 		} else {
 			prodotto = (Prodotto) i.getSerializableExtra("prodotto");
-			proprietario = (User) i.getSerializableExtra("proprietario");
-			foto = (FotoByteArray[]) i.getSerializableExtra("foto");
+			//foto = (FotoByteArray[]) i.getSerializableExtra("foto");
 		}
+		assert prodotto != null;
+		String proprietario=prodotto.getProprietario();
+		FotoByteArray[] foto=new FotoProdottoControllerImpl().findByProdotto(prodotto).toArray(new FotoByteArray[0]);
 
 		ViewPager2 containerFoto = findViewById(R.id.containerFoto);
 		ViewGroup.LayoutParams params= containerFoto.getLayoutParams();
 		params.height= (int) (screenHeight*.70);
 		containerFoto.setLayoutParams(params);
-
-
 
 		ImageAdapter imageAdapter=new ImageAdapter(foto);
 		containerFoto.setAdapter(imageAdapter);
@@ -72,11 +67,9 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		TabLayout tabLayout=findViewById(R.id.tabLayout);
 		new TabLayoutMediator(tabLayout, containerFoto, (tab, position)->{}).attach();
 
-		assert proprietario!=null;
-		assert prodotto!=null;
 
 		TextView t=findViewById(R.id.proprietario);
-		t.setText(proprietario.getUsername());
+		t.setText(proprietario);
 
 		t=findViewById(R.id.titolo);
 		t.setText(prodotto.getTitolo());
@@ -100,11 +93,11 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		String usernameCurrentUser=Session.getInstance(this).getCurrentUser().getUsername();
 		Button chiediInfo=findViewById(R.id.chiediInfo);
 		chiediInfo.setOnClickListener(v->{
-			Chat chat= (Chat) File.readObjectFromFile(v.getContext(), "chat-"+usernameCurrentUser+"-"+proprietario.getUsername());
+			Chat chat= (Chat) File.readObjectFromFile(v.getContext(), "chat-"+usernameCurrentUser+"-"+proprietario);
 			if (chat==null) {
-				chat=new Chat(proprietario.getUsername(), new ArrayList<>(), "chat-"+usernameCurrentUser+"-"+proprietario.getUsername());
+				chat=new Chat(proprietario, new ArrayList<>(), "chat-"+usernameCurrentUser+"-"+proprietario);
 				File.saveObjectToFile(v.getContext(), chat.getId(), chat);
-				Session.getInstance(v.getContext()).getFileChatsNames().add("chat-"+usernameCurrentUser+"-"+proprietario.getUsername());
+				Session.getInstance(v.getContext()).getFileChatsNames().add("chat-"+usernameCurrentUser+"-"+proprietario);
 				SharedPreferences.Editor editor= v.getContext().getSharedPreferences(Session.SESSION_PREFERENCES, MODE_PRIVATE).edit();
 				editor.putStringSet("fileChatsNames", Session.getInstance(v.getContext()).getFileChatsNames()).apply();
 			}

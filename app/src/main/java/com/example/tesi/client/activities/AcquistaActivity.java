@@ -21,7 +21,6 @@ import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.example.tesi.client.R;
 import com.example.tesi.control.FotoProdottoControllerImpl;
-import com.example.tesi.control.NotificheController;
 import com.example.tesi.control.NotificheControllerImpl;
 import com.example.tesi.control.ProdottoController;
 import com.example.tesi.control.ProdottoControllerImpl;
@@ -126,12 +125,12 @@ public class AcquistaActivity extends AppCompatActivity {
 						p= (Prodotto) i.getSerializableExtra("prodotto");
 
 					assert p != null;
-					p.setCompratore(currentUser.getId());
+					p.setCompratore(currentUser.getUsername());
 
 					ProdottoController prodottoController=new ProdottoControllerImpl();
 					prodottoController.update(p);
 					FotoByteArray fotoNotifica=new FotoProdottoControllerImpl().findFirst(p);
-					Notifica notifica=new Notifica(currentUser.getId(), p.getIdProprietario(), String.format("%s ha acquistato il tuo articolo %s", currentUser.getUsername(), p.getTitolo()), fotoNotifica.getValue());
+					Notifica notifica=new Notifica(currentUser.getUsername(), p.getProprietario(), String.format("%s ha acquistato il tuo articolo %s", currentUser.getUsername(), p.getTitolo()), fotoNotifica.getValue());
 					new NotificheControllerImpl().save(notifica);
 					Toast.makeText(this, "Il pagamento è andato a buon fine", Toast.LENGTH_SHORT).show();
 

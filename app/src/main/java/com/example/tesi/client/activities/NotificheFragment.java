@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +28,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class NotificheFragment extends Fragment {
-	private RecyclerView listaNotifiche;
 	private NotificheController notificheController;
 
 	@Nullable
@@ -38,22 +36,23 @@ public class NotificheFragment extends Fragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v=inflater.inflate(R.layout.notifiche_layout, container, false);
 
-		notificheController=new NotificheControllerImpl();
-
-		listaNotifiche=v.findViewById(R.id.lista_notifiche);
+		RecyclerView listaNotifiche = v.findViewById(R.id.lista_notifiche);
 		listaNotifiche.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
 
+		new Thread(()->{
+			notificheController=new NotificheControllerImpl();
+			List<Notifica> notifiche=notificheController.findByReceiver(Session.getInstance(requireContext()).getCurrentUser().getUsername());
 
-		List<Notifica> notifiche=notificheController.findByReceiver(Session.getInstance(requireContext()).getCurrentUser().getId());
+			if (notifiche != null && !notifiche.isEmpty()) {
+				Collections.reverse(notifiche);
+				getActivity().runOnUiThread(()->{
+					NotificheAdapter adapter = new NotificheAdapter(notifiche);
+					listaNotifiche.setAdapter(adapter);
+					createEliminaNotifica(listaNotifiche, inflater, container, savedInstanceState);
+				});
 
-
-		if (notifiche != null && !notifiche.isEmpty()) {
-			Collections.reverse(notifiche);
-			NotificheAdapter adapter = new NotificheAdapter(notifiche);
-			listaNotifiche.setAdapter(adapter);
-
-			createEliminaNotifica(listaNotifiche, inflater, container, savedInstanceState);
-		}
+			}
+		}).start();
 
 		return v;
 	}

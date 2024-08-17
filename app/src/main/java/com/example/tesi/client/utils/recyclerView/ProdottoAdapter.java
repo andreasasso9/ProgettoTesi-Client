@@ -90,7 +90,7 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
 				currentUser.getProdottiPreferiti().add(p);
 
-				userController.miPiace(currentUser.getId(), p.getId());
+				userController.miPiace(currentUser.getUsername(), p.getId());
 			} else {
 				p.setMiPiace(p.getMiPiace()-1);
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_caricamento_cuore_50);
@@ -113,11 +113,8 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 
 			i.putExtra("prodotto", p);
 
-			User proprietario=userController.findById(p.getIdProprietario());
-			i.putExtra("proprietario", proprietario);
-
-			FotoByteArray[] foto= fotoController.findByProdotto(p).toArray(new FotoByteArray[0]);
-			i.putExtra("foto", foto);
+//			FotoByteArray[] foto= fotoController.findByProdotto(p).toArray(new FotoByteArray[0]);
+//			i.putExtra("foto", foto);
 
 			l.getContext().startActivity(i);
 		};

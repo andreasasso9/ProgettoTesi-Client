@@ -1,35 +1,33 @@
 package com.example.tesi.entity;
 
-import java.util.UUID;
-
 public class Notifica {
 	private Long id;
-	private UUID sender, receiver;
+	private String sender, receiver;
 	private String descrizione;
 	private byte[] foto;
 
 	public Notifica() {}
 
-	public Notifica(UUID sender, UUID receiver, String descrizione, byte[] foto) {
+	public Notifica(String sender, String receiver, String descrizione, byte[] foto) {
 		this.sender = sender;
 		this.receiver = receiver;
 		this.descrizione = descrizione;
 		this.foto = foto;
 	}
 
-	public UUID getSender() {
+	public String getSender() {
 		return sender;
 	}
 
-	public void setSender(UUID sender) {
+	public void setSender(String sender) {
 		this.sender = sender;
 	}
 
-	public UUID getReceiver() {
+	public String getReceiver() {
 		return receiver;
 	}
 
-	public void setReceiver(UUID receiver) {
+	public void setReceiver(String receiver) {
 		this.receiver = receiver;
 	}
 

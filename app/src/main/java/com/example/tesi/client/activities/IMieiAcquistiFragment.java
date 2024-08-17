@@ -37,7 +37,7 @@ public class IMieiAcquistiFragment extends Fragment {
 
 		ProdottoController prodottoController=new ProdottoControllerImpl();
 		User currentUser= Session.getInstance(requireContext()).getCurrentUser();
-		List<Prodotto> acquisti=prodottoController.findByCompratore(currentUser);
+		List<Prodotto> acquisti=prodottoController.findByCompratore(currentUser.getUsername());
 
 		ProdottoAdapter adapter=new ProdottoAdapter(acquisti, currentUser, false);
 		recyclerView.setAdapter(adapter);

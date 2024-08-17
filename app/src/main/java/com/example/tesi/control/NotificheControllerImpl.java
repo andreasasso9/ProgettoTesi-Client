@@ -34,7 +34,7 @@ public class NotificheControllerImpl implements NotificheController {
 	}
 
 	@Override
-	public boolean save(Notifica notifica) {
+	public void save(Notifica notifica) {
 		Call<Boolean> call= notificheServiceRetrofit.save(notifica);
 		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
 			try {
@@ -52,14 +52,13 @@ public class NotificheControllerImpl implements NotificheController {
 		});
 
 		try {
-			return future.get();
+			future.get();
 		} catch (InterruptedException | ExecutionException e) {
-			return false;
 		}
 	}
 
 	@Override
-	public List<Notifica> findByReceiver(UUID receiver) {
+	public List<Notifica> findByReceiver(String receiver) {
 		Gson gson=new GsonBuilder().registerTypeAdapter(Notifica.class, new NotificheDeserializer()).create();
 
 		Call<ResponseBody> call=notificheServiceRetrofit.findByReceiver(receiver);

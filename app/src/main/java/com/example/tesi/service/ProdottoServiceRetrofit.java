@@ -20,18 +20,18 @@ public interface ProdottoServiceRetrofit {
 	Call<List<Prodotto>> getAll(@Body int limit);
 
 	@POST("getAllNotOwnedBy")
-	Call<List<Prodotto>> getAllNotOwnedBy(@Body User user);
+	Call<List<Prodotto>> getAllNotOwnedBy(@Body String user);
 
 	@POST("update")
 	Call<Boolean> update(@Body Prodotto prodotto);
 
 	@POST("findByIdProprietario")
-	Call<List<Prodotto>> findByIdProprietario(@Body UUID idProprietario);
+	Call<List<Prodotto>> findByProprietario(@Body String idProprietario);
 
 	@POST("findByRicerca")
 	@FormUrlEncoded
-	Call<List<Prodotto>> findByRicerca(@Field("user") UUID userId, @Field("text") String text);
+	Call<List<Prodotto>> findByRicerca(@Field("user") String userId, @Field("text") String text);
 
 	@POST("findByCompratore")
-	Call<List<Prodotto>> findByCompratore(@Body UUID idCompratore);
+	Call<List<Prodotto>> findByCompratore(@Body String compratore);
 }

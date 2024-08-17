@@ -1,6 +1,5 @@
 package com.example.tesi.control;
 
-import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 import com.example.tesi.service.UserServiceRetrofit;
 
@@ -69,8 +68,8 @@ public class UserControllerImpl implements UserController{
 	}
 
 	@Override
-	public void miPiace(UUID idUser, Long idProdotto) {
-		Call<Boolean> call=userServiceRetrofit.miPiace(idUser, idProdotto);
+	public void miPiace(String user, Long idProdotto) {
+		Call<Boolean> call=userServiceRetrofit.miPiace(user, idProdotto);
 		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<Boolean> response=call.execute();
@@ -84,7 +83,7 @@ public class UserControllerImpl implements UserController{
 
 		try {
 			future.get();
-		} catch (InterruptedException | ExecutionException e) {
+		} catch (InterruptedException | ExecutionException ignored) {
 		}
 	}
 

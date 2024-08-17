@@ -13,8 +13,8 @@ public interface NotificheServiceRetrofit {
 	@POST("save")
 	Call<Boolean> save(@Body Notifica notifica);
 
-	@POST("findByIdReceiver")
-	Call<ResponseBody> findByReceiver(@Body UUID receiver);
+	@POST("findByReceiver")
+	Call<ResponseBody> findByReceiver(@Body String receiver);
 
 	@POST("delete")
 	Call<Boolean> delete(@Body String descrizione);

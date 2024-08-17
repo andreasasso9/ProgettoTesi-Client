@@ -9,7 +9,6 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 import java.util.Base64;
-import java.util.UUID;
 
 public class NotificheDeserializer implements JsonDeserializer<Notifica> {
 	@Override
@@ -18,8 +17,8 @@ public class NotificheDeserializer implements JsonDeserializer<Notifica> {
 		Notifica notifica=new Notifica();
 
 		notifica.setId(jsonObject.get("id").getAsLong());
-		notifica.setSender(UUID.fromString(jsonObject.get("sender").getAsString()));
-		notifica.setReceiver(UUID.fromString(jsonObject.get("receiver").getAsString()));
+		notifica.setSender(jsonObject.get("sender").getAsString());
+		notifica.setReceiver(jsonObject.get("receiver").getAsString());
 		notifica.setDescrizione(jsonObject.get("descrizione").getAsString());
 
 		String valueBase64=jsonObject.get("foto").getAsString();

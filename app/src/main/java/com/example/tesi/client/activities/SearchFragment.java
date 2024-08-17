@@ -79,7 +79,7 @@ public class SearchFragment extends Fragment {
 				prodottoAdapter.notifyItemRangeRemoved(0, prodottiCercati.size());
 				prodottiCercati.clear();
 
-				prodottiCercati.addAll(prodottoController.findByRicerca(currentUser.getId(), ricerca));
+				prodottiCercati.addAll(prodottoController.findByRicerca(currentUser.getUsername(), ricerca));
 				prodottoAdapter.notifyItemRangeInserted(0, prodottiCercati.size());
 
 				if (prodottiCercati.isEmpty())

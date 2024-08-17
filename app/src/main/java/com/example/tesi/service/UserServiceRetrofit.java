@@ -26,7 +26,7 @@ public interface UserServiceRetrofit {
 
 	@POST("miPiace")
 	@FormUrlEncoded
-	Call<Boolean> miPiace(@Field("idUser") UUID idUser, @Field("idProdotto") Long idProdotto);
+	Call<Boolean> miPiace(@Field("sender") String user, @Field("idProdotto") Long idProdotto);
 
 	@POST("update")
 	Call<Boolean> update(@Body User user);
