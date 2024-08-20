@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -131,7 +134,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 
 						b=Bitmap.createScaledBitmap(b, b.getWidth()/2,b.getHeight()/2,false);
 
-						b.compress(Bitmap.CompressFormat.WEBP, 100, stream);
+						b.compress(Bitmap.CompressFormat.WEBP, 50, stream);
 
 						list.add(new FotoByteArray(stream.toByteArray()));
 					} catch (FileNotFoundException e) {
@@ -141,18 +144,64 @@ public class AddProdottoActivity extends AppCompatActivity {
 				foto.addAll(list);
 				containerFoto.removeAllViews();
 				for (FotoByteArray b:foto) {
-					ImageView image=new ImageView(AddProdottoActivity.this);
-					image.setImageBitmap(BitmapFactory.decodeByteArray(b.getValue(), 0, b.getValue().length));
-					image.setLayoutParams(new LinearLayout.LayoutParams(
-							500,500
-					));
-					containerFoto.addView(image);
+					RelativeLayout container=new RelativeLayout(this);
+					LinearLayout.LayoutParams containerParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+					container.setLayoutParams(containerParams);
+
+					ImageButton cancel = getImageButton(containerFoto, container/*, mainFoto*/);
+
+
+					ImageView image=new ImageView(this);
+					Bitmap bitmap=BitmapFactory.decodeByteArray(b.getValue(), 0, b.getValue().length);
+					bitmap.compress(Bitmap.CompressFormat.WEBP, 50, stream);
+					image.setImageBitmap(BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size()));
+
+					container.addView(image);
+					container.addView(cancel);
+
+					RelativeLayout.LayoutParams imageParams=new RelativeLayout.LayoutParams(500,500);
+					imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+
+					RelativeLayout.LayoutParams cancelParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+					cancelParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+
+					cancel.setLayoutParams(cancelParams);
+					image.setLayoutParams(imageParams);
+
+					containerFoto.addView(container);
+					image.setOnClickListener(v->{
+						for (int i=0; i<containerFoto.getChildCount(); i++) {
+							RelativeLayout x=(RelativeLayout) containerFoto.getChildAt(i);
+							x.getChildAt(1).setVisibility(View.GONE);
+						}
+						cancel.setVisibility(View.VISIBLE);
+					});
+
+					cancel.setOnClickListener(v->{
+						containerFoto.removeView(container);
+						foto.remove(b);
+						if (containerFoto.getChildCount()>0) {
+							RelativeLayout x= (RelativeLayout) containerFoto.getChildAt(0);
+							x.getChildAt(1).setVisibility(View.VISIBLE);
+						}
+					});
 				}
 			}
 
 		};
 
 		scegliImmaginiLauncher=registerForActivityResult(contract, callback);
+	}
+
+	@NonNull
+	private ImageButton getImageButton(LinearLayout containerFoto, RelativeLayout container/*, ImageView mainFoto*/) {
+		ImageButton cancel=new ImageButton(this);
+		cancel.setImageResource(R.drawable.icons8_cestino_64__1_);
+		cancel.setBackgroundColor(Color.TRANSPARENT);
+		cancel.setVisibility(View.GONE);
+
+		cancel.setScaleType(ImageView.ScaleType.FIT_CENTER);
+		return cancel;
 	}
 
 	private TextWatcher createContatoreEditTextListener(TextView contatore) {
@@ -186,7 +235,6 @@ public class AddProdottoActivity extends AppCompatActivity {
 			optionsGroup.addView(rb);
 		}
 		layout.setOnClickListener(v -> {
-			//TODO completare la selezione delle opzioni
 			if (t.getRotation()==0) {
 				t.setRotation(90);
 				optionsGroup.setVisibility(View.VISIBLE);
@@ -233,7 +281,6 @@ public class AddProdottoActivity extends AppCompatActivity {
 		});
 
 		sceltaPrezzo.setOnClickListener(l->{
-			//TODO implementa inserimento prezzo
 			if (t.getRotation()==0) {
 				t.setRotation(90);
 				formPrezzo.setVisibility(View.VISIBLE);

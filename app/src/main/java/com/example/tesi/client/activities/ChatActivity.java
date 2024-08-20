@@ -6,10 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -135,7 +139,8 @@ public class ChatActivity extends AppCompatActivity {
 		ImageButton sendFoto=findViewById(R.id.sendFoto);
 		sendFoto.setOnClickListener(v->{
 			for (int i=0; i<containerFoto.getChildCount(); i++) {
-				ImageView image= (ImageView) containerFoto.getChildAt(i);
+				RelativeLayout container= (RelativeLayout) containerFoto.getChildAt(i);
+				ImageView image= (ImageView) container.getChildAt(0);
 				Bitmap bitmap=((BitmapDrawable) image.getDrawable()).getBitmap();
 				ByteArrayOutputStream stream=new ByteArrayOutputStream();
 				bitmap.compress(Bitmap.CompressFormat.WEBP, 30, stream);
@@ -148,12 +153,12 @@ public class ChatActivity extends AppCompatActivity {
 				chat.getTexts().add(imageToSend);
 
 				textAdapter.notifyItemInserted(textAdapter.getItemCount());
-				recyclerView.scrollToPosition(textAdapter.getItemCount()-1);
+				recyclerView.scrollToPosition(textAdapter.getItemCount());
 
 				editText.setText("");
 
 				stompClient.send("/app/chat", gson.toJson(imageToSend)).subscribe();
-				runOnUiThread(()-> Toast.makeText(this, "foto inviate", Toast.LENGTH_SHORT).show());
+
 			}
 			fotoDaInviareLayout.setVisibility(View.GONE);
 		});
@@ -170,7 +175,6 @@ public class ChatActivity extends AppCompatActivity {
 	}
 
 	private void createSendFotoLauncher(LinearLayout containerFoto) {
-		//todo aggiungere tasti per annullare e per eliminare le foto selezionate
 		ImageView mainFoto=findViewById(R.id.mainFoto);
 		ActivityResultContract<Intent, ClipData> contract=new ActivityResultContract<Intent, ClipData>() {
 			@NonNull
@@ -210,16 +214,40 @@ public class ChatActivity extends AppCompatActivity {
 				containerFoto.removeAllViews();
 				boolean first=true;
 				for (FotoByteArray b:foto) {
+					RelativeLayout container=new RelativeLayout(this);
+					LinearLayout.LayoutParams containerParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+					container.setLayoutParams(containerParams);
+
+					ImageButton cancel = getImageButton(containerFoto, container, mainFoto);
+
 					ImageView image=new ImageView(this);
 					Bitmap bitmap=BitmapFactory.decodeByteArray(b.getValue(), 0, b.getValue().length);
-					bitmap.compress(Bitmap.CompressFormat.WEBP, 100, stream);
+					bitmap.compress(Bitmap.CompressFormat.WEBP, 50, stream);
 					image.setImageBitmap(BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size()));
-					image.setLayoutParams(new LinearLayout.LayoutParams(
-							500,500
-					));
-					containerFoto.addView(image);
-					image.setOnClickListener(v-> mainFoto.setImageBitmap(bitmap));
+
+					container.addView(image);
+					container.addView(cancel);
+
+					RelativeLayout.LayoutParams imageParams=new RelativeLayout.LayoutParams(500,500);
+					imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+
+					RelativeLayout.LayoutParams cancelParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+					cancelParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+
+					cancel.setLayoutParams(cancelParams);
+					image.setLayoutParams(imageParams);
+
+					containerFoto.addView(container);
+					image.setOnClickListener(v->{
+						mainFoto.setImageBitmap(bitmap);
+						for (int i=0; i<containerFoto.getChildCount(); i++) {
+							RelativeLayout x=(RelativeLayout) containerFoto.getChildAt(i);
+							x.getChildAt(1).setVisibility(View.GONE);
+						}
+						cancel.setVisibility(View.VISIBLE);
+					});
 					if (first) {
+						cancel.setVisibility(View.VISIBLE);
 						mainFoto.setImageBitmap(BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size()));
 						first = false;
 					}
@@ -231,5 +259,26 @@ public class ChatActivity extends AppCompatActivity {
 		};
 
 		sendFotoLauncher=registerForActivityResult(contract, callback);
+	}
+
+	@NonNull
+	private ImageButton getImageButton(LinearLayout containerFoto, RelativeLayout container, ImageView mainFoto) {
+		ImageButton cancel=new ImageButton(this);
+		cancel.setImageResource(R.drawable.icons8_cestino_64__1_);
+		cancel.setBackgroundColor(Color.TRANSPARENT);
+		cancel.setVisibility(View.GONE);
+
+		cancel.setScaleType(ImageView.ScaleType.FIT_CENTER);
+		cancel.setOnClickListener(v->{
+			containerFoto.removeView(container);
+			if (containerFoto.getChildCount()>0) {
+				RelativeLayout x= (RelativeLayout) containerFoto.getChildAt(0);
+				ImageView image= (ImageView) x.getChildAt(0);
+				mainFoto.setImageDrawable(image.getDrawable());
+				x.getChildAt(1).setVisibility(View.VISIBLE);
+			} else
+				mainFoto.setImageResource(R.drawable.icons8_non_abbiamo_trovato_nulla_100);
+		});
+		return cancel;
 	}
 }
