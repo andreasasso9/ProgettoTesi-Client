@@ -2,7 +2,6 @@ package com.example.tesi.client.service;
 
 import com.example.tesi.entity.Notifica;
 
-import java.util.UUID;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

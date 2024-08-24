@@ -5,9 +5,10 @@ import androidx.recyclerview.widget.DiffUtil;
 import com.example.tesi.entity.Prodotto;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ProdottoDiffCallback extends DiffUtil.Callback {
-	private List<Prodotto> oldList, newList;
+	private final List<Prodotto> oldList, newList;
 
 	public ProdottoDiffCallback(List<Prodotto> oldList, List<Prodotto> newList) {
 		this.oldList = oldList;
@@ -25,7 +26,7 @@ public class ProdottoDiffCallback extends DiffUtil.Callback {
 
 	@Override
 	public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-		return oldList.get(oldItemPosition).getId()==newList.get(newItemPosition).getId();
+		return Objects.equals(oldList.get(oldItemPosition).getId(), newList.get(newItemPosition).getId());
 	}
 
 	@Override

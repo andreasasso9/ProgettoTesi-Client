@@ -22,8 +22,6 @@ import com.example.tesi.entity.User;
 import com.example.tesi.client.utils.recyclerView.ProdottoAdapter;
 import com.example.tesi.client.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 

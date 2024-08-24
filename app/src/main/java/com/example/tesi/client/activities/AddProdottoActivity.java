@@ -100,9 +100,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 		Button uploadButton=findViewById(R.id.uploadButton);
 		upload(uploadButton);
 
-		cancelButton.setOnClickListener(l->{
-			getOnBackPressedDispatcher().onBackPressed();
-		});
+		cancelButton.setOnClickListener(l-> getOnBackPressedDispatcher().onBackPressed());
 
 	}
 
@@ -148,7 +146,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 					LinearLayout.LayoutParams containerParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 					container.setLayoutParams(containerParams);
 
-					ImageButton cancel = getImageButton(containerFoto, container/*, mainFoto*/);
+					ImageButton cancel = getImageButton();
 
 
 					ImageView image=new ImageView(this);
@@ -194,7 +192,7 @@ public class AddProdottoActivity extends AppCompatActivity {
 	}
 
 	@NonNull
-	private ImageButton getImageButton(LinearLayout containerFoto, RelativeLayout container/*, ImageView mainFoto*/) {
+	private ImageButton getImageButton() {
 		ImageButton cancel=new ImageButton(this);
 		cancel.setImageResource(R.drawable.icons8_cestino_64__1_);
 		cancel.setBackgroundColor(Color.TRANSPARENT);

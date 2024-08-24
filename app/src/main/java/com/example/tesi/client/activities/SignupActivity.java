@@ -21,7 +21,6 @@ import com.example.tesi.client.control.UserController;
 import com.example.tesi.client.control.UserControllerImpl;
 import com.example.tesi.client.utils.CheckNotEmptyStrings;
 import com.example.tesi.client.R;
-import com.example.tesi.entity.User;
 import com.example.tesi.client.utils.EmailRegex;
 import com.example.tesi.client.utils.Session;
 
@@ -99,7 +98,6 @@ public class SignupActivity extends AppCompatActivity {
 
 			if (valid) {
 				new Handler(Looper.getMainLooper()).postDelayed(()->{
-					User user = new User(email, username, password, indirizzo);
 					boolean result = userController.saveUser(email, username, password, indirizzo);
 					if (!result) {
 						progressBar.setVisibility(View.GONE);
@@ -138,12 +136,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
 	private void createToLoginListener() {
-		toLogin.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				goToLogin();
-			}
-		});
+		toLogin.setOnClickListener(v -> goToLogin());
 	}
 
 	private void goToLogin() {

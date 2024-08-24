@@ -1,10 +1,8 @@
 package com.example.tesi.client.service;
 
 import com.example.tesi.entity.Prodotto;
-import com.example.tesi.entity.User;
 
 import java.util.List;
-import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

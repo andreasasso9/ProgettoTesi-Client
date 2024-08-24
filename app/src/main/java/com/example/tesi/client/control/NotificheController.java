@@ -3,7 +3,6 @@ package com.example.tesi.client.control;
 import com.example.tesi.entity.Notifica;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface NotificheController {
 	void save(Notifica notifica);

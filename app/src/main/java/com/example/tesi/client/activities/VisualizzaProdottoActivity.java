@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -41,9 +40,7 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		setContentView(R.layout.visualizza_prodotto_layout);
 
 		ImageButton indietro=findViewById(R.id.indietro);
-		indietro.setOnClickListener(l->{
-			getOnBackPressedDispatcher().onBackPressed();
-		});
+		indietro.setOnClickListener(l-> getOnBackPressedDispatcher().onBackPressed());
 
 		indietro.bringToFront();
 

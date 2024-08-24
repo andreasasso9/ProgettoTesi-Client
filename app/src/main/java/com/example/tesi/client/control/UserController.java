@@ -1,6 +1,5 @@
 package com.example.tesi.client.control;
 
-import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 
 import java.util.UUID;

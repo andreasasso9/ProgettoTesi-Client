@@ -45,10 +45,10 @@ public class NotificheFragment extends Fragment {
 
 			if (notifiche != null && !notifiche.isEmpty()) {
 				Collections.reverse(notifiche);
-				getActivity().runOnUiThread(()->{
+				requireActivity().runOnUiThread(()->{
 					NotificheAdapter adapter = new NotificheAdapter(notifiche);
 					listaNotifiche.setAdapter(adapter);
-					createEliminaNotifica(listaNotifiche, inflater, container, savedInstanceState);
+					createEliminaNotifica(listaNotifiche);
 				});
 
 			}
@@ -57,7 +57,7 @@ public class NotificheFragment extends Fragment {
 		return v;
 	}
 
-	public void createEliminaNotifica(RecyclerView recyclerView, @NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public void createEliminaNotifica(RecyclerView recyclerView) {
 		ItemTouchHelper itemTouchHelper=new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 			@Override
 			public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {

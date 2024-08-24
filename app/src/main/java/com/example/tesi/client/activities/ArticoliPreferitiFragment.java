@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.tesi.client.R;
-import com.example.tesi.entity.User;
 import com.example.tesi.client.utils.Session;
 import com.example.tesi.client.utils.recyclerView.ProdottiPreferitiAdapter;
 

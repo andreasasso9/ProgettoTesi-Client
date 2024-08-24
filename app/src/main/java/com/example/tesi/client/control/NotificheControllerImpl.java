@@ -52,7 +52,7 @@ public class NotificheControllerImpl implements NotificheController {
 
 		try {
 			future.get();
-		} catch (InterruptedException | ExecutionException e) {
+		} catch (InterruptedException | ExecutionException ignored) {
 		}
 	}
 
