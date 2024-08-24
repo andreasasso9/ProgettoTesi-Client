@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
-import com.example.tesi.control.NotificheControllerImpl;
+import com.example.tesi.client.control.NotificheControllerImpl;
 import com.example.tesi.entity.Notifica;
 
 import java.util.List;

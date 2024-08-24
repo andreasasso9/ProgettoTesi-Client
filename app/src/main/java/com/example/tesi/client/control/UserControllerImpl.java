@@ -1,7 +1,7 @@
-package com.example.tesi.control;
+package com.example.tesi.client.control;
 
 import com.example.tesi.entity.User;
-import com.example.tesi.service.UserServiceRetrofit;
+import com.example.tesi.client.service.UserServiceRetrofit;
 
 import java.io.IOException;
 import java.util.UUID;

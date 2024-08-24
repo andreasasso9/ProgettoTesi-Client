@@ -7,9 +7,15 @@
 
     <include layout="@layout/tasto_indietro_layout"/>
 
-    <androidx.recyclerview.widget.RecyclerView android:id="@+id/list_prodotti"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"/>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/list_prodotti"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

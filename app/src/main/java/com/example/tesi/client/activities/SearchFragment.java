@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
-import com.example.tesi.control.ProdottoController;
-import com.example.tesi.control.ProdottoControllerImpl;
+import com.example.tesi.client.control.ProdottoController;
+import com.example.tesi.client.control.ProdottoControllerImpl;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 import com.example.tesi.client.utils.Session;

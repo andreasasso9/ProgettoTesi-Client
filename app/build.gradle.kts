@@ -30,6 +30,7 @@ android {
 
 dependencies {
 
+    implementation (libs.swiperefreshlayout)
     implementation (libs.rxjava)
     implementation (libs.stompProtocolAndroid)
     implementation(libs.appcompat)

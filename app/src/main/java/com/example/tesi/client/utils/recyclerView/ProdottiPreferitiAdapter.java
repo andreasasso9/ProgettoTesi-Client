@@ -1,8 +1,10 @@
 package com.example.tesi.client.utils.recyclerView;
 
 import android.graphics.BitmapFactory;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.tesi.client.R;
 import com.example.tesi.entity.FotoByteArray;
@@ -20,11 +22,21 @@ public class ProdottiPreferitiAdapter extends ProdottoAdapter {
 	@Override
 	public void onBindViewHolder(@NonNull ProdottoHolder holder, int position) {
 		Prodotto p=prodotti.get(holder.getAdapterPosition());
+		FragmentActivity activity= (FragmentActivity) holder.itemView.getContext();
 
-		FotoByteArray foto=fotoController.findFirst(p);
+		new Thread(()->{
+			FotoByteArray foto=fotoController.findFirst(p);
 
-		if (foto!=null)
-			holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
+			activity.runOnUiThread(()->{
+				//holder.fotoProdottoItem.setImageResource(R.drawable.icons8_nessuna_immagine_50);
+				if (foto!=null) {
+					holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
+					holder.fotoProdottoItem.setScaleType(ImageView.ScaleType.FIT_CENTER);
+				}
+			});
+
+		}).start();
+
 		holder.titoloProdottoItem.setText(p.getTitolo());
 		holder.prezzoProdottoItem.setText(p.getPrezzo()+"");
 		holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");

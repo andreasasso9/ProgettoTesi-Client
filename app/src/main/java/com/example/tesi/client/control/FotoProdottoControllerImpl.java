@@ -1,8 +1,8 @@
-package com.example.tesi.control;
+package com.example.tesi.client.control;
 
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
-import com.example.tesi.service.FotoProdottoServiceRetrofit;
+import com.example.tesi.client.service.FotoProdottoServiceRetrofit;
 import com.example.tesi.client.utils.FotoByteArrayDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -70,16 +71,16 @@ public class FotoProdottoControllerImpl implements FotoProdottoController{
 					}
 				}
 
-				throw new RuntimeException("Failed to fetch data");
+				return new LinkedList<>();
 			} catch (IOException e) {
-				throw new RuntimeException(e);
+				return new LinkedList<>();
 			}
 		});
 
 		try {
 			return future.get();
 		} catch (ExecutionException | InterruptedException e) {
-			throw new RuntimeException(e);
+			return new LinkedList<>();
 		}
 
 	}
@@ -102,16 +103,16 @@ public class FotoProdottoControllerImpl implements FotoProdottoController{
 					}
 				}
 
-				throw new RuntimeException("Failed to fetch data");
+				return null;
 			} catch (IOException e) {
-				throw new RuntimeException(e);
+				return null;
 			}
 		});
 
 		try {
 			return future.get();
 		} catch (ExecutionException | InterruptedException e) {
-			throw new RuntimeException(e);
+			return null;
 		}
 	}
 }

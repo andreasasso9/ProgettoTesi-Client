@@ -17,8 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
 
-import com.example.tesi.control.UserController;
-import com.example.tesi.control.UserControllerImpl;
+import com.example.tesi.client.control.UserController;
+import com.example.tesi.client.control.UserControllerImpl;
 import com.example.tesi.client.utils.CheckNotEmptyStrings;
 import com.example.tesi.client.R;
 import com.example.tesi.entity.User;

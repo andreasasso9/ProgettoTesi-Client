@@ -2,30 +2,37 @@ package com.example.tesi.client.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.tesi.client.R;
 import com.example.tesi.client.chat.Chat;
 import com.example.tesi.client.utils.File;
-import com.example.tesi.control.FotoProdottoControllerImpl;
+import com.example.tesi.client.control.FotoProdottoControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
-import com.example.tesi.entity.User;
 import com.example.tesi.client.utils.Session;
 import com.example.tesi.client.utils.recyclerView.ImageAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class VisualizzaProdottoActivity extends AppCompatActivity {
 	@Override
@@ -54,19 +61,44 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		}
 		assert prodotto != null;
 		String proprietario=prodotto.getProprietario();
-		FotoByteArray[] foto=new FotoProdottoControllerImpl().findByProdotto(prodotto).toArray(new FotoByteArray[0]);
 
-		ViewPager2 containerFoto = findViewById(R.id.containerFoto);
-		ViewGroup.LayoutParams params= containerFoto.getLayoutParams();
-		params.height= (int) (screenHeight*.70);
-		containerFoto.setLayoutParams(params);
+		new Thread(()->{
+			List<FotoByteArray> list=new FotoProdottoControllerImpl().findByProdotto(prodotto);
 
-		ImageAdapter imageAdapter=new ImageAdapter(foto);
-		containerFoto.setAdapter(imageAdapter);
+			List<FotoByteArray> foto = new LinkedList<>(list);
 
-		TabLayout tabLayout=findViewById(R.id.tabLayout);
-		new TabLayoutMediator(tabLayout, containerFoto, (tab, position)->{}).attach();
+			ViewPager2 containerFoto = findViewById(R.id.containerFoto);
+			ViewGroup.LayoutParams params= containerFoto.getLayoutParams();
+			params.height= (int) (screenHeight*.70);
 
+
+			runOnUiThread(()->{
+				containerFoto.setLayoutParams(params);
+
+				if (foto.isEmpty()) {
+					BitmapDrawable drawable= (BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.icons8_nessuna_immagine_50, null);
+					if (drawable!=null) {
+						Bitmap bitmap = drawable.getBitmap();
+
+						try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
+
+							bitmap=Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+
+							bitmap.compress(Bitmap.CompressFormat.WEBP, 100, stream);
+
+
+							foto.add(new FotoByteArray(stream.toByteArray()));
+						} catch (IOException ignored) {}
+					}
+				}
+				ImageAdapter imageAdapter=new ImageAdapter(foto);
+				containerFoto.setAdapter(imageAdapter);
+
+				TabLayout tabLayout=findViewById(R.id.tabLayout);
+				new TabLayoutMediator(tabLayout, containerFoto, (tab, position)->{}).attach();
+			});
+
+		}).start();
 
 		TextView t=findViewById(R.id.proprietario);
 		t.setText(proprietario);

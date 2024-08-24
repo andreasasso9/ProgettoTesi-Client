@@ -6,20 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
 import com.example.tesi.client.activities.VisualizzaProdottoActivity;
-import com.example.tesi.control.FotoProdottoController;
-import com.example.tesi.control.FotoProdottoControllerImpl;
-import com.example.tesi.control.NotificheController;
-import com.example.tesi.control.NotificheControllerImpl;
-import com.example.tesi.control.ProdottoController;
-import com.example.tesi.control.ProdottoControllerImpl;
-import com.example.tesi.control.UserController;
-import com.example.tesi.control.UserControllerImpl;
+import com.example.tesi.client.control.FotoProdottoController;
+import com.example.tesi.client.control.FotoProdottoControllerImpl;
+import com.example.tesi.client.control.NotificheController;
+import com.example.tesi.client.control.NotificheControllerImpl;
+import com.example.tesi.client.control.ProdottoController;
+import com.example.tesi.client.control.ProdottoControllerImpl;
+import com.example.tesi.client.control.UserController;
+import com.example.tesi.client.control.UserControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
@@ -56,11 +58,19 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 	@Override
 	public void onBindViewHolder(@NonNull ProdottoHolder holder, int position) {
 		Prodotto p=prodotti.get(position);
+		FragmentActivity activity= (FragmentActivity) holder.itemView.getContext();
+		new Thread(()->{
+			FotoByteArray foto=fotoController.findFirst(p);
 
-		FotoByteArray foto=fotoController.findFirst(p);
+			activity.runOnUiThread(()->{
+				if (foto!=null) {
+					holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
+					holder.fotoProdottoItem.setScaleType(ImageView.ScaleType.FIT_CENTER);
+				}
+			});
 
-		if (foto!=null)
-			holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
+		}).start();
+
 		holder.titoloProdottoItem.setText(p.getTitolo());
 		holder.prezzoProdottoItem.setText("€"+p.getPrezzo());
 		if (p.getMiPiace()>0)
@@ -100,7 +110,10 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 				notificheController.delete(descrizione);
 			}
 
-			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
+			if (p.getMiPiace()>0)
+				holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
+			else
+				holder.miPiaceProdottoItem.setText("");
 
 			userController.update(currentUser);
 			prodottoController.update(p);

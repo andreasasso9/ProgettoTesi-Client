@@ -11,10 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.tesi.client.R;
-import com.example.tesi.control.ProdottoController;
-import com.example.tesi.control.ProdottoControllerImpl;
+import com.example.tesi.client.control.ProdottoController;
+import com.example.tesi.client.control.ProdottoControllerImpl;
+import com.example.tesi.client.utils.recyclerView.refresh.Refresh;
+import com.example.tesi.client.utils.recyclerView.refresh.UpdateMethod;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 import com.example.tesi.client.utils.Session;
@@ -23,6 +26,8 @@ import com.example.tesi.client.utils.recyclerView.ProdottoAdapter;
 import java.util.List;
 
 public class IMieiAcquistiFragment extends Fragment {
+	private List<Prodotto> acquisti;
+	private ProdottoAdapter adapter;
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,12 +40,23 @@ public class IMieiAcquistiFragment extends Fragment {
 		RecyclerView recyclerView=v.findViewById(R.id.list_prodotti);
 		recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-		ProdottoController prodottoController=new ProdottoControllerImpl();
 		User currentUser= Session.getInstance(requireContext()).getCurrentUser();
-		List<Prodotto> acquisti=prodottoController.findByCompratore(currentUser.getUsername());
 
-		ProdottoAdapter adapter=new ProdottoAdapter(acquisti, currentUser, false);
-		recyclerView.setAdapter(adapter);
+		SwipeRefreshLayout swipeRefreshLayout=v.findViewById(R.id.refreshLayout);
+		new Thread(()->{
+			swipeRefreshLayout.setRefreshing(true);
+			ProdottoController prodottoController=new ProdottoControllerImpl();
+			acquisti=prodottoController.findByCompratore(currentUser.getUsername());
+
+			requireActivity().runOnUiThread(()->{
+				adapter=new ProdottoAdapter(acquisti, currentUser, false);
+				recyclerView.setAdapter(adapter);
+			});
+			swipeRefreshLayout.setRefreshing(false);
+		}).start();
+
+		UpdateMethod method=new UpdateMethod(currentUser.getUsername(), UpdateMethod.FIND_BY_COMPRATORE);
+		swipeRefreshLayout.setOnRefreshListener(()-> Refresh.run(requireActivity(), acquisti, adapter, swipeRefreshLayout, method));
 
 		return v;
 	}

@@ -1,14 +1,13 @@
-package com.example.tesi.control;
+package com.example.tesi.client.control;
 
 import android.util.Log;
 
 import com.example.tesi.entity.Notifica;
-import com.example.tesi.service.NotificheServiceRetrofit;
+import com.example.tesi.client.service.NotificheServiceRetrofit;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 

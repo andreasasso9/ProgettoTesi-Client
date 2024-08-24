@@ -10,20 +10,29 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.tesi.client.R;
-import com.example.tesi.control.ProdottoController;
-import com.example.tesi.control.ProdottoControllerImpl;
+import com.example.tesi.client.control.ProdottoController;
+import com.example.tesi.client.control.ProdottoControllerImpl;
+import com.example.tesi.client.utils.recyclerView.refresh.Refresh;
+import com.example.tesi.client.utils.recyclerView.refresh.UpdateMethod;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
 import com.example.tesi.client.utils.recyclerView.ProdottoAdapter;
 import com.example.tesi.client.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-
 public class HomeFragment extends Fragment {
+	private ProdottoController prodottoController;
+	private List<Prodotto> prodotti;
+	private User currentUser;
+	private ProdottoAdapter adapter;
+	private SwipeRefreshLayout refreshLayout;
 
 	@Nullable
 	@Override
@@ -33,22 +42,27 @@ public class HomeFragment extends Fragment {
 
 		v.findViewById(R.id.indietro).setVisibility(View.GONE);
 
+		refreshLayout=v.findViewById(R.id.refreshLayout);
+
 		RecyclerView list_prodotti = v.findViewById(R.id.list_prodotti);
 		list_prodotti.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-		User currentUser=Session.getInstance(requireContext()).getCurrentUser();
+		currentUser=Session.getInstance(requireContext()).getCurrentUser();
 
 		new Thread(()->{
-			ProdottoController prodottoController=new ProdottoControllerImpl();
-			List<Prodotto> prodotti=prodottoController.getAllNotOwnedBy(currentUser.getUsername());
+			refreshLayout.setRefreshing(true);
+			prodottoController=new ProdottoControllerImpl();
+			prodotti=prodottoController.getAllNotOwnedBy(currentUser.getUsername());
 
-			if (prodotti != null) {
-				getActivity().runOnUiThread(()->{
-					ProdottoAdapter adapter = new ProdottoAdapter(prodotti, currentUser, true);
-					list_prodotti.setAdapter(adapter);
-				});
-			}
+			requireActivity().runOnUiThread(()->{
+				adapter = new ProdottoAdapter(prodotti, currentUser, true);
+				list_prodotti.setAdapter(adapter);
+			});
+			refreshLayout.setRefreshing(false);
 		}).start();
+
+		UpdateMethod method=new UpdateMethod(currentUser.getUsername(), UpdateMethod.GET_ALL_NOT_OWNED_BY);
+		refreshLayout.setOnRefreshListener(() -> Refresh.run(requireActivity(), prodotti, adapter, refreshLayout, method));
 
 		return v;
 	}

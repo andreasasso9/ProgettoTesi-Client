@@ -12,10 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tesi.client.R;
 import com.example.tesi.entity.FotoByteArray;
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageHolder> {
-	private FotoByteArray[] foto;
+import java.util.List;
 
-	public ImageAdapter(FotoByteArray[] foto) {
+public class ImageAdapter extends RecyclerView.Adapter<ImageHolder> {
+	private final List<FotoByteArray> foto;
+
+	public ImageAdapter(List<FotoByteArray> foto) {
 		this.foto = foto;
 	}
 
@@ -28,14 +30,21 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageHolder> {
 
 	@Override
 	public void onBindViewHolder(@NonNull ImageHolder holder, int position) {
-		byte[] f= foto[holder.getAdapterPosition()].getValue();
+		if (foto != null) {
+			byte[] f = foto.get(holder.getAdapterPosition()).getValue();
 
-		holder.foto.setImageBitmap(BitmapFactory.decodeByteArray(f, 0, f.length));
-		holder.foto.setScaleType(ImageView.ScaleType.FIT_XY);
+			if (f != null) {
+				holder.foto.setImageBitmap(BitmapFactory.decodeByteArray(f, 0, f.length));
+				holder.foto.setScaleType(ImageView.ScaleType.CENTER);
+			}
+
+		}
 	}
 
 	@Override
 	public int getItemCount() {
-		return foto.length;
+		if (foto!=null)
+			return foto.size();
+		return 0;
 	}
 }

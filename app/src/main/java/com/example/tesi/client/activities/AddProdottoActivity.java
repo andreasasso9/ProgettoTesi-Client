@@ -32,10 +32,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.example.tesi.client.R;
-import com.example.tesi.control.FotoProdottoController;
-import com.example.tesi.control.FotoProdottoControllerImpl;
-import com.example.tesi.control.ProdottoController;
-import com.example.tesi.control.ProdottoControllerImpl;
+import com.example.tesi.client.control.FotoProdottoController;
+import com.example.tesi.client.control.FotoProdottoControllerImpl;
+import com.example.tesi.client.control.ProdottoController;
+import com.example.tesi.client.control.ProdottoControllerImpl;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.entityoptions.Brand;

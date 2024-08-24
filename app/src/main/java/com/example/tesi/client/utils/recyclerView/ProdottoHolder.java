@@ -20,6 +20,8 @@ public class ProdottoHolder extends RecyclerView.ViewHolder {
 	public ProdottoHolder(@NonNull View itemView) {
 		super(itemView);
 		fotoProdottoItem=itemView.findViewById(R.id.foto_prodotto_item);
+		//fotoProdottoItem.setImageResource(R.drawable.icons8_nessuna_immagine_50);
+
 		miPiaceProdottoItem =itemView.findViewById(R.id.miPiace_prodotto_item);
 		titoloProdottoItem=itemView.findViewById(R.id.titolo_prodotto_item);
 		prezzoProdottoItem=itemView.findViewById(R.id.prezzo_prodotto_item);

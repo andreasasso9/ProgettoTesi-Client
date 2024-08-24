@@ -2,9 +2,11 @@ package com.example.tesi.client.utils.recyclerView;
 
 import android.graphics.BitmapFactory;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
@@ -21,10 +23,19 @@ public class MieiProdottiAdapter extends ProdottoAdapter {
 	public void onBindViewHolder(@NonNull ProdottoHolder holder, int position) {
 		Prodotto p=prodotti.get(position);
 
-		FotoByteArray foto=fotoController.findFirst(p);
+		FragmentActivity activity= (FragmentActivity) holder.itemView.getContext();
+		new Thread(()->{
+			FotoByteArray foto=fotoController.findFirst(p);
 
-		if (foto!=null)
-			holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
+			activity.runOnUiThread(()->{
+				if (foto!=null) {
+					holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
+					holder.fotoProdottoItem.setScaleType(ImageView.ScaleType.FIT_CENTER);
+				}
+			});
+
+		}).start();
+
 		holder.titoloProdottoItem.setText(p.getTitolo());
 		holder.prezzoProdottoItem.setText(p.getPrezzo()+"");
 		LinearLayout miPiaceParent= (LinearLayout) holder.miPiaceProdottoItem.getParent();

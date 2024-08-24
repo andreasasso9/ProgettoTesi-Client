@@ -1,14 +1,13 @@
-package com.example.tesi.control;
+package com.example.tesi.client.control;
 
 import android.util.Log;
 
 import com.example.tesi.entity.Prodotto;
-import com.example.tesi.entity.User;
-import com.example.tesi.service.ProdottoServiceRetrofit;
+import com.example.tesi.client.service.ProdottoServiceRetrofit;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -80,16 +79,16 @@ public class ProdottoControllerImpl implements ProdottoController {
 				if (response.isSuccessful())
 					return response.body();
 
-				return null;
+				return new ArrayList<>();
 			} catch (IOException e) {
-				return null;
+				return new ArrayList<>();
 			}
 		});
 
 		try {
 			return future.get();
 		} catch (InterruptedException | ExecutionException e) {
-			return null;
+			return new ArrayList<>();
 		}
 	}
 

@@ -2,7 +2,6 @@ package com.example.tesi.client.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,8 +20,8 @@ import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.example.tesi.client.R;
 import com.example.tesi.client.utils.File;
-import com.example.tesi.control.UserController;
-import com.example.tesi.control.UserControllerImpl;
+import com.example.tesi.client.control.UserController;
+import com.example.tesi.client.control.UserControllerImpl;
 import com.example.tesi.entity.User;
 import com.example.tesi.client.utils.Session;
 

@@ -1,4 +1,4 @@
-package com.example.tesi.service;
+package com.example.tesi.client.service;
 
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;

@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.tesi.client.R;
 import com.example.tesi.entity.User;
@@ -30,10 +31,11 @@ public class ArticoliPreferitiFragment extends Fragment {
 		RecyclerView recyclerView=v.findViewById(R.id.list_prodotti);
 		recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-		User currentuser=Session.getInstance(requireContext()).getCurrentUser();
-
-		ProdottiPreferitiAdapter adapter=new ProdottiPreferitiAdapter(currentuser);
+		ProdottiPreferitiAdapter adapter=new ProdottiPreferitiAdapter(Session.getInstance(requireContext()).getCurrentUser());
 		recyclerView.setAdapter(adapter);
+
+		SwipeRefreshLayout refreshLayout=v.findViewById(R.id.refreshLayout);
+		refreshLayout.setEnabled(false);
 
 		return v;
 	}

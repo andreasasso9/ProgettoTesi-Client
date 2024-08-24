@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tesi.client.R;
-import com.example.tesi.control.NotificheController;
-import com.example.tesi.control.NotificheControllerImpl;
+import com.example.tesi.client.control.NotificheController;
+import com.example.tesi.client.control.NotificheControllerImpl;
 import com.example.tesi.entity.Notifica;
 import com.example.tesi.client.utils.Session;
 import com.example.tesi.client.utils.recyclerView.NotificheAdapter;
