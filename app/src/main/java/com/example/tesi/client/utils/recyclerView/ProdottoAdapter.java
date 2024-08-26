@@ -71,6 +71,7 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 
 		}).start();
 
+		holder.userProdottoItem.setText(p.getProprietario());
 		holder.titoloProdottoItem.setText(p.getTitolo());
 		holder.prezzoProdottoItem.setText("€"+p.getPrezzo());
 		if (p.getMiPiace()>0)

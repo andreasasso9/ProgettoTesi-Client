@@ -79,7 +79,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 			Session session=Session.getInstance(holder.itemView.getContext());
 			StompClient stompClient=session.getStompClient();
 			User currentUser=session.getCurrentUser();
-			stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
+			stompClient.topic("/queue/user/"+currentUser.getUsername()).retry(5).subscribe(message->{
 				Gson gson=new Gson();
 				Text text=gson.fromJson(message.getPayload(), Text.class);
 				Image image;

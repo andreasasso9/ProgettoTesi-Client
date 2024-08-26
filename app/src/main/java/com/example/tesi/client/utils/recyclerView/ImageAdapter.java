@@ -30,14 +30,18 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageHolder> {
 
 	@Override
 	public void onBindViewHolder(@NonNull ImageHolder holder, int position) {
-		if (foto != null) {
-			byte[] f = foto.get(holder.getAdapterPosition()).getValue();
+		if (!foto.isEmpty()) {
+			FotoByteArray fotoByteArray=foto.get(holder.getAdapterPosition());
 
-			if (f != null) {
+			if (fotoByteArray!=null) {
+				byte[] f = fotoByteArray.getValue();
+
 				holder.foto.setImageBitmap(BitmapFactory.decodeByteArray(f, 0, f.length));
+				holder.foto.setScaleType(ImageView.ScaleType.FIT_XY);
+			} else {
+				holder.foto.setImageResource(R.drawable.icons8_nessuna_immagine_50);
 				holder.foto.setScaleType(ImageView.ScaleType.CENTER);
 			}
-
 		}
 	}
 

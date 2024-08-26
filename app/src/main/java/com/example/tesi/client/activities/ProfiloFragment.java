@@ -62,7 +62,7 @@ public class ProfiloFragment extends Fragment {
 
 			new Handler(Looper.getMainLooper()).postDelayed(()->{
 				Session session=Session.getInstance(getContext());
-				session.setCurrentUser(null, null, requireContext());
+				session.setCurrentUser(null, requireContext());
 				session.getStompClient().disconnect();
 				session.setStompClient(null);
 

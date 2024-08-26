@@ -98,7 +98,7 @@ public class ChatActivity extends AppCompatActivity {
 		editText.setWidth((int) (Session.getInstance(this).getScreenWidth()*0.66));
 
 		stompClient=Session.getInstance(this).getStompClient();
-		stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
+		stompClient.topic("/queue/user/"+currentUser.getUsername()).retry(5).subscribe(message->{
 
 			Text text=gson.fromJson(message.getPayload(), Text.class);
 
@@ -107,8 +107,6 @@ public class ChatActivity extends AppCompatActivity {
 				chat.getTexts().add(image);
 			} else
 				chat.getTexts().add(text);
-
-
 
 			runOnUiThread(()-> textAdapter.notifyItemInserted(textAdapter.getItemCount()));
 		});
@@ -124,7 +122,7 @@ public class ChatActivity extends AppCompatActivity {
 
 				editText.setText("");
 
-				stompClient.send("/app/chat", gson.toJson(text)).subscribe();
+				stompClient.send("/app/chat", gson.toJson(text)).retry(0).subscribe();
 			}
 		});
 

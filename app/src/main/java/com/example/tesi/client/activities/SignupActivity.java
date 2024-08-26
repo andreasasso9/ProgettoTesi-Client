@@ -106,7 +106,7 @@ public class SignupActivity extends AppCompatActivity {
 						errorMessage.setText("E-mail o username già esistenti");
 					}
 
-					Session.getInstance(this).setCurrentUser(null, null, this);
+					Session.getInstance(this).setCurrentUser(null, this);
 					goToLogin();
 				},100);
 

@@ -46,28 +46,22 @@ public class LoginActivity extends AppCompatActivity {
 			Session.getInstance(this).setScreenHeight(displayMetrics.heightPixels);
 		}
 
-//		SharedPreferences preferences=getSharedPreferences(Session.SESSION_PREFERENCES, MODE_PRIVATE);
-//		String username=preferences.getString("username","");
-//		String password=preferences.getString("password", "");
 		User loggedUser= (User) File.readObjectFromFile(this, "loggedUser");
 		userController = new UserControllerImpl();
 		if (loggedUser!=null) {
-			//User user = userController.floginUser(username, password);
-			Session.getInstance(this).setCurrentUser(loggedUser, "", this);
+			Session.getInstance(this).setCurrentUser(loggedUser, this);
 			new Thread(()->{
 				User user=userController.findById(loggedUser.getId());
-				if (user!=null) {
-					Session.getInstance(this).setCurrentUser(user, "", this);
-					Session.getInstance(this).createStompClient(this);
-				}
+				if (user!=null)
+					Session.getInstance(this).setCurrentUser(user, this);
+
+				Session.getInstance(this).createStompClient(this);
+
 			}).start();
 
-			//if (user != null) {
 				Intent i = new Intent(this, MainActivity.class);
-//				Session.getInstance(this).setCurrentUser(user, password);
-//				Session.getInstance(this).createStompClient(this);
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				startActivity(i);
-			//}
 		}
 
 		loginUsername = findViewById(R.id.loginUsername);
@@ -117,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 				}
 
 				Intent i=new Intent(this, MainActivity.class);
-				Session.getInstance(this).setCurrentUser(user, password, this);
+				Session.getInstance(this).setCurrentUser(user, this);
 				Session.getInstance(this).createStompClient(this);
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				startActivity(i);

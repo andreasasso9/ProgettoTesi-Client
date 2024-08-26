@@ -72,22 +72,8 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 			runOnUiThread(()->{
 				containerFoto.setLayoutParams(params);
 
-				if (foto.isEmpty()) {
-					BitmapDrawable drawable= (BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.icons8_nessuna_immagine_50, null);
-					if (drawable!=null) {
-						Bitmap bitmap = drawable.getBitmap();
-
-						try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
-
-							bitmap=Bitmap.createScaledBitmap(bitmap, 150, 150, true);
-
-							bitmap.compress(Bitmap.CompressFormat.WEBP, 100, stream);
-
-
-							foto.add(new FotoByteArray(stream.toByteArray()));
-						} catch (IOException ignored) {}
-					}
-				}
+				if (foto.isEmpty())
+					foto.add(null);
 				ImageAdapter imageAdapter=new ImageAdapter(foto);
 				containerFoto.setAdapter(imageAdapter);
 

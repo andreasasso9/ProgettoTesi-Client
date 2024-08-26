@@ -30,7 +30,7 @@ import ua.naiksoftware.stomp.StompClient;
 public class MessaggiFragment extends Fragment {
 	private RecyclerView recyclerView;
 	private User currentUser;
-	@SuppressLint("CheckResult")
+
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,10 +40,10 @@ public class MessaggiFragment extends Fragment {
 		recyclerView=v.findViewById(R.id.lista_chat);
 		recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
-		List<Chat> chats=new ArrayList<>();
-		Set<String> fileChatsNames=Session.getInstance(requireContext()).getFileChatsNames();
-
 		Session session=Session.getInstance(requireContext());
+
+		List<Chat> chats=new ArrayList<>();
+		Set<String> fileChatsNames=session.getFileChatsNames();
 
 		currentUser=session.getCurrentUser();
 		for (String s:fileChatsNames) {

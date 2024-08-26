@@ -48,16 +48,9 @@ public class Session {
 		return instance;
 	}
 
-	public void setCurrentUser(@Nullable User user, String password, Context context) {
+	public void setCurrentUser(@Nullable User user, Context context) {
 		currentUser=user;
 		File.saveObjectToFile(context, "loggedUser", user);
-
-//		String username;
-//		if (user==null)
-//			username=null;
-//		else
-//			username=user.getUsername();
-//		editor.putString("username", username).putString("password", password).commit();
 	}
 
 	public User getCurrentUser() {
@@ -100,6 +93,13 @@ public class Session {
 		return fileChatsNames;
 	}
 
+	public void setFileChatsNames(Set<String> fileChatsNames) {
+		this.fileChatsNames = fileChatsNames;
+
+		editor.putStringSet("fileChatsNames", fileChatsNames);
+		editor.apply();
+	}
+
 	public StompClient getStompClient() {
 		return stompClient;
 	}
@@ -112,7 +112,8 @@ public class Session {
 	public void createStompClient(Context context) {
 		stompClient= Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://10.0.2.2:8080/cloneVinted/websocket");
 		stompClient.connect();
-		stompClient.topic("/queue/user/"+currentUser.getUsername()).subscribe(message->{
+
+		stompClient.topic("/queue/user/"+currentUser.getUsername()).retry(5).subscribe(message->{
 			Text text=gson.fromJson(message.getPayload(), Text.class);
 			Image image=null;
 
@@ -131,8 +132,6 @@ public class Session {
 						chat.getTexts().add(text);
 					else
 						chat.getTexts().add(image);
-
-				File.deleteFile(context, nameChat);
 			} else {
 				fileChatsNames.add(nameChat);
 				List<Text> texts=new ArrayList<>();
@@ -147,7 +146,13 @@ public class Session {
 				chat=new Chat(sender, texts, nameChat);
 			}
 
+			setFileChatsNames(fileChatsNames);
+
+			File.deleteFile(context, nameChat);
 			File.saveObjectToFile(context, nameChat, chat);
 		});
+
+
+		stompClient.send("/app/synchronize", currentUser.getUsername()).retry(0).subscribe();
 	}
 }

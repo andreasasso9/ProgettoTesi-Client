@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		//File.deleteFile(this, "chats-"+ Session.getInstance(this).getCurrentUser().getId());
-
 		navbar=findViewById(R.id.navbar);
 
 		homeFragment=new HomeFragment();
@@ -40,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
 		createNavBarItemListener();
 
-		getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-			@Override
-			public void handleOnBackPressed() {}
-		});
+//		getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+//			@Override
+//			public void handleOnBackPressed() {}
+//		});
 
 	}
 
