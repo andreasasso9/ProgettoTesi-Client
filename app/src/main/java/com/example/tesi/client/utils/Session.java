@@ -32,10 +32,11 @@ public class Session {
 	private Set<String> fileChatsNames;
 	private StompClient stompClient;
 
+
 	private Session(Context context) {
 		preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
 		editor= preferences.edit();
-		editor.commit();
+		editor.apply();
 
 		gson=new Gson();
 
@@ -70,7 +71,7 @@ public class Session {
 	}
 
 	public void setScreenHeight(int screenHeight) {
-		editor.putInt("screenHeight", screenHeight).commit();
+		editor.putInt("screenHeight", screenHeight).apply();
 	}
 
 	public List<String> getSearchHistory() {
@@ -96,8 +97,7 @@ public class Session {
 	public void setFileChatsNames(Set<String> fileChatsNames) {
 		this.fileChatsNames = fileChatsNames;
 
-		editor.putStringSet("fileChatsNames", fileChatsNames);
-		editor.apply();
+		editor.putStringSet("fileChatsNames", fileChatsNames).apply();
 	}
 
 	public StompClient getStompClient() {
@@ -154,5 +154,13 @@ public class Session {
 
 
 		stompClient.send("/app/synchronize", currentUser.getUsername()).retry(0).subscribe();
+	}
+
+	public String getToken() {
+		return preferences.getString("token", null);
+	}
+
+	public void setToken(String token) {
+		editor.putString("token", token).apply();
 	}
 }

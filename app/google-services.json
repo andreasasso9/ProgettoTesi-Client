@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "840379244799",
+    "project_id": "clonevinted",
+    "storage_bucket": "clonevinted.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840379244799:android:80a1b21cb2f3e6d179acca",
+        "android_client_info": {
+          "package_name": "com.example.tesi.client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAw5mtmJxSHVDASNA1KHhYOgVTaaKRt09A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

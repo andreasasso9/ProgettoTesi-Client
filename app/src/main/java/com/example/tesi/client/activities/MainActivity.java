@@ -1,18 +1,25 @@
 package com.example.tesi.client.activities;
 
+import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MenuItem;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.tesi.client.R;
+import com.example.tesi.client.control.TokenControllerImpl;
 import com.example.tesi.client.utils.File;
 import com.example.tesi.client.utils.Session;
+import com.example.tesi.entity.Token;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +35,37 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		Session session=Session.getInstance(this);
+
+		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		if (!notificationManager.areNotificationsEnabled()) {
+			new AlertDialog.Builder(this)
+					.setTitle("Notifiche Disabilitate")
+					.setMessage("Le notifiche per questa applicazione sono disabilitate. Vuoi abilitarle nelle impostazioni?")
+					.setPositiveButton("Sì", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// Apri le impostazioni dell'app
+							Intent intent = new Intent();
+							intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+							Uri uri = Uri.fromParts("package", getPackageName(), null);
+							intent.setData(uri);
+							startActivity(intent);
+						}
+					})
+					.setNegativeButton("No", null)
+					.show();
+		}
+
+		new Thread(()->{
+			String username, deviceToken;
+			username=session.getCurrentUser().getUsername();
+			deviceToken=session.getToken();
+
+			Token token=new Token(deviceToken, username);
+
+			new TokenControllerImpl().save(token);
+		}).start();
 
 		navbar=findViewById(R.id.navbar);
 

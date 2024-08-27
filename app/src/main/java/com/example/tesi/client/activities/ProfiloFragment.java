@@ -15,8 +15,10 @@ import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
 import com.example.tesi.client.R;
+import com.example.tesi.client.control.TokenControllerImpl;
 import com.example.tesi.client.utils.File;
 import com.example.tesi.client.utils.Session;
+import com.example.tesi.entity.Token;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfiloFragment extends Fragment {
@@ -62,9 +64,14 @@ public class ProfiloFragment extends Fragment {
 
 			new Handler(Looper.getMainLooper()).postDelayed(()->{
 				Session session=Session.getInstance(getContext());
+
+				Token deviceToken=new Token(session.getToken(), session.getCurrentUser().getUsername());
+				new TokenControllerImpl().delete(deviceToken);
+
 				session.setCurrentUser(null, requireContext());
 				session.getStompClient().disconnect();
 				session.setStompClient(null);
+
 
 				Intent i=new Intent(getContext(), LoginActivity.class);
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
