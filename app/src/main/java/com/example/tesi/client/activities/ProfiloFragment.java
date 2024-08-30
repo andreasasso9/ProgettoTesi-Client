@@ -66,7 +66,7 @@ public class ProfiloFragment extends Fragment {
 				Session session=Session.getInstance(getContext());
 
 				Token deviceToken=new Token(session.getToken(), session.getCurrentUser().getUsername());
-				new TokenControllerImpl().delete(deviceToken);
+				TokenControllerImpl.getInstance().delete(deviceToken);
 
 				session.setCurrentUser(null, requireContext());
 				session.getStompClient().disconnect();

@@ -13,15 +13,23 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TokenControllerImpl implements TokenController {
+	private static TokenControllerImpl instance;
 	private final TokenService tokenService;
 
-	public TokenControllerImpl() {
+	private TokenControllerImpl() {
 		tokenService=new Retrofit.Builder()
 				.baseUrl("http://10.0.2.2:8080/token/")
 				.addConverterFactory(GsonConverterFactory.create())
 				.build()
 				.create(TokenService.class);
 	}
+
+	public static TokenControllerImpl getInstance() {
+		if (instance==null)
+			instance=new TokenControllerImpl();
+		return instance;
+	}
+
 	@Override
 	public boolean save(Token token) {
 		Call<Boolean> call=tokenService.save(token);

@@ -23,8 +23,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FotoProdottoControllerImpl implements FotoProdottoController{
 	private final FotoProdottoServiceRetrofit fotoProdottoServiceRetrofit;
+	private static FotoProdottoController instance;
 
-	public FotoProdottoControllerImpl() {
+	public static FotoProdottoController getInstance() {
+		if (instance==null)
+			instance=new FotoProdottoControllerImpl();
+		return instance;
+	}
+
+	private FotoProdottoControllerImpl() {
 		fotoProdottoServiceRetrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:8080/prodotto/foto/")
 				.addConverterFactory(GsonConverterFactory.create())
 				.build()

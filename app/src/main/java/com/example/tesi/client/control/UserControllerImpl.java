@@ -14,14 +14,21 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserControllerImpl implements UserController{
+	private static UserController instance;
 	private final UserServiceRetrofit userServiceRetrofit;
 
-	public UserControllerImpl() {
+	private UserControllerImpl() {
 		userServiceRetrofit=new Retrofit.Builder()
 				.baseUrl("http://10.0.2.2:8080/users/")
 				.addConverterFactory(GsonConverterFactory.create())
 				.build()
 				.create(UserServiceRetrofit.class);
+	}
+
+	public static UserController getInstance() {
+		if (instance==null)
+			instance=new UserControllerImpl();
+		return instance;
 	}
 
 	public boolean saveUser(String email, String username, String password, String indirizzo) {

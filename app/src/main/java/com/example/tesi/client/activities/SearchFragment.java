@@ -42,7 +42,7 @@ public class SearchFragment extends Fragment {
 
 		currentUser=Session.getInstance(requireContext()).getCurrentUser();
 
-		prodottoController=new ProdottoControllerImpl();
+		prodottoController=ProdottoControllerImpl.getInstance();
 
 		listHistory=Session.getInstance(requireContext()).getSearchHistory();
 

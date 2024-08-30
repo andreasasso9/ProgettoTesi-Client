@@ -63,8 +63,8 @@ public class AddProdottoActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_prodotto_layout);
 
-		prodottoController=new ProdottoControllerImpl();
-		fotoProdottoController=new FotoProdottoControllerImpl();
+		prodottoController=ProdottoControllerImpl.getInstance();
+		fotoProdottoController=FotoProdottoControllerImpl.getInstance();
 
 		foto=new LinkedList<>();
 		containerFoto=findViewById(R.id.containerFoto);

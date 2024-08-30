@@ -23,13 +23,20 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class NotificheControllerImpl implements NotificheController {
+	private static NotificheController instance;
 	private final NotificheServiceRetrofit notificheServiceRetrofit;
 
-	public NotificheControllerImpl() {
+	private NotificheControllerImpl() {
 		this.notificheServiceRetrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:8080/notifiche/")
 				.addConverterFactory(GsonConverterFactory.create())
 				.build()
 				.create(NotificheServiceRetrofit.class);
+	}
+
+	public static NotificheController getInstance() {
+		if (instance==null)
+			instance=new NotificheControllerImpl();
+		return instance;
 	}
 
 	@Override

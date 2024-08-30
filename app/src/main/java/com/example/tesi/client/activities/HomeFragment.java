@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
 
 		new Thread(()->{
 			refreshLayout.setRefreshing(true);
-			prodottoController=new ProdottoControllerImpl();
+			prodottoController=ProdottoControllerImpl.getInstance();
 			prodotti=prodottoController.getAllNotOwnedBy(currentUser.getUsername());
 
 			requireActivity().runOnUiThread(()->{

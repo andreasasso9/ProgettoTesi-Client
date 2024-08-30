@@ -40,7 +40,7 @@ public class NotificheAdapter extends RecyclerView.Adapter<NotificheHolder> {
 
 		holder.elimina.setOnClickListener(l->{
 			notifiche.remove(holder.getAdapterPosition());
-			new NotificheControllerImpl().delete(holder.descrizione.getText()+"");
+			NotificheControllerImpl.getInstance().delete(holder.descrizione.getText()+"");
 
 			TranslateAnimation animation=new TranslateAnimation(0,-holder.itemView.getWidth(),0,0);
 			animation.setDuration(1000);

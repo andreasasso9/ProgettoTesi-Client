@@ -24,7 +24,7 @@ public class UpdateMethod implements Runnable {
 
 	@Override
 	public void run() {
-		ProdottoController prodottoController=new ProdottoControllerImpl();
+		ProdottoController prodottoController=ProdottoControllerImpl.getInstance();
 		switch (method) {
 			case GET_ALL_NOT_OWNED_BY:
 				list=prodottoController.getAllNotOwnedBy(username);

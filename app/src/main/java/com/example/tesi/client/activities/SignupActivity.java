@@ -34,7 +34,7 @@ public class SignupActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.signup_layout);
 
-		userController=new UserControllerImpl();
+		userController=UserControllerImpl.getInstance();
 
 		signupEmail=findViewById(R.id.signupEmail);
 		signupUsername=findViewById(R.id.signupUsername);

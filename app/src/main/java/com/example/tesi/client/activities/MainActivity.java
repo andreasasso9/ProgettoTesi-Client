@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
 			Token token=new Token(deviceToken, username);
 
-			new TokenControllerImpl().save(token);
+			TokenControllerImpl.getInstance().save(token);
 		}).start();
 
 		navbar=findViewById(R.id.navbar);

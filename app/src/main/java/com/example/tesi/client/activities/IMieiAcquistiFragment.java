@@ -45,7 +45,7 @@ public class IMieiAcquistiFragment extends Fragment {
 		SwipeRefreshLayout swipeRefreshLayout=v.findViewById(R.id.refreshLayout);
 		new Thread(()->{
 			swipeRefreshLayout.setRefreshing(true);
-			ProdottoController prodottoController=new ProdottoControllerImpl();
+			ProdottoController prodottoController=ProdottoControllerImpl.getInstance();
 			acquisti=prodottoController.findByCompratore(currentUser.getUsername());
 
 			requireActivity().runOnUiThread(()->{

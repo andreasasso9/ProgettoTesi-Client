@@ -41,10 +41,10 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 	public ProdottoAdapter(List<Prodotto> prodotti, User currentUser, boolean miPiaceEnabled) {
 		this.prodotti=prodotti;
 		this.currentUser=currentUser;
-		notificheController=new NotificheControllerImpl();
-		prodottoController=new ProdottoControllerImpl();
-		fotoController=new FotoProdottoControllerImpl();
-		userController=new UserControllerImpl();
+		notificheController=NotificheControllerImpl.getInstance();
+		prodottoController=ProdottoControllerImpl.getInstance();
+		fotoController=FotoProdottoControllerImpl.getInstance();
+		userController=UserControllerImpl.getInstance();
 		this.miPiaceEnabled=miPiaceEnabled;
 	}
 

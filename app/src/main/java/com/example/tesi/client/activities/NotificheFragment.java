@@ -40,7 +40,7 @@ public class NotificheFragment extends Fragment {
 		listaNotifiche.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
 
 		new Thread(()->{
-			notificheController=new NotificheControllerImpl();
+			notificheController=NotificheControllerImpl.getInstance();
 			List<Notifica> notifiche=notificheController.findByReceiver(Session.getInstance(requireContext()).getCurrentUser().getUsername());
 
 			if (notifiche != null && !notifiche.isEmpty()) {

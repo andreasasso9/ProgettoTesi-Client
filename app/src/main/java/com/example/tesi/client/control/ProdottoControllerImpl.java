@@ -17,13 +17,20 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProdottoControllerImpl implements ProdottoController {
+	private static ProdottoController instance;
 	private final ProdottoServiceRetrofit prodottoServiceRetrofit;
 
-	public ProdottoControllerImpl() {
+	private ProdottoControllerImpl() {
 		prodottoServiceRetrofit= new Retrofit.Builder().baseUrl("http://10.0.2.2:8080/prodotto/")
 				.addConverterFactory(GsonConverterFactory.create())
 				.build()
 				.create(ProdottoServiceRetrofit.class);
+	}
+
+	public static ProdottoController getInstance() {
+		if (instance==null)
+			instance=new ProdottoControllerImpl();
+		return instance;
 	}
 	@Override
 	public Prodotto add(Prodotto prodotto) {

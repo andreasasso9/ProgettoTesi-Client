@@ -127,11 +127,11 @@ public class AcquistaActivity extends AppCompatActivity {
 					assert p != null;
 					p.setCompratore(currentUser.getUsername());
 
-					ProdottoController prodottoController=new ProdottoControllerImpl();
+					ProdottoController prodottoController=ProdottoControllerImpl.getInstance();
 					prodottoController.update(p);
-					FotoByteArray fotoNotifica=new FotoProdottoControllerImpl().findFirst(p);
+					FotoByteArray fotoNotifica=FotoProdottoControllerImpl.getInstance().findFirst(p);
 					Notifica notifica=new Notifica(currentUser.getUsername(), p.getProprietario(), String.format("%s ha acquistato il tuo articolo %s", currentUser.getUsername(), p.getTitolo()), fotoNotifica.getValue());
-					new NotificheControllerImpl().save(notifica);
+					NotificheControllerImpl.getInstance().save(notifica);
 					Toast.makeText(this, "Il pagamento è andato a buon fine", Toast.LENGTH_SHORT).show();
 
 					Intent intent=new Intent(this, MainActivity.class);

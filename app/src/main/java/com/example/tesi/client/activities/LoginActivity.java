@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 		}
 
 		User loggedUser= (User) File.readObjectFromFile(this, "loggedUser");
-		userController = new UserControllerImpl();
+		userController = UserControllerImpl.getInstance();
 		if (loggedUser!=null) {
 			Session.getInstance(this).setCurrentUser(loggedUser, this);
 			new Thread(()->{

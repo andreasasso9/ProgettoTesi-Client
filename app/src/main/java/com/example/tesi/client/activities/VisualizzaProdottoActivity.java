@@ -60,7 +60,7 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 		String proprietario=prodotto.getProprietario();
 
 		new Thread(()->{
-			List<FotoByteArray> list=new FotoProdottoControllerImpl().findByProdotto(prodotto);
+			List<FotoByteArray> list=FotoProdottoControllerImpl.getInstance().findByProdotto(prodotto);
 
 			List<FotoByteArray> foto = new LinkedList<>(list);
 
