@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +16,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.tesi.client.R;
 import com.example.tesi.client.control.TokenControllerImpl;
-import com.example.tesi.client.utils.File;
 import com.example.tesi.client.utils.Session;
 import com.example.tesi.entity.Token;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -110,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 					break;
 
 				case ""://addProdotto
-					Intent i=new Intent(this, AddProdottoActivity.class);
+					Intent i=new Intent(this, FormProdottoActivity.class);
 					startActivity(i);
 					return true;
 

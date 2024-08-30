@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.tesi.client.R;
 import com.example.tesi.client.control.TokenControllerImpl;
-import com.example.tesi.client.utils.File;
 import com.example.tesi.client.utils.Session;
 import com.example.tesi.entity.Token;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

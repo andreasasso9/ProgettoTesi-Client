@@ -1,5 +1,6 @@
 package com.example.tesi.client.utils.recyclerView;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.tesi.client.activities.FormProdottoActivity;
 import com.example.tesi.entity.FotoByteArray;
 import com.example.tesi.entity.Prodotto;
 import com.example.tesi.entity.User;
@@ -37,11 +39,17 @@ public class MieiProdottiAdapter extends ProdottoAdapter {
 		}).start();
 
 		holder.titoloProdottoItem.setText(p.getTitolo());
-		holder.prezzoProdottoItem.setText(p.getPrezzo()+"");
+		holder.prezzoProdottoItem.setText(String.valueOf(p.getPrezzo()));
 		LinearLayout miPiaceParent= (LinearLayout) holder.miPiaceProdottoItem.getParent();
 		miPiaceParent.setVisibility(View.GONE);
 		if (p.isBought())
 			holder.acquistato.setVisibility(View.VISIBLE);
+
+		holder.itemView.setOnClickListener(v->{
+			Intent i=new Intent(holder.itemView.getContext(), FormProdottoActivity.class);
+			i.putExtra("prodotto", p);
+			holder.itemView.getContext().startActivity(i);
+		});
 
 	}
 }

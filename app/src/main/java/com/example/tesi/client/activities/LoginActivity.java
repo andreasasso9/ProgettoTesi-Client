@@ -1,6 +1,5 @@
 package com.example.tesi.client.activities;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;

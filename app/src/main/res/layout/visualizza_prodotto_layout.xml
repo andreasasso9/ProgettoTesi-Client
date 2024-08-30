@@ -10,18 +10,19 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/acquistaContainer">
+        android:layout_above="@id/acquistaContainer"
+        android:layout_marginBottom="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="vertical">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/containerFoto"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
@@ -33,25 +34,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="20dp"
+                android:orientation="horizontal"
                 android:padding="20dp">
 
                 <TextView android:id="@+id/proprietario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="user"
-                    android:textSize="@dimen/text_view_size"
                     android:layout_weight="1"
-                    android:textColor="@color/black"/>
+                    android:text="user"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_view_size" />
 
-                <Button android:id="@+id/chiediInfo"
+                <Button
+                    android:id="@+id/chiediInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Chiedi info"
-                    android:textSize="25dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/blue"/>
+                    android:backgroundTint="@color/blue"
+                    android:text="Chiedi info"
+                    android:textSize="25dp" />
 
             </LinearLayout>
 
@@ -65,24 +67,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="titolo"
+                    android:textColor="@color/black"
                     android:textSize="30dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"/>
+                    android:textStyle="bold" />
 
-                <TextView android:id="@+id/condizioni"
+                <TextView
+                    android:id="@+id/condizioni"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="condizioni"
-                    android:textSize="@dimen/text_view_size"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_view_size" />
 
                 <TextView
                     android:id="@+id/prezzo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="prezzo"
-                    android:textSize="@dimen/text_view_size"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_view_size" />
 
             </LinearLayout>
 
@@ -96,16 +99,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Descrizione dell'articolo"
-                    android:textSize="@dimen/text_view_size"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_view_size" />
 
                 <TextView android:id="@+id/descrizione"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="descrizione"
-                    android:textSize="30dp"
-                    android:textColor="@color/black"/>
-
+                    android:textColor="@color/black"
+                    android:textSize="30dp" />
             </LinearLayout>
 
         </LinearLayout>
