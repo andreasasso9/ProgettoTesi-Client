@@ -44,9 +44,10 @@
                 android:inputType="text"
                 android:autofillHints="username"
                 android:textColor="@color/black"
-                android:textColorHint="@color/gray"/>
+                android:textColorHint="@color/gray"
+                android:backgroundTint="@color/white"/>
 
-            <EditText android:id="@+id/loginPassword"
+            <com.example.tesi.client.utils.PasswordEditText android:id="@+id/loginPassword"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:hint="Password"
@@ -55,7 +56,9 @@
                 android:maxLines="1"
                 android:autofillHints="password"
                 android:textColor="@color/black"
-                android:textColorHint="@color/gray"/>
+                android:textColorHint="@color/gray"
+                android:backgroundTint="@color/white"
+                android:drawableEnd="@drawable/icons8_visibile_24" />
 
             <Button android:id="@+id/loginButton"
                 android:layout_width="match_parent"

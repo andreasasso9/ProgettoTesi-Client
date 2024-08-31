@@ -43,7 +43,8 @@
                 android:inputType="textEmailAddress"
                 android:autofillHints="emailAddress"
                 android:textColor="@color/black"
-                android:textColorHint="@color/gray"/>
+                android:textColorHint="@color/gray"
+                android:backgroundTint="@color/white"/>
 
             <EditText android:id="@+id/signupUsername"
                 android:layout_width="200dp"
@@ -55,7 +56,8 @@
                 android:inputType="text"
                 android:autofillHints="username"
                 android:textColor="@color/black"
-                android:textColorHint="@color/gray"/>
+                android:textColorHint="@color/gray"
+                android:backgroundTint="@color/white"/>
 
             <EditText android:id="@+id/signupIndirizzo"
                 android:layout_width="200dp"
@@ -67,9 +69,10 @@
                 android:inputType="text"
                 android:autofillHints="@null"
                 android:textColor="@color/black"
-                android:textColorHint="@color/gray"/>
+                android:textColorHint="@color/gray"
+                android:backgroundTint="@color/white"/>
 
-            <EditText android:id="@+id/signupPassword"
+            <com.example.tesi.client.utils.PasswordEditText android:id="@+id/signupPassword"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:hint="Password"
@@ -79,9 +82,11 @@
                 android:layout_marginBottom="5dp"
                 android:autofillHints="password"
                 android:textColor="@color/black"
-                android:textColorHint="@color/gray"/>
+                android:textColorHint="@color/gray"
+                android:backgroundTint="@color/white"
+                android:drawableEnd="@drawable/icons8_visibile_24"/>
 
-            <EditText android:id="@+id/signupConfPassword"
+            <com.example.tesi.client.utils.PasswordEditText android:id="@+id/signupConfPassword"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:hint="Confirm password"
@@ -90,7 +95,9 @@
                 android:inputType="textPassword"
                 android:autofillHints="password"
                 android:textColor="@color/black"
-                android:textColorHint="@color/gray"/>
+                android:textColorHint="@color/gray"
+                android:backgroundTint="@color/white"
+                android:drawableEnd="@drawable/icons8_visibile_24"/>
 
             <Button android:id="@+id/signupButton"
                 android:layout_width="match_parent"

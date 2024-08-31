@@ -22,10 +22,12 @@ import com.example.tesi.client.control.UserControllerImpl;
 import com.example.tesi.client.utils.CheckNotEmptyStrings;
 import com.example.tesi.client.R;
 import com.example.tesi.client.utils.EmailRegex;
+import com.example.tesi.client.utils.PasswordEditText;
 import com.example.tesi.client.utils.Session;
 
 public class SignupActivity extends AppCompatActivity {
-	private EditText signupEmail, signupUsername, signupIndirizzo, signupPassword, signupConfPassword;
+	private EditText signupEmail, signupUsername, signupIndirizzo;
+	private PasswordEditText signupPassword, signupConfPassword;
 	private Button signupButton;
 	private TextView toLogin, errorMessage;
 	private UserController userController;

@@ -8,12 +8,14 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowMetrics;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
@@ -22,12 +24,14 @@ import com.example.tesi.client.R;
 import com.example.tesi.client.utils.File;
 import com.example.tesi.client.control.UserController;
 import com.example.tesi.client.control.UserControllerImpl;
+import com.example.tesi.client.utils.PasswordEditText;
 import com.example.tesi.entity.User;
 import com.example.tesi.client.utils.Session;
 
 public class LoginActivity extends AppCompatActivity {
 	private Button loginButton;
-	private EditText loginUsername, loginPassword;
+	private EditText loginUsername;
+	private PasswordEditText loginPassword;
 	private TextView toSignup, errorMessage;
 	private UserController userController;
 	@Override

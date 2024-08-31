@@ -16,12 +16,12 @@
                 android:layout_height="45dp"
                 android:background="@color/white"
                 android:src="@drawable/icons8_rimuovi"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:contentDescription="@null" />
 
-            <TextView
+            <TextView android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Vendi un articolo"
                 android:textSize="30dp"
                 android:gravity="center"
                 android:textColor="@color/black"/>
@@ -95,7 +95,8 @@
                     android:background="@drawable/shape_edittext"
                     android:padding="13dp"
                     android:layout_marginBottom="15dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/platinum"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -129,7 +130,8 @@
                     android:maxLength="150"
                     android:padding="17dp"
                     android:layout_marginBottom="15dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/platinum"/>
 
             </LinearLayout>
 
@@ -221,12 +223,12 @@
                 android:inputType="numberDecimal"
                 android:text="€"
                 android:background="@drawable/shape_edittext"
-                android:padding="13dp"/>
+                android:padding="13dp"
+                android:backgroundTint="@color/platinum"/>
 
             <Button android:id="@+id/uploadButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Carica"
                 android:textSize="30dp"
                 android:layout_margin="40dp"
                 android:backgroundTint="@color/blue"

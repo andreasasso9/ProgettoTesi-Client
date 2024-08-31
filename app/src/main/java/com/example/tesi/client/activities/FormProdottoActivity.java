@@ -89,6 +89,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 		sceltaPrezzo = findViewById(R.id.sceltaPrezzo);
 		formPrezzo = findViewById(R.id.formPrezzo);
 		ImageButton cancelButton = findViewById(R.id.cancelButton);
+		TextView content=findViewById(R.id.content);
 
 		createAddFotoLauncher();
 
@@ -109,7 +110,10 @@ public class FormProdottoActivity extends AppCompatActivity {
 		cancelButton.setOnClickListener(l -> getOnBackPressedDispatcher().onBackPressed());
 		if (prodotto==null) {
 			upload(uploadButton);
+			content.setText("Aggiungi un nuovo articolo");
+			uploadButton.setText("Carica");
 		} else {
+			content.setText("Aggiorna un prodotto");
 			uploadButton.setText("Aggiorna");
 
 			formTitolo.setText(prodotto.getTitolo());
@@ -117,51 +121,50 @@ public class FormProdottoActivity extends AppCompatActivity {
 			formPrezzo.setText(String.valueOf(prodotto.getPrezzo()));
 
 			new Thread(()->{
-				//todo completare aggiunta foto per modifica prodotto
 				foto=fotoProdottoController.findByProdotto(prodotto);
-				containerFoto.removeAllViews();
-				for (FotoByteArray b:foto) {
-					RelativeLayout container=new RelativeLayout(this);
-					LinearLayout.LayoutParams containerParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-					container.setLayoutParams(containerParams);
+				ByteArrayOutputStream stream=new ByteArrayOutputStream();
 
-					ImageButton cancel = getImageButton();
+				runOnUiThread(()->{
+					containerFoto.removeAllViews();
+					for (FotoByteArray b:foto) {
+						RelativeLayout container=new RelativeLayout(this);
+						LinearLayout.LayoutParams containerParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+						container.setLayoutParams(containerParams);
 
-					ImageView image=new ImageView(this);
-					Bitmap bitmap=BitmapFactory.decodeByteArray(b.getValue(), 0, b.getValue().length);
-					bitmap.compress(Bitmap.CompressFormat.WEBP, 50, stream);
-					image.setImageBitmap(BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size()));
+						ImageButton cancel = getImageButton();
 
-					container.addView(image);
-					container.addView(cancel);
+						ImageView image=new ImageView(this);
+						Bitmap bitmap=BitmapFactory.decodeByteArray(b.getValue(), 0, b.getValue().length);
+						bitmap.compress(Bitmap.CompressFormat.WEBP, 50, stream);
+						image.setImageBitmap(BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size()));
 
-					RelativeLayout.LayoutParams imageParams=new RelativeLayout.LayoutParams(500,500);
-					imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+						container.addView(image);
+						container.addView(cancel);
 
-					RelativeLayout.LayoutParams cancelParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-					cancelParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+						RelativeLayout.LayoutParams imageParams=new RelativeLayout.LayoutParams(500,500);
+						imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-					cancel.setLayoutParams(cancelParams);
-					image.setLayoutParams(imageParams);
+						RelativeLayout.LayoutParams cancelParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+						cancelParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-					containerFoto.addView(container);
-					image.setOnClickListener(v->{
-						for (int i=0; i<containerFoto.getChildCount(); i++) {
-							RelativeLayout x=(RelativeLayout) containerFoto.getChildAt(i);
-							x.getChildAt(1).setVisibility(View.GONE);
-						}
-						cancel.setVisibility(View.VISIBLE);
-					});
+						cancel.setLayoutParams(cancelParams);
+						image.setLayoutParams(imageParams);
 
-					cancel.setOnClickListener(v->{
-						containerFoto.removeView(container);
-						foto.remove(b);
-						if (containerFoto.getChildCount()>0) {
-							RelativeLayout x= (RelativeLayout) containerFoto.getChildAt(0);
-							x.getChildAt(1).setVisibility(View.VISIBLE);
-						}
-					});
-				}
+						containerFoto.addView(container);
+						image.setOnClickListener(v->{
+							for (int y=0; y<containerFoto.getChildCount(); y++) {
+								RelativeLayout x=(RelativeLayout) containerFoto.getChildAt(y);
+								x.getChildAt(1).setVisibility(View.GONE);
+							}
+							cancel.setVisibility(View.VISIBLE);
+						});
+
+						cancel.setOnClickListener(v->{
+							containerFoto.removeView(container);
+							foto.remove(b);
+						});
+					}
+				});
 
 			}).start();
 
@@ -243,10 +246,6 @@ public class FormProdottoActivity extends AppCompatActivity {
 					cancel.setOnClickListener(v->{
 						containerFoto.removeView(container);
 						foto.remove(b);
-						if (containerFoto.getChildCount()>0) {
-							RelativeLayout x= (RelativeLayout) containerFoto.getChildAt(0);
-							x.getChildAt(1).setVisibility(View.VISIBLE);
-						}
 					});
 				}
 			}
@@ -381,6 +380,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 				Prodotto response=prodottoController.add(prodotto);
 				foto.forEach(f->f.setProdotto(response));
 				fotoProdottoController.add(foto);
+
 				goToHome();
 			}).start();
 		});
@@ -404,6 +404,8 @@ public class FormProdottoActivity extends AppCompatActivity {
 				prodottoController.update(prodotto);
 				foto.forEach(f->f.setProdotto(prodotto));
 				fotoProdottoController.add(foto);
+
+				goToHome();
 			}).start();
 
 		});
@@ -446,9 +448,5 @@ public class FormProdottoActivity extends AppCompatActivity {
 		Intent i=new Intent(this, MainActivity.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		startActivity(i);
-	}
-
-	private void goToMieiProdotti() {
-		getOnBackPressedDispatcher().onBackPressed();
 	}
 }
