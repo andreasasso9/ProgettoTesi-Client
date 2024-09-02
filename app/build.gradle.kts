@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.tesi.client"
+    namespace = "com.tesi.client"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.tesi.client"
+        applicationId = "com.tesi"
         minSdk = 28
         targetSdk = 34
         versionCode = 1

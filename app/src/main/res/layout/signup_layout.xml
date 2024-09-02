@@ -72,7 +72,8 @@
                 android:textColorHint="@color/gray"
                 android:backgroundTint="@color/white"/>
 
-            <com.example.tesi.client.utils.PasswordEditText android:id="@+id/signupPassword"
+            <com.tesi.client.utils.PasswordEditText
+                android:id="@+id/signupPassword"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:hint="Password"
@@ -86,7 +87,8 @@
                 android:backgroundTint="@color/white"
                 android:drawableEnd="@drawable/icons8_visibile_24"/>
 
-            <com.example.tesi.client.utils.PasswordEditText android:id="@+id/signupConfPassword"
+            <com.tesi.client.utils.PasswordEditText
+                android:id="@+id/signupConfPassword"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:hint="Confirm password"

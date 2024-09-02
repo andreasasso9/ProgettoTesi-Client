@@ -47,7 +47,8 @@
                 android:textColorHint="@color/gray"
                 android:backgroundTint="@color/white"/>
 
-            <com.example.tesi.client.utils.PasswordEditText android:id="@+id/loginPassword"
+            <com.tesi.client.utils.PasswordEditText
+                android:id="@+id/loginPassword"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:hint="Password"
