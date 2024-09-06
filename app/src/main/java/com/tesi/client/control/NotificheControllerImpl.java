@@ -115,5 +115,26 @@ public class NotificheControllerImpl implements NotificheController {
 		}
 	}
 
+	@Override
+	public boolean miPiace(String sender, Long idProdotto) {
+		Call<Boolean> call=notificheServiceRetrofit.miPiace(sender, idProdotto);
+		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<Boolean> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				return false;
+			} catch (IOException e) {
+				return false;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return false;
+		}
+	}
+
 
 }

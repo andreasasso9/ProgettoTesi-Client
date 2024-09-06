@@ -23,11 +23,13 @@ public class MieiProdottiAdapter extends ProdottoAdapter {
 
 	@Override
 	public void onBindViewHolder(@NonNull ProdottoHolder holder, int position) {
-		Prodotto p=prodotti.get(position);
+		Prodotto p=prodotti.get(holder.getAdapterPosition());
+
+		holder.menu.setVisibility(View.VISIBLE);
 
 		FragmentActivity activity= (FragmentActivity) holder.itemView.getContext();
 		new Thread(()->{
-			FotoByteArray foto=fotoController.findFirst(p);
+			FotoByteArray foto=fotoController.findFirst(p.getId());
 
 			activity.runOnUiThread(()->{
 				if (foto!=null) {
@@ -38,6 +40,7 @@ public class MieiProdottiAdapter extends ProdottoAdapter {
 
 		}).start();
 
+		holder.userProdottoItem.setText(p.getProprietario());
 		holder.titoloProdottoItem.setText(p.getTitolo());
 		holder.prezzoProdottoItem.setText(String.valueOf(p.getPrezzo()));
 		LinearLayout miPiaceParent= (LinearLayout) holder.miPiaceProdottoItem.getParent();
@@ -51,5 +54,21 @@ public class MieiProdottiAdapter extends ProdottoAdapter {
 			holder.itemView.getContext().startActivity(i);
 		});
 
+		holder.menu.setOnMenuItemClickListener(item -> {
+			String title=item.getTitle().toString();
+
+			if (title.equalsIgnoreCase("modifica")) {
+				Intent i=new Intent(holder.itemView.getContext(), FormProdottoActivity.class);
+				i.putExtra("prodotto", p);
+				holder.itemView.getContext().startActivity(i);
+				return true;
+			} else if (title.equalsIgnoreCase("elimina")) {
+				//fotoController.deleteByIdProdotto(p.getId());
+				prodottoController.deleteById(p.getId());
+				return true;
+			}
+
+			return false;
+		});
 	}
 }

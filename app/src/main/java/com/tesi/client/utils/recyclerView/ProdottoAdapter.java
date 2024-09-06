@@ -60,7 +60,7 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 		Prodotto p=prodotti.get(position);
 		FragmentActivity activity= (FragmentActivity) holder.itemView.getContext();
 		new Thread(()->{
-			FotoByteArray foto=fotoController.findFirst(p);
+			FotoByteArray foto=fotoController.findFirst(p.getId());
 
 			activity.runOnUiThread(()->{
 				if (foto!=null) {
@@ -77,7 +77,7 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 		if (p.getMiPiace()>0)
 			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
 
-		if (currentUser.getProdottiPreferiti().contains(p)) {
+		if (p.getLikedBy().contains(currentUser)) {
 			holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
 			holder.switcMiPiace.setChecked(true);
 		}
@@ -97,26 +97,27 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 	private CompoundButton.OnCheckedChangeListener createMiPiaceClickListener(ProdottoHolder holder, Prodotto p) {
 		return (button, isChecked)->{
 			if (isChecked) {
-				p.setMiPiace(p.getMiPiace()+1);
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
-				currentUser.getProdottiPreferiti().add(p);
+				//currentUser.getProdottiPreferiti().add(p);
+				p.getLikedBy().add(currentUser);
 
-				userController.miPiace(currentUser.getUsername(), p.getId());
+				notificheController.miPiace(currentUser.getUsername(), p.getId());
+				//prodottoController.miPiace(currentUser.getUsername(), p.getId());
+//				userController.miPiace(currentUser.getUsername(), p.getId());
 			} else {
-				p.setMiPiace(p.getMiPiace()-1);
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_caricamento_cuore_50);
-				currentUser.getProdottiPreferiti().remove(p);
+				//currentUser.getProdottiPreferiti().remove(p);
+				p.getLikedBy().remove(currentUser);
 
 				String descrizione=String.format("%s ha messo mi piace al tuo articolo %s", currentUser.getUsername(), p.getTitolo());
 				notificheController.delete(descrizione);
 			}
 
-			if (p.getMiPiace()>0)
-				holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
+			if (!p.getLikedBy().isEmpty())
+				holder.miPiaceProdottoItem.setText(p.getLikedBy().size()+"");
 			else
 				holder.miPiaceProdottoItem.setText("");
 
-			userController.update(currentUser);
 			prodottoController.update(p);
 		};
 	}
@@ -132,5 +133,9 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 
 			l.getContext().startActivity(i);
 		};
+	}
+
+	public List<Prodotto> getProdotti() {
+		return prodotti;
 	}
 }

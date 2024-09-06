@@ -3,6 +3,7 @@ package com.tesi.client.control;
 import com.tesi.entity.Prodotto;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ProdottoController {
 	Prodotto add(Prodotto prodotto);
@@ -12,4 +13,7 @@ public interface ProdottoController {
 	List<Prodotto> findByProprietario(String proprietario);
 	List<Prodotto> findByRicerca(String user, String text);
 	List<Prodotto> findByCompratore(String compratore);
+	boolean deleteById(Long id);
+	Set<Prodotto> findByLikedBy(String username);
+
 }

@@ -5,7 +5,9 @@ import com.tesi.entity.entityoptions.Categoria;
 import com.tesi.entity.entityoptions.Condizioni;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Prodotto implements Serializable {
 	private String titolo;
@@ -14,10 +16,10 @@ public class Prodotto implements Serializable {
 	private Brand brand;
 	private Condizioni condizioni;
 	private double prezzo;
-	private int miPiace;
 	private final String proprietario;
 	private Long id;
 	private String compratore;
+	private Set<User> likedBy;
 
 	public Prodotto(String proprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo) {
 		this.proprietario = proprietario;
@@ -27,7 +29,7 @@ public class Prodotto implements Serializable {
 		this.brand = brand;
 		this.condizioni = condizioni;
 		this.prezzo = prezzo;
-		this.miPiace = 0;
+		likedBy=new HashSet<>();
 	}
 
 	public String getProprietario() {
@@ -82,14 +84,6 @@ public class Prodotto implements Serializable {
 		this.prezzo = prezzo;
 	}
 
-	public int getMiPiace() {
-		return miPiace;
-	}
-
-	public void setMiPiace(int miPiace) {
-		this.miPiace = miPiace;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -121,5 +115,17 @@ public class Prodotto implements Serializable {
 
 	public boolean isBought() {
 		return compratore!=null;
+	}
+
+	public Set<User> getLikedBy() {
+		return likedBy;
+	}
+
+	public void setLikedBy(Set<User> likedBy) {
+		this.likedBy = likedBy;
+	}
+
+	public int getMiPiace() {
+		return likedBy.size();
 	}
 }

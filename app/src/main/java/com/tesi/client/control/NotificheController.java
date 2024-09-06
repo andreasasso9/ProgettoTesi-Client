@@ -8,4 +8,6 @@ public interface NotificheController {
 	void save(Notifica notifica);
 	List<Notifica> findByReceiver(String receiver);
 	void delete(String descrizione);
+
+	boolean miPiace(String sender, Long idProdotto);
 }

@@ -6,8 +6,7 @@ public class FotoByteArray implements Serializable {
 
 	private Long id;
 	private byte[] value;
-
-	private Prodotto prodotto;
+	private Long idProdotto;
 
 	public FotoByteArray() {}
 
@@ -27,11 +26,11 @@ public class FotoByteArray implements Serializable {
 		this.value = value;
 	}
 
-	public Prodotto getProdotto() {
-		return prodotto;
+	public Long getIdProdotto() {
+		return idProdotto;
 	}
 
-	public void setProdotto(Prodotto prodotto) {
-		this.prodotto = prodotto;
+	public void setIdProdotto(Long idProdotto) {
+		this.idProdotto = idProdotto;
 	}
 }

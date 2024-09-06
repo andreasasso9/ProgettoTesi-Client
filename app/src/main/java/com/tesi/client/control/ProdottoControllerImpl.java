@@ -8,6 +8,7 @@ import com.tesi.client.service.ProdottoServiceRetrofit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -174,6 +175,46 @@ public class ProdottoControllerImpl implements ProdottoController {
 		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<List<Prodotto>> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				return null;
+			} catch (IOException e) {
+				return null;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (ExecutionException | InterruptedException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean deleteById(Long id) {
+		Call<Void> call=prodottoServiceRetrofit.deleteById(id);
+		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<Void> response=call.execute();
+				return response.isSuccessful();
+			} catch (IOException e) {
+				return null;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return false;
+		}
+	}
+
+	@Override
+	public Set<Prodotto> findByLikedBy(String username) {
+		Call<Set<Prodotto>> call=prodottoServiceRetrofit.findByLikedBy(username);
+		CompletableFuture<Set<Prodotto>> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<Set<Prodotto>> response=call.execute();
 				if (response.isSuccessful())
 					return response.body();
 				return null;

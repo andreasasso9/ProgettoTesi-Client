@@ -17,7 +17,7 @@ public class Refresh {
 			method.run();
 			List<Prodotto> newProdotti=method.getList();
 
-			if (!newProdotti.isEmpty()) {
+			if (newProdotti !=null && !newProdotti.isEmpty()) {
 				activity.runOnUiThread(()->{
 					DiffUtil.DiffResult diffResult=DiffUtil.calculateDiff(new ProdottoDiffCallback(prodotti, newProdotti));
 

@@ -1,7 +1,6 @@
 package com.tesi.client.control;
 
 import com.tesi.entity.FotoByteArray;
-import com.tesi.entity.Prodotto;
 import com.tesi.client.service.FotoProdottoServiceRetrofit;
 import com.tesi.client.utils.FotoByteArrayDeserializer;
 import com.google.gson.Gson;
@@ -61,10 +60,10 @@ public class FotoProdottoControllerImpl implements FotoProdottoController{
 	}
 
 	@Override
-	public List<FotoByteArray> findByProdotto(Prodotto prodotto) {
+	public List<FotoByteArray> findByProdotto(Long idProdotto) {
 		Gson gson=new GsonBuilder().registerTypeAdapter(FotoByteArray.class, new FotoByteArrayDeserializer()).create();
 
-		Call<ResponseBody> call=fotoProdottoServiceRetrofit.findByProdotto(prodotto);
+		Call<ResponseBody> call=fotoProdottoServiceRetrofit.findByProdotto(idProdotto);
 		CompletableFuture<List<FotoByteArray>> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<ResponseBody> response=call.execute();
@@ -93,10 +92,10 @@ public class FotoProdottoControllerImpl implements FotoProdottoController{
 	}
 
 	@Override
-	public FotoByteArray findFirst(Prodotto prodotto) {
+	public FotoByteArray findFirst(Long idProdotto) {
 		Gson gson=new GsonBuilder().registerTypeAdapter(FotoByteArray.class, new FotoByteArrayDeserializer()).create();
 
-		Call<ResponseBody> call=fotoProdottoServiceRetrofit.findFirst(prodotto);
+		Call<ResponseBody> call=fotoProdottoServiceRetrofit.findFirst(idProdotto);
 		CompletableFuture<FotoByteArray> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<ResponseBody> response=call.execute();
@@ -120,6 +119,25 @@ public class FotoProdottoControllerImpl implements FotoProdottoController{
 			return future.get();
 		} catch (ExecutionException | InterruptedException e) {
 			return null;
+		}
+	}
+
+	@Override
+	public boolean deleteByIdProdotto(Long id) {
+		Call<Void> call=fotoProdottoServiceRetrofit.deleteByIdProdotto(id);
+		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<Void> response=call.execute();
+				return response.isSuccessful();
+			} catch (IOException e) {
+				return null;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return false;
 		}
 	}
 }

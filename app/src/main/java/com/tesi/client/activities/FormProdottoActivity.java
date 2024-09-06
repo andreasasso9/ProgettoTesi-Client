@@ -110,7 +110,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 		cancelButton.setOnClickListener(l -> getOnBackPressedDispatcher().onBackPressed());
 		if (prodotto==null) {
 			upload(uploadButton);
-			content.setText("Aggiungi un nuovo articolo");
+			content.setText("Aggiungi un articolo");
 			uploadButton.setText("Carica");
 		} else {
 			content.setText("Aggiorna un prodotto");
@@ -121,7 +121,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 			formPrezzo.setText(String.valueOf(prodotto.getPrezzo()));
 
 			new Thread(()->{
-				foto=fotoProdottoController.findByProdotto(prodotto);
+				foto=fotoProdottoController.findByProdotto(prodotto.getId());
 				ByteArrayOutputStream stream=new ByteArrayOutputStream();
 
 				runOnUiThread(()->{
@@ -378,7 +378,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 
 			new Thread(()->{
 				Prodotto response=prodottoController.add(prodotto);
-				foto.forEach(f->f.setProdotto(response));
+				foto.forEach(f->f.setIdProdotto(response.getId()));
 				fotoProdottoController.add(foto);
 
 				goToHome();
@@ -402,7 +402,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 
 			new Thread(()->{
 				prodottoController.update(prodotto);
-				foto.forEach(f->f.setProdotto(prodotto));
+				foto.forEach(f->f.setIdProdotto(prodotto.getId()));
 				fotoProdottoController.add(foto);
 
 				goToHome();

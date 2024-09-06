@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,7 +15,6 @@ public class User implements Serializable {
 	private String password;
 	private UUID id;
 	private String indirizzo;
-	private Set<Prodotto> prodottiPreferiti;
 
 	public User(){}
 
@@ -23,7 +23,6 @@ public class User implements Serializable {
 		this.username = username;
 		this.password = password;
 		this.indirizzo =indirizzo;
-		prodottiPreferiti=new HashSet<>();
 	}
 
 	public String getEmail() {
@@ -66,17 +65,22 @@ public class User implements Serializable {
 		this.indirizzo = indirizzo;
 	}
 
-	public Set<Prodotto> getProdottiPreferiti() {
-		return prodottiPreferiti;
-	}
-
-	public void setProdottiPreferiti(Set<Prodotto> prodottiPreferiti) {
-		this.prodottiPreferiti = prodottiPreferiti;
-	}
-
 	@NonNull
 	@Override
 	public String toString() {
 		return String.format(Locale.ITALIAN, "%s %s", username, id);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		User user = (User) o;
+		return Objects.equals(id, user.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, username, password, id, indirizzo);
 	}
 }

@@ -52,7 +52,7 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 
 		if (prodotto != null) {
 			new Thread(() -> {
-				List<FotoByteArray> list = FotoProdottoControllerImpl.getInstance().findByProdotto(prodotto);
+				List<FotoByteArray> list = FotoProdottoControllerImpl.getInstance().findByProdotto(prodotto.getId());
 
 				List<FotoByteArray> foto = new LinkedList<>(list);
 

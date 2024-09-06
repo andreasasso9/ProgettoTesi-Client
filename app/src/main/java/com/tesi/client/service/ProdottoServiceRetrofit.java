@@ -3,6 +3,7 @@ package com.tesi.client.service;
 import com.tesi.entity.Prodotto;
 
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -32,4 +33,10 @@ public interface ProdottoServiceRetrofit {
 
 	@POST("findByCompratore")
 	Call<List<Prodotto>> findByCompratore(@Body String compratore);
+
+	@POST("delete")
+	Call<Void> deleteById(@Body Long id);
+
+	@POST("findByLikedBy")
+	Call<Set<Prodotto>> findByLikedBy(@Body String username);
 }

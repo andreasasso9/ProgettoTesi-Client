@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class ProdottiPreferitiAdapter extends ProdottoAdapter {
 	public ProdottiPreferitiAdapter(User currentUser) {
 		super(null, currentUser, true);
-		prodotti=new ArrayList<>(currentUser.getProdottiPreferiti());
+		prodotti=new ArrayList<>(prodottoController.findByLikedBy(currentUser.getUsername()));
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class ProdottiPreferitiAdapter extends ProdottoAdapter {
 		FragmentActivity activity= (FragmentActivity) holder.itemView.getContext();
 
 		new Thread(()->{
-			FotoByteArray foto=fotoController.findFirst(p);
+			FotoByteArray foto=fotoController.findFirst(p.getId());
 
 			activity.runOnUiThread(()->{
 				//holder.fotoProdottoItem.setImageResource(R.drawable.icons8_nessuna_immagine_50);
@@ -47,17 +47,18 @@ public class ProdottiPreferitiAdapter extends ProdottoAdapter {
 		holder.switcMiPiace.setOnCheckedChangeListener((button, isChecked) -> {
 			if (!isChecked) {
 				prodotti.remove(holder.getAdapterPosition());
-				currentUser.getProdottiPreferiti().remove(p);
-				p.setMiPiace(p.getMiPiace()-1);
+				//currentUser.getProdottiPreferiti().remove(p);
+				p.getLikedBy().remove(currentUser);
 				notifyItemRemoved(holder.getAdapterPosition());
 
 				String descrizione=String.format("%s ha messo mi piace al tuo articolo %s", currentUser.getUsername(), p.getTitolo());
 				notificheController.delete(descrizione);
 
-				userController.update(currentUser);
 				prodottoController.update(p);
 			}
 		});
 		holder.itemView.setOnClickListener(createVisualizzaProdottoListener(p));
 	}
+
+
 }

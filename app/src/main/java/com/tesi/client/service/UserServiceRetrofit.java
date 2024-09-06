@@ -24,10 +24,6 @@ public interface UserServiceRetrofit {
 	@FormUrlEncoded
 	Call<User> loginUser(@Field("username") String username, @Field("password") String password);
 
-	@POST("miPiace")
-	@FormUrlEncoded
-	Call<Boolean> miPiace(@Field("sender") String user, @Field("idProdotto") Long idProdotto);
-
 	@POST("update")
 	Call<Boolean> update(@Body User user);
 

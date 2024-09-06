@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tesi.client.R;
@@ -17,6 +18,7 @@ public class ProdottoHolder extends RecyclerView.ViewHolder {
 	public ImageView iconaMiPiace;
 	public SwitchCompat switcMiPiace;
 	public LinearLayout acquistato;
+	public Toolbar menu;
 	public ProdottoHolder(@NonNull View itemView) {
 		super(itemView);
 		fotoProdottoItem=itemView.findViewById(R.id.foto_prodotto_item);
@@ -29,5 +31,6 @@ public class ProdottoHolder extends RecyclerView.ViewHolder {
 		iconaMiPiace=itemView.findViewById(R.id.iconaMiPiace);
 		acquistato=itemView.findViewById(R.id.acquistato);
 		userProdottoItem=itemView.findViewById(R.id.user);
+		menu=itemView.findViewById(R.id.menu);
 	}
 }

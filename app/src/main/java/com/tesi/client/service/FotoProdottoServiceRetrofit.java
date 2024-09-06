@@ -1,7 +1,6 @@
 package com.tesi.client.service;
 
 import com.tesi.entity.FotoByteArray;
-import com.tesi.entity.Prodotto;
 
 import java.util.List;
 
@@ -14,9 +13,12 @@ public interface FotoProdottoServiceRetrofit {
 	@POST("addFoto")
 	Call<Boolean> addFoto(@Body List<FotoByteArray> foto);
 
-	@POST("findByProdotto")
-	Call<ResponseBody> findByProdotto(@Body Prodotto prodotto);
+	@POST("findByIdProdotto")
+	Call<ResponseBody> findByProdotto(@Body Long idProdotto);
 
 	@POST("findFirst")
-	Call<ResponseBody> findFirst(@Body Prodotto prodotto);
+	Call<ResponseBody> findFirst(@Body Long idProdotto);
+
+	@POST("deleteByIdProdotto")
+	Call<Void> deleteByIdProdotto(@Body Long idProdotto);
 }
