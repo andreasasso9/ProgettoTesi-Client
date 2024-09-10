@@ -22,11 +22,15 @@ import com.tesi.client.control.ProdottoController;
 import com.tesi.client.control.ProdottoControllerImpl;
 import com.tesi.client.control.UserController;
 import com.tesi.client.control.UserControllerImpl;
+import com.tesi.client.utils.Session;
 import com.tesi.entity.FotoByteArray;
+import com.tesi.entity.likes.Id;
+import com.tesi.entity.likes.Likes;
 import com.tesi.entity.Prodotto;
 import com.tesi.entity.User;
 
 
+import java.util.Comparator;
 import java.util.List;
 
 public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
@@ -40,6 +44,9 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 
 	public ProdottoAdapter(List<Prodotto> prodotti, User currentUser, boolean miPiaceEnabled) {
 		this.prodotti=prodotti;
+		if (prodotti!=null)
+			this.prodotti.sort(Comparator.comparingInt(Prodotto::getLikes));
+
 		this.currentUser=currentUser;
 		notificheController= NotificheControllerImpl.getInstance();
 		prodottoController= ProdottoControllerImpl.getInstance();
@@ -74,10 +81,12 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 		holder.userProdottoItem.setText(p.getProprietario());
 		holder.titoloProdottoItem.setText(p.getTitolo());
 		holder.prezzoProdottoItem.setText("€"+p.getPrezzo());
-		if (p.getMiPiace()>0)
-			holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
+		if (p.getLikes()>0)
+			holder.miPiaceProdottoItem.setText(String.valueOf(p.getLikes()));
 
-		if (p.getLikedBy().contains(currentUser)) {
+		Id likeId=new Id(p.getId(), currentUser.getUsername());
+		Likes like=new Likes(likeId);
+		if (Session.getInstance(holder.itemView.getContext()).getLikedBy().contains(p)) {
 			holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
 			holder.switcMiPiace.setChecked(true);
 		}
@@ -99,26 +108,29 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 			if (isChecked) {
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
 				//currentUser.getProdottiPreferiti().add(p);
-				p.getLikedBy().add(currentUser);
+//				p.getLikes().add(like);
+//				currentUser.getLikes().add(like);
+				p.setLikes(p.getLikes()+1);
 
 				notificheController.miPiace(currentUser.getUsername(), p.getId());
-				//prodottoController.miPiace(currentUser.getUsername(), p.getId());
-//				userController.miPiace(currentUser.getUsername(), p.getId());
 			} else {
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_caricamento_cuore_50);
-				//currentUser.getProdottiPreferiti().remove(p);
-				p.getLikedBy().remove(currentUser);
+//				p.getLikes().remove(like);
+//				currentUser.getLikes().remove(like);
+				p.setLikes(p.getLikes()-1);
 
+				Id likeId=new Id(p.getId(), currentUser.getUsername());
 				String descrizione=String.format("%s ha messo mi piace al tuo articolo %s", currentUser.getUsername(), p.getTitolo());
-				notificheController.delete(descrizione);
+				notificheController.delete(descrizione, likeId);
 			}
 
-			if (!p.getLikedBy().isEmpty())
-				holder.miPiaceProdottoItem.setText(p.getLikedBy().size()+"");
+
+			if (p.getLikes()>0)
+				holder.miPiaceProdottoItem.setText(String.valueOf(p.getLikes()));
 			else
 				holder.miPiaceProdottoItem.setText("");
 
-			prodottoController.update(p);
+			//prodottoController.update(p);
 		};
 	}
 
@@ -127,9 +139,6 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 			Intent i=new Intent(l.getContext(), VisualizzaProdottoActivity.class);
 
 			i.putExtra("prodotto", p);
-
-//			FotoByteArray[] foto= fotoController.findByProdotto(p).toArray(new FotoByteArray[0]);
-//			i.putExtra("foto", foto);
 
 			l.getContext().startActivity(i);
 		};

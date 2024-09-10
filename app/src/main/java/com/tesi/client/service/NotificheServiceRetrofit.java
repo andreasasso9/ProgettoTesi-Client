@@ -18,7 +18,8 @@ public interface NotificheServiceRetrofit {
 	Call<ResponseBody> findByReceiver(@Body String receiver);
 
 	@POST("delete")
-	Call<Boolean> delete(@Body String descrizione);
+	@FormUrlEncoded
+	Call<Boolean> delete(@Field("descrizione") String descrizione, @Field("jsonLikeId") String likeId);
 
 	@POST("miPiace")
 	@FormUrlEncoded

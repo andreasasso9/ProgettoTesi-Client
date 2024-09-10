@@ -7,6 +7,7 @@ import com.tesi.client.service.ProdottoServiceRetrofit;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -42,16 +43,18 @@ public class ProdottoControllerImpl implements ProdottoController {
 				if (response.isSuccessful())
 					return response.body();
 
-				throw new RuntimeException("ADD PRODOTTO FAILED");
+				Log.d("ADD PRODOTTO", "FAILED");
+				return null;
 			} catch (IOException e) {
-				throw new RuntimeException(e);
+				Log.d("ADD PRODOTTO", e.getMessage());
+				return null;
 			}
 		});
 
 		try {
 			return future.get();
 		} catch (ExecutionException | InterruptedException e) {
-			throw new RuntimeException(e);
+			return null;
 		}
 	}
 
@@ -66,7 +69,7 @@ public class ProdottoControllerImpl implements ProdottoController {
 
 				Log.println(Log.ERROR, "GET ALL PRODOTTO", "FAILED");
 			} catch (IOException e) {
-				throw new RuntimeException(e);
+				return null;
 			}
 			return null;
 		});
@@ -109,12 +112,12 @@ public class ProdottoControllerImpl implements ProdottoController {
 				if (response.isSuccessful()) {
 					Log.println(Log.INFO, "UPDATE PRODOTTO", "SUCCESS");
 					return response.body();
-				}
-				else {
-					Log.println(Log.ERROR, "UPDATE PRODOTTO", "FAILED");
+				} else {
+					Log.println(Log.ERROR, "UPDATE PRODOTTO", "FAILED 1");
 					return false;
 				}
 			} catch (IOException e) {
+				Log.println(Log.ERROR, "UPDATE PRODOTTO", "FAILED 2");
 				return false;
 			}
 		});
@@ -122,6 +125,7 @@ public class ProdottoControllerImpl implements ProdottoController {
 		try {
 			return future.get();
 		} catch (InterruptedException | ExecutionException e) {
+			Log.println(Log.ERROR, "UPDATE PRODOTTO", Arrays.toString(e.getStackTrace()));
 			return false;
 		}
 	}

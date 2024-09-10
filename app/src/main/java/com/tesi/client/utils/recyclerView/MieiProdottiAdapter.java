@@ -25,7 +25,8 @@ public class MieiProdottiAdapter extends ProdottoAdapter {
 	public void onBindViewHolder(@NonNull ProdottoHolder holder, int position) {
 		Prodotto p=prodotti.get(holder.getAdapterPosition());
 
-		holder.menu.setVisibility(View.VISIBLE);
+		if (!p.isBought())
+			holder.menu.setVisibility(View.VISIBLE);
 
 		FragmentActivity activity= (FragmentActivity) holder.itemView.getContext();
 		new Thread(()->{
@@ -47,12 +48,6 @@ public class MieiProdottiAdapter extends ProdottoAdapter {
 		miPiaceParent.setVisibility(View.GONE);
 		if (p.isBought())
 			holder.acquistato.setVisibility(View.VISIBLE);
-
-		holder.itemView.setOnClickListener(v->{
-			Intent i=new Intent(holder.itemView.getContext(), FormProdottoActivity.class);
-			i.putExtra("prodotto", p);
-			holder.itemView.getContext().startActivity(i);
-		});
 
 		holder.menu.setOnMenuItemClickListener(item -> {
 			String title=item.getTitle().toString();

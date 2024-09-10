@@ -48,7 +48,7 @@ public class TokenControllerImpl implements TokenController {
 		try {
 			return future.get();
 		} catch (ExecutionException | InterruptedException e) {
-			throw new RuntimeException(e);
+			return false;
 		}
 	}
 
@@ -70,7 +70,7 @@ public class TokenControllerImpl implements TokenController {
 		try {
 			return future.get();
 		} catch (ExecutionException | InterruptedException e) {
-			throw new RuntimeException(e);
+			return false;
 		}
 	}
 
@@ -92,7 +92,7 @@ public class TokenControllerImpl implements TokenController {
 		try {
 			return future.get();
 		} catch (ExecutionException | InterruptedException e) {
-			throw new RuntimeException(e);
+			return null;
 		}
 	}
 }

@@ -2,6 +2,8 @@ package com.tesi.client.control;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.tesi.entity.Notifica;
 import com.tesi.client.service.NotificheServiceRetrofit;
 
@@ -21,6 +23,7 @@ import com.tesi.client.utils.NotificheDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.tesi.entity.likes.Id;
 
 public class NotificheControllerImpl implements NotificheController {
 	private static NotificheController instance;
@@ -83,7 +86,6 @@ public class NotificheControllerImpl implements NotificheController {
 				}
 				return null;
 			} catch (IOException e) {
-
 				return null;
 			}
 		});
@@ -96,8 +98,10 @@ public class NotificheControllerImpl implements NotificheController {
 	}
 
 	@Override
-	public void delete(String descrizione) {
-		Call<Boolean> call=notificheServiceRetrofit.delete(descrizione);
+	public void delete(String descrizione, @Nullable Id likeId) {
+		String jsonId=new Gson().toJson(likeId);
+
+		Call<Boolean> call=notificheServiceRetrofit.delete(descrizione, jsonId);
 		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<Boolean> response=call.execute();

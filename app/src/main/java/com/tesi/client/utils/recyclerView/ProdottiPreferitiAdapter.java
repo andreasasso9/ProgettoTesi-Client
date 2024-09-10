@@ -7,7 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.tesi.client.R;
+import com.tesi.client.utils.Session;
 import com.tesi.entity.FotoByteArray;
+import com.tesi.entity.likes.Id;
 import com.tesi.entity.Prodotto;
 import com.tesi.entity.User;
 
@@ -39,7 +41,8 @@ public class ProdottiPreferitiAdapter extends ProdottoAdapter {
 
 		holder.titoloProdottoItem.setText(p.getTitolo());
 		holder.prezzoProdottoItem.setText(p.getPrezzo()+"");
-		holder.miPiaceProdottoItem.setText(p.getMiPiace()+"");
+		holder.miPiaceProdottoItem.setText(p.getLikes()+"");
+		holder.userProdottoItem.setText(p.getProprietario());
 
 		holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
 		holder.switcMiPiace.setChecked(true);
@@ -47,12 +50,13 @@ public class ProdottiPreferitiAdapter extends ProdottoAdapter {
 		holder.switcMiPiace.setOnCheckedChangeListener((button, isChecked) -> {
 			if (!isChecked) {
 				prodotti.remove(holder.getAdapterPosition());
-				//currentUser.getProdottiPreferiti().remove(p);
-				p.getLikedBy().remove(currentUser);
+
+				Session.getInstance(holder.itemView.getContext()).getLikedBy().remove(p);
 				notifyItemRemoved(holder.getAdapterPosition());
 
+				Id likeId=new Id(p.getId(), currentUser.getUsername());
 				String descrizione=String.format("%s ha messo mi piace al tuo articolo %s", currentUser.getUsername(), p.getTitolo());
-				notificheController.delete(descrizione);
+				notificheController.delete(descrizione, likeId);
 
 				prodottoController.update(p);
 			}

@@ -159,6 +159,14 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
 
+            <EditText android:id="@+id/altreCategorie"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_edittext"
+                android:visibility="gone"
+                android:inputType="text"
+                android:autofillHints="@null"/>
+
             <LinearLayout android:id="@+id/sceltaBrand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -179,6 +187,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
+
+            <EditText android:id="@+id/altriBrand"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_edittext"
+                android:visibility="gone"
+                android:inputType="text"
+                android:autofillHints="@null"/>
 
             <LinearLayout android:id="@+id/sceltaCondizioni"
                 android:layout_width="match_parent"

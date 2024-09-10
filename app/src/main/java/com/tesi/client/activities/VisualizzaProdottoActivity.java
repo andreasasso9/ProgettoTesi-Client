@@ -84,7 +84,7 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 			t.setText(prodotto.getTitolo());
 
 			t = findViewById(R.id.condizioni);
-			t.setText(prodotto.getCondizioni().getNome());
+			t.setText(prodotto.getCondizione());
 
 			t = findViewById(R.id.prezzo);
 			t.setText("€" + prodotto.getPrezzo());

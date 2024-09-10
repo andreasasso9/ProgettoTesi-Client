@@ -48,7 +48,7 @@ public class UserControllerImpl implements UserController{
 		try {
 			return future.get() != null;
 		} catch (InterruptedException | ExecutionException e) {
-			throw new RuntimeException(e);
+			return false;
 		}
 	}
 

@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.tesi.client.chat.Chat;
 import com.tesi.client.chat.Image;
 import com.tesi.client.chat.Text;
+import com.tesi.entity.Prodotto;
 import com.tesi.entity.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,6 +32,7 @@ public class Session {
 	private final Gson gson;
 	private Set<String> fileChatsNames;
 	private StompClient stompClient;
+	private Set<Prodotto> likedBy;
 
 
 	private Session(Context context) {
@@ -41,6 +43,7 @@ public class Session {
 		gson=new Gson();
 
 		fileChatsNames=preferences.getStringSet("fileChatsNames", new HashSet<>());
+		likedBy=new HashSet<>();
 	}
 
 	public static Session getInstance(Context context) {
@@ -52,6 +55,7 @@ public class Session {
 	public void setCurrentUser(@Nullable User user, Context context) {
 		currentUser=user;
 		File.saveObjectToFile(context, "loggedUser", user);
+
 	}
 
 	public User getCurrentUser() {
@@ -162,5 +166,13 @@ public class Session {
 
 	public void setToken(String token) {
 		editor.putString("token", token).apply();
+	}
+
+	public Set<Prodotto> getLikedBy() {
+		return likedBy;
+	}
+
+	public void setLikedBy(Set<Prodotto> likedBy) {
+		this.likedBy = likedBy;
 	}
 }

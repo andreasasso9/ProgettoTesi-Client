@@ -1,35 +1,51 @@
 package com.tesi.entity;
 
-import com.tesi.entity.entityoptions.Brand;
-import com.tesi.entity.entityoptions.Categoria;
-import com.tesi.entity.entityoptions.Condizioni;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 public class Prodotto implements Serializable {
+	public static final String[] brands = {
+			"Zara", "H&M", "Uniqlo", "Nike",
+			"Adidas", "Puma", "Levi's", "Supreme",
+			"Under Armour", "Reebok", "Columbia Sportswear",
+			"Gucci", "Prada", "Emporio Armani", "Altro"
+	};
+
+	public static final String[] categorie = {
+			"Magliette", "Camicie", "Felpe", "Giubbotti", "Cappotti",
+			"Pantaloni", "Jeans", "Shorts", "Gonne", "Abiti", "Costumi da Bagno",
+			"Biancheria Intima", "Calze", "Scarpe", "Stivali", "Sandali",
+			"Accessori", "Cappelli", "Guanti", "Sciarpe", "Borse",
+			"Abbigliamento Sportivo", "Abbigliamento da Notte", "Abbigliamento da Casa",
+			"Abbigliamento Maternità", "Abbigliamento da Lavoro", "Abbigliamento per Bambini",
+			"Altro"
+	};
+
+	public static final String[] condizioni = {
+			"Nuovo con cartellino", "Nuovo senza cartellino", "Ottime",
+			"Buone", "Discrete"
+	};
+
 	private String titolo;
 	private String descrizione;
-	private Categoria categoria;
-	private Brand brand;
-	private Condizioni condizioni;
+	private String categoria, brand, condizione;
 	private double prezzo;
 	private final String proprietario;
 	private Long id;
 	private String compratore;
-	private Set<User> likedBy;
+	private int likes;
 
-	public Prodotto(String proprietario, String titolo, String descrizione, Categoria categoria, Brand brand, Condizioni condizioni, double prezzo) {
+	public Prodotto(String proprietario, String titolo, String descrizione, String categoria, String brand, String condizione, double prezzo) {
 		this.proprietario = proprietario;
 		this.titolo = titolo;
 		this.descrizione = descrizione;
 		this.categoria = categoria;
 		this.brand = brand;
-		this.condizioni = condizioni;
+		this.condizione = condizione;
 		this.prezzo = prezzo;
-		likedBy=new HashSet<>();
+		likes=0;
+//		likes=new HashSet<>();
 	}
 
 	public String getProprietario() {
@@ -52,28 +68,28 @@ public class Prodotto implements Serializable {
 		this.descrizione = descrizione;
 	}
 
-	public Categoria getCategoria() {
+	public String getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(Categoria categoria) {
+	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
 
-	public Brand getBrand() {
+	public String getBrand() {
 		return brand;
 	}
 
-	public void setBrand(Brand brand) {
+	public void setBrand(String brand) {
 		this.brand = brand;
 	}
 
-	public Condizioni getCondizioni() {
-		return condizioni;
+	public String getCondizione() {
+		return condizione;
 	}
 
-	public void setCondizioni(Condizioni condizioni) {
-		this.condizioni = condizioni;
+	public void setCondizione(String condizioni) {
+		this.condizione = condizioni;
 	}
 
 	public double getPrezzo() {
@@ -117,15 +133,23 @@ public class Prodotto implements Serializable {
 		return compratore!=null;
 	}
 
-	public Set<User> getLikedBy() {
-		return likedBy;
+	public int getLikes() {
+		return likes;
 	}
 
-	public void setLikedBy(Set<User> likedBy) {
-		this.likedBy = likedBy;
+	public void setLikes(int likes) {
+		this.likes = likes;
 	}
 
-	public int getMiPiace() {
-		return likedBy.size();
-	}
+	//	public Set<Likes> getLikes() {
+//		return likes;
+//	}
+//
+//	public void setLikedBy(Set<Likes> likes) {
+//		this.likes = likes;
+//	}
+//
+//	public int getMiPiace() {
+//		return likes.size();
+//	}
 }

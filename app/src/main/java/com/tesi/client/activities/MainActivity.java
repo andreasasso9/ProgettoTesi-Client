@@ -8,15 +8,14 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.tesi.client.R;
+import com.tesi.client.control.ProdottoControllerImpl;
 import com.tesi.client.control.TokenControllerImpl;
 import com.tesi.client.utils.Session;
 import com.tesi.entity.Token;
@@ -71,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 			Token token=new Token(deviceToken, username);
 
 			TokenControllerImpl.getInstance().save(token);
+			Session.getInstance(this).setLikedBy(ProdottoControllerImpl.getInstance().findByLikedBy(username));
 		}).start();
 
 		navbar=findViewById(R.id.navbar);
@@ -81,11 +81,6 @@ public class MainActivity extends AppCompatActivity {
 		fragmentManager.beginTransaction().replace(R.id.fragmentContainer, homeFragment).addToBackStack(null).commit();
 
 		createNavBarItemListener();
-
-//		getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-//			@Override
-//			public void handleOnBackPressed() {}
-//		});
 
 	}
 

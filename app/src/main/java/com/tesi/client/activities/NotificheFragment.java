@@ -71,7 +71,7 @@ public class NotificheFragment extends Fragment {
 				if (direction==ItemTouchHelper.LEFT) {
 					int position = holder.getAdapterPosition();
 
-					notificheController.delete(holder.descrizione.getText() + "");
+					notificheController.delete(holder.descrizione.getText() + "", null);
 
 					NotificheAdapter adapter = (NotificheAdapter) recyclerView.getAdapter();
 

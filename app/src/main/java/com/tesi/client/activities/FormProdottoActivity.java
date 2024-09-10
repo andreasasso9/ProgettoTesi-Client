@@ -36,14 +36,11 @@ import com.tesi.client.control.ProdottoController;
 import com.tesi.client.control.ProdottoControllerImpl;
 import com.tesi.entity.FotoByteArray;
 import com.tesi.entity.Prodotto;
-import com.tesi.entity.entityoptions.Brand;
-import com.tesi.entity.entityoptions.Categoria;
-import com.tesi.entity.entityoptions.Condizioni;
-import com.tesi.entity.entityoptions.Option;
 import com.tesi.client.utils.Session;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,12 +51,12 @@ public class FormProdottoActivity extends AppCompatActivity {
 	private List<FotoByteArray> foto;
 	private LinearLayout containerFoto;
 	private LinearLayout sceltaPrezzo;
-	private EditText formTitolo, formDescrizione, formPrezzo;
+	private EditText formTitolo, formDescrizione, formPrezzo, altriBrand, altreCategorie;
 	private RadioGroup opzioniCategoria, opzioniBrand, opzioniCondizioni;
 	private ProdottoController prodottoController;
 	private FotoProdottoController fotoProdottoController;
 
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.form_prodotto_layout);
 
@@ -89,16 +86,18 @@ public class FormProdottoActivity extends AppCompatActivity {
 		sceltaPrezzo = findViewById(R.id.sceltaPrezzo);
 		formPrezzo = findViewById(R.id.formPrezzo);
 		ImageButton cancelButton = findViewById(R.id.cancelButton);
-		TextView content=findViewById(R.id.content);
+		TextView content = findViewById(R.id.content);
+		altriBrand = findViewById(R.id.altriBrand);
+		altreCategorie = findViewById(R.id.altreCategorie);
 
 		createAddFotoLauncher();
 
 		formTitolo.addTextChangedListener(createContatoreEditTextListener(contatoreTitolo));
 		formDescrizione.addTextChangedListener(createContatoreEditTextListener(contatoreDescrizione));
 
-		createScelte(sceltaCategoria, opzioniCategoria, prodotto, Categoria.values());
-		createScelte(sceltaBrand, opzioniBrand, prodotto, Brand.values());
-		createScelte(sceltaCondizioni, opzioniCondizioni, prodotto, Condizioni.values());
+		createScelte(sceltaCategoria, opzioniCategoria, prodotto, altreCategorie, Prodotto.categorie);
+		createScelte(sceltaBrand, opzioniBrand, prodotto, altriBrand, Prodotto.brands);
+		createScelte(sceltaCondizioni, opzioniCondizioni, prodotto, null, Prodotto.condizioni);
 
 		Button buttonCaricaFoto = findViewById(R.id.buttonCaricaFoto);
 		buttonCaricaFoto.setOnClickListener(l -> scegliImmaginiLauncher.launch(new Intent()));
@@ -120,51 +119,13 @@ public class FormProdottoActivity extends AppCompatActivity {
 			formDescrizione.setText(prodotto.getDescrizione());
 			formPrezzo.setText(String.valueOf(prodotto.getPrezzo()));
 
+			setScelte(opzioniBrand, altriBrand, prodotto.getBrand(), Prodotto.brands);
+			setScelte(opzioniCategoria, altreCategorie, prodotto.getCategoria(), Prodotto.categorie);
+
 			new Thread(()->{
 				foto=fotoProdottoController.findByProdotto(prodotto.getId());
-				ByteArrayOutputStream stream=new ByteArrayOutputStream();
 
-				runOnUiThread(()->{
-					containerFoto.removeAllViews();
-					for (FotoByteArray b:foto) {
-						RelativeLayout container=new RelativeLayout(this);
-						LinearLayout.LayoutParams containerParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-						container.setLayoutParams(containerParams);
-
-						ImageButton cancel = getImageButton();
-
-						ImageView image=new ImageView(this);
-						Bitmap bitmap=BitmapFactory.decodeByteArray(b.getValue(), 0, b.getValue().length);
-						bitmap.compress(Bitmap.CompressFormat.WEBP, 50, stream);
-						image.setImageBitmap(BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size()));
-
-						container.addView(image);
-						container.addView(cancel);
-
-						RelativeLayout.LayoutParams imageParams=new RelativeLayout.LayoutParams(500,500);
-						imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-
-						RelativeLayout.LayoutParams cancelParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-						cancelParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-
-						cancel.setLayoutParams(cancelParams);
-						image.setLayoutParams(imageParams);
-
-						containerFoto.addView(container);
-						image.setOnClickListener(v->{
-							for (int y=0; y<containerFoto.getChildCount(); y++) {
-								RelativeLayout x=(RelativeLayout) containerFoto.getChildAt(y);
-								x.getChildAt(1).setVisibility(View.GONE);
-							}
-							cancel.setVisibility(View.VISIBLE);
-						});
-
-						cancel.setOnClickListener(v->{
-							containerFoto.removeView(container);
-							foto.remove(b);
-						});
-					}
-				});
+				runOnUiThread(this::createImageViewer);
 
 			}).start();
 
@@ -193,61 +154,20 @@ public class FormProdottoActivity extends AppCompatActivity {
 
 		ActivityResultCallback<ClipData> callback= clipData -> {
 			if (clipData!=null) {
-				List<FotoByteArray> list=new LinkedList<>();
-				ByteArrayOutputStream stream=new ByteArrayOutputStream();
 				for (int i = 0; i < clipData.getItemCount(); i++) {
-					try {
+					try (ByteArrayOutputStream stream=new ByteArrayOutputStream()){
 						Bitmap b=BitmapFactory.decodeStream(getContentResolver().openInputStream(clipData.getItemAt(i).getUri()));
 
 						b=Bitmap.createScaledBitmap(b, b.getWidth()/2,b.getHeight()/2,false);
 
 						b.compress(Bitmap.CompressFormat.WEBP, 50, stream);
 
-						list.add(new FotoByteArray(stream.toByteArray()));
-					} catch (FileNotFoundException e) {
+						foto.add(new FotoByteArray(stream.toByteArray()));
+					} catch (IOException e) {
 						throw new RuntimeException(e);
 					}
-				}
-				foto.addAll(list);
-				containerFoto.removeAllViews();
-				for (FotoByteArray b:foto) {
-					RelativeLayout container=new RelativeLayout(this);
-					LinearLayout.LayoutParams containerParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-					container.setLayoutParams(containerParams);
-
-					ImageButton cancel = getImageButton();
-
-					ImageView image=new ImageView(this);
-					Bitmap bitmap=BitmapFactory.decodeByteArray(b.getValue(), 0, b.getValue().length);
-					bitmap.compress(Bitmap.CompressFormat.WEBP, 50, stream);
-					image.setImageBitmap(BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size()));
-
-					container.addView(image);
-					container.addView(cancel);
-
-					RelativeLayout.LayoutParams imageParams=new RelativeLayout.LayoutParams(500,500);
-					imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-
-					RelativeLayout.LayoutParams cancelParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-					cancelParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-
-					cancel.setLayoutParams(cancelParams);
-					image.setLayoutParams(imageParams);
-
-					containerFoto.addView(container);
-					image.setOnClickListener(v->{
-						for (int i=0; i<containerFoto.getChildCount(); i++) {
-							RelativeLayout x=(RelativeLayout) containerFoto.getChildAt(i);
-							x.getChildAt(1).setVisibility(View.GONE);
-						}
-						cancel.setVisibility(View.VISIBLE);
-					});
-
-					cancel.setOnClickListener(v->{
-						containerFoto.removeView(container);
-						foto.remove(b);
-					});
-				}
+				};
+				createImageViewer();
 			}
 
 		};
@@ -285,27 +205,32 @@ public class FormProdottoActivity extends AppCompatActivity {
 		};
 	}
 	
-	private void createScelte(LinearLayout layout, RadioGroup optionsGroup, Prodotto p, Option... opzioni) {
+	private void createScelte(LinearLayout layout, RadioGroup optionsGroup, Prodotto p, EditText altro, String... opzioni) {
 		TextView t=createTextView();
 
 		layout.addView(t);
 
-		for (Option o:opzioni) {
+		for (String o:opzioni) {
 			RadioButton rb=new RadioButton(FormProdottoActivity.this);
-			rb.setText(o.getNome());
+			rb.setText(o);
 			rb.setTextColor(getResources().getColor(R.color.black, null));
 			optionsGroup.addView(rb);
+			if (o.equalsIgnoreCase("altro"))
+				rb.setOnCheckedChangeListener((buttonView, isChecked) -> {
+					if (isChecked)
+						altro.setVisibility(View.VISIBLE);
+					else
+						altro.setVisibility(View.GONE);
+
+				});
 			if (p!=null) {
 				String condizioni, brand, categoria;
-				condizioni=p.getCondizioni().getNome();
-				brand=p.getBrand().getNome();
-				categoria=p.getCategoria().getNome();
+				condizioni=p.getCondizione();
+				brand=p.getBrand();
+				categoria=p.getCategoria();
 
-				String option = o.getNome();
-
-				if (option.equalsIgnoreCase(condizioni) || option.equalsIgnoreCase(brand) || option.equalsIgnoreCase(categoria))
+				if (o.equalsIgnoreCase(condizioni) || o.equalsIgnoreCase(brand) || o.equalsIgnoreCase(categoria))
 					rb.setChecked(true);
-
 			}
 		}
 		layout.setOnClickListener(v -> {
@@ -371,10 +296,19 @@ public class FormProdottoActivity extends AppCompatActivity {
 			progressBar.setVisibility(View.VISIBLE);
 
 			Map<String, String> values=getValues();
+			StringBuilder errorMessage=new StringBuilder();
 
-			double prezzo= Double.parseDouble(values.get("prezzo"));
+			double prezzo;
+			String s=values.get("prezzo");
+			if (s != null)
+				prezzo=Double.parseDouble(s);
+			else {
+				errorMessage.append("Inserisci un prezzo\n");
+				return;
+			}
 
-			Prodotto prodotto=new Prodotto(Session.getInstance(this).getCurrentUser().getUsername(), values.get("titolo"), values.get("descrizione"), Categoria.valueOf(values.get("categoria")), Brand.valueOf(values.get("brand")), Condizioni.valueOf(values.get("condizioni")), prezzo);
+			//todo completare controllo campi non vuoti
+			Prodotto prodotto=new Prodotto(Session.getInstance(this).getCurrentUser().getUsername(), values.get("titolo"), values.get("descrizione"), values.get("categoria"), values.get("brand"), values.get("condizioni"), prezzo);
 
 			new Thread(()->{
 				Prodotto response=prodottoController.add(prodotto);
@@ -396,9 +330,9 @@ public class FormProdottoActivity extends AppCompatActivity {
 			prodotto.setTitolo(values.get("titolo"));
 			prodotto.setDescrizione(values.get("descrizione"));
 			prodotto.setPrezzo(Double.parseDouble(values.get("prezzo")));
-			prodotto.setBrand(Brand.valueOf(values.get("brand")));
-			prodotto.setCategoria(Categoria.valueOf(values.get("categoria")));
-			prodotto.setCondizioni(Condizioni.valueOf(values.get("condizioni")));
+			prodotto.setBrand(values.get("brand"));
+			prodotto.setCategoria(values.get("categoria"));
+			prodotto.setCondizione(values.get("condizioni"));
 
 			new Thread(()->{
 				prodottoController.update(prodotto);
@@ -413,25 +347,34 @@ public class FormProdottoActivity extends AppCompatActivity {
 
 	private Map<String, String> getValues() {
 		//ottengo titolo e descrizione
-		String titolo=formTitolo.getText()+"";
-		String descrizione=formDescrizione.getText()+"";
+		String titolo=String.valueOf(formTitolo.getText()).trim();
+		String descrizione=String.valueOf(formDescrizione.getText()).trim();
 
 		//ottengo categoria, brand e condizione
 		RadioButton rbCategoria, rbBrand, rbCondizioni;
+
 		rbCategoria=findViewById(opzioniCategoria.getCheckedRadioButtonId());
 		rbBrand=findViewById(opzioniBrand.getCheckedRadioButtonId());
 		rbCondizioni=findViewById(opzioniCondizioni.getCheckedRadioButtonId());
 
-		String categoria=rbCategoria.getText()+"";
-		String brand=rbBrand.getText()+"";
-		String condizioni=rbCondizioni.getText()+"";
+		String categoria;
+		String brand;
+		String condizioni;
 
-		categoria=categoria.toUpperCase().replace(" ", "_");
-		brand=brand.toUpperCase().replace(" ", "_");
-		condizioni=condizioni.toUpperCase().replace(" ", "_");
+		if (rbCategoria.getText().toString().equalsIgnoreCase("altro"))
+			categoria=String.valueOf(altreCategorie.getText()).trim();
+		else
+			categoria=String.valueOf(rbCategoria.getText()).trim();
+
+		if (rbBrand.getText().toString().equalsIgnoreCase("altro"))
+			brand= String.valueOf(altriBrand.getText()).trim();
+		else
+			brand=String.valueOf(rbBrand.getText()).trim();
+
+		condizioni=String.valueOf(rbCondizioni.getText()).trim();
 
 		//ottengo prezzo
-		String prezzo=formPrezzo.getText().toString().replace("€", "");
+		String prezzo=String.valueOf(formPrezzo.getText()).replace("€", "");
 
 		Map<String, String> values=new HashMap<>();
 		values.put("titolo", titolo);
@@ -442,6 +385,69 @@ public class FormProdottoActivity extends AppCompatActivity {
 		values.put("prezzo", prezzo);
 
 		return values;
+	}
+
+	private void createImageViewer() {
+		containerFoto.removeAllViews();
+		for (FotoByteArray b:foto) {
+			try (ByteArrayOutputStream stream=new ByteArrayOutputStream()) {
+				RelativeLayout container = new RelativeLayout(this);
+				LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+				container.setLayoutParams(containerParams);
+
+				ImageButton cancel = getImageButton();
+
+				ImageView image = new ImageView(this);
+				Bitmap bitmap = BitmapFactory.decodeByteArray(b.getValue(), 0, b.getValue().length);
+				bitmap.compress(Bitmap.CompressFormat.WEBP, 50, stream);
+				image.setImageBitmap(BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size()));
+
+				container.addView(image);
+				container.addView(cancel);
+
+				RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(500, 500);
+				imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+
+				RelativeLayout.LayoutParams cancelParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+				cancelParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+
+				cancel.setLayoutParams(cancelParams);
+				image.setLayoutParams(imageParams);
+
+				containerFoto.addView(container);
+				image.setOnClickListener(v -> {
+					for (int y = 0; y < containerFoto.getChildCount(); y++) {
+						RelativeLayout x = (RelativeLayout) containerFoto.getChildAt(y);
+						x.getChildAt(1).setVisibility(View.GONE);
+					}
+					cancel.setVisibility(View.VISIBLE);
+				});
+
+				cancel.setOnClickListener(v -> {
+					containerFoto.removeView(container);
+					foto.remove(b);
+				});
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	private void setScelte(RadioGroup group, EditText editText, String option, String... options) {
+		RadioButton rb;
+		if (Arrays.stream(options).anyMatch(s->s.equalsIgnoreCase(option))) {
+			for (int i = 0; i < group.getChildCount(); i++) {
+				rb = (RadioButton) group.getChildAt(i);
+				if (rb.getText().toString().equalsIgnoreCase(option))
+					rb.setChecked(true);
+
+			}
+		} else {
+			rb = (RadioButton) group.getChildAt(group.getChildCount() - 1);
+			rb.setChecked(true);
+			editText.setVisibility(View.VISIBLE);
+			editText.setText(option);
+		}
 	}
 
 	private void goToHome() {

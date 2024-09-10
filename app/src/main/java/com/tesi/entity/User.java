@@ -2,11 +2,10 @@ package com.tesi.entity;
 
 import androidx.annotation.NonNull;
 
+
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 public class User implements Serializable {
@@ -15,6 +14,7 @@ public class User implements Serializable {
 	private String password;
 	private UUID id;
 	private String indirizzo;
+//	private Set<Likes> likes;
 
 	public User(){}
 
@@ -23,6 +23,7 @@ public class User implements Serializable {
 		this.username = username;
 		this.password = password;
 		this.indirizzo =indirizzo;
+//		likes=new HashSet<>();
 	}
 
 	public String getEmail() {
@@ -83,4 +84,12 @@ public class User implements Serializable {
 	public int hashCode() {
 		return Objects.hash(email, username, password, id, indirizzo);
 	}
+
+//	public Set<Likes> getLikes() {
+//		return likes;
+//	}
+//
+//	public void setLikes(Set<Likes> likes) {
+//		this.likes = likes;
+//	}
 }
