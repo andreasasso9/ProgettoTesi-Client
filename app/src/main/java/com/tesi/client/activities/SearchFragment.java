@@ -60,7 +60,7 @@ public class SearchFragment extends Fragment {
 		ProdottoAdapter prodottoAdapter=new ProdottoAdapter(prodottiCercati, currentUser, true);
 		prodotti.setAdapter(prodottoAdapter);
 
-		HistoryAdapter historyAdapter; historyAdapter=new HistoryAdapter(listHistory, searchView, searchBar);
+		HistoryAdapter historyAdapter; historyAdapter=new HistoryAdapter(listHistory, searchView);
 		historySearch.setAdapter(historyAdapter);
 
 		searchView.getEditText().setOnEditorActionListener((t, actionId, event) -> {

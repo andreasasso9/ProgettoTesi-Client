@@ -50,9 +50,11 @@ public class TextAdapter extends RecyclerView.Adapter<TextHolder> {
 			if (text.getSender().equals(currentUser.getUsername())) {
 				textParams.addRule(RelativeLayout.ALIGN_PARENT_END);
 				imageParams.addRule(RelativeLayout.ALIGN_PARENT_END);
+				holder.text.setBackgroundResource(R.drawable.shape_text_sent);
 			} else {
 				textParams.addRule(RelativeLayout.ALIGN_PARENT_START);
 				imageParams.addRule(RelativeLayout.ALIGN_PARENT_START);
+				holder.text.setBackgroundResource(R.drawable.shape_text_received);
 			}
 
 			holder.text.setLayoutParams(textParams);

@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.tesi.client.R;
 import com.tesi.client.control.NotificheController;
@@ -25,10 +26,12 @@ import com.tesi.client.utils.recyclerView.NotificheAdapter;
 import com.tesi.client.utils.recyclerView.NotificheHolder;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class NotificheFragment extends Fragment {
 	private NotificheController notificheController;
+	private RecyclerView listaNotifiche;
 
 	@Nullable
 	@Override
@@ -36,7 +39,7 @@ public class NotificheFragment extends Fragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v=inflater.inflate(R.layout.notifiche_layout, container, false);
 
-		RecyclerView listaNotifiche = v.findViewById(R.id.lista_notifiche);
+		listaNotifiche = v.findViewById(R.id.lista_notifiche);
 		listaNotifiche.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
 
 		new Thread(()->{
@@ -50,9 +53,34 @@ public class NotificheFragment extends Fragment {
 					listaNotifiche.setAdapter(adapter);
 					createEliminaNotifica(listaNotifiche);
 				});
-
+			} else {
+				NotificheAdapter adapter=new NotificheAdapter(new LinkedList<>());
+				listaNotifiche.setAdapter(adapter);
 			}
 		}).start();
+
+		SwipeRefreshLayout refreshLayout= (SwipeRefreshLayout) listaNotifiche.getParent();
+
+		refreshLayout.setOnRefreshListener(() -> {
+			refreshLayout.setRefreshing(true);
+			new Thread(()->{
+				notificheController=NotificheControllerImpl.getInstance();
+				List<Notifica> notifiche=notificheController.findByReceiver(Session.getInstance(requireContext()).getCurrentUser().getUsername());
+
+				if (notifiche != null && !notifiche.isEmpty()) {
+					Collections.reverse(notifiche);
+					requireActivity().runOnUiThread(()->{
+						NotificheAdapter adapter = new NotificheAdapter(notifiche);
+						listaNotifiche.setAdapter(adapter);
+					});
+				} else {
+					NotificheAdapter adapter=new NotificheAdapter(new LinkedList<>());
+					listaNotifiche.setAdapter(adapter);
+				}
+
+				refreshLayout.setRefreshing(false);
+			}).start();
+		});
 
 		return v;
 	}
@@ -104,5 +132,25 @@ public class NotificheFragment extends Fragment {
 		});
 
 		itemTouchHelper.attachToRecyclerView(recyclerView);
+	}
+
+	@Override
+	public void onResume() {
+		new Thread(()->{
+			notificheController=NotificheControllerImpl.getInstance();
+			List<Notifica> notifiche=notificheController.findByReceiver(Session.getInstance(requireContext()).getCurrentUser().getUsername());
+
+			if (notifiche != null && !notifiche.isEmpty()) {
+				Collections.reverse(notifiche);
+				requireActivity().runOnUiThread(()->{
+					NotificheAdapter adapter = new NotificheAdapter(notifiche);
+					listaNotifiche.setAdapter(adapter);
+					createEliminaNotifica(listaNotifiche);
+				});
+
+			}
+		}).start();
+
+		super.onResume();
 	}
 }

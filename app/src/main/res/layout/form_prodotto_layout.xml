@@ -165,7 +165,8 @@
                 android:background="@drawable/shape_edittext"
                 android:visibility="gone"
                 android:inputType="text"
-                android:autofillHints="@null"/>
+                android:autofillHints="@null"
+                android:backgroundTint="@color/platinum"/>
 
             <LinearLayout android:id="@+id/sceltaBrand"
                 android:layout_width="match_parent"
@@ -173,7 +174,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Brand"
                     android:textSize="30dp"
@@ -194,7 +195,8 @@
                 android:background="@drawable/shape_edittext"
                 android:visibility="gone"
                 android:inputType="text"
-                android:autofillHints="@null"/>
+                android:autofillHints="@null"
+                android:backgroundTint="@color/platinum"/>
 
             <LinearLayout android:id="@+id/sceltaCondizioni"
                 android:layout_width="match_parent"
@@ -202,7 +204,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Condizioni"
                     android:textSize="30dp"
@@ -224,7 +226,7 @@
                 android:layout_marginTop="20dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Prezzo"
                     android:textSize="30dp"

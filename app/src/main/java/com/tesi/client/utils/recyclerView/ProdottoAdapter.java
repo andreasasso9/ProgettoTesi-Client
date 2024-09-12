@@ -25,13 +25,13 @@ import com.tesi.client.control.UserControllerImpl;
 import com.tesi.client.utils.Session;
 import com.tesi.entity.FotoByteArray;
 import com.tesi.entity.likes.Id;
-import com.tesi.entity.likes.Likes;
 import com.tesi.entity.Prodotto;
 import com.tesi.entity.User;
 
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 	protected List<Prodotto> prodotti;
@@ -80,12 +80,10 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 
 		holder.userProdottoItem.setText(p.getProprietario());
 		holder.titoloProdottoItem.setText(p.getTitolo());
-		holder.prezzoProdottoItem.setText("€"+p.getPrezzo());
+		holder.prezzoProdottoItem.setText(String.format(Locale.ITALIAN, "€%.2f", p.getPrezzo()));
 		if (p.getLikes()>0)
 			holder.miPiaceProdottoItem.setText(String.valueOf(p.getLikes()));
 
-		Id likeId=new Id(p.getId(), currentUser.getUsername());
-		Likes like=new Likes(likeId);
 		if (Session.getInstance(holder.itemView.getContext()).getLikedBy().contains(p)) {
 			holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
 			holder.switcMiPiace.setChecked(true);
@@ -107,16 +105,11 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 		return (button, isChecked)->{
 			if (isChecked) {
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);
-				//currentUser.getProdottiPreferiti().add(p);
-//				p.getLikes().add(like);
-//				currentUser.getLikes().add(like);
 				p.setLikes(p.getLikes()+1);
 
 				notificheController.miPiace(currentUser.getUsername(), p.getId());
 			} else {
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_caricamento_cuore_50);
-//				p.getLikes().remove(like);
-//				currentUser.getLikes().remove(like);
 				p.setLikes(p.getLikes()-1);
 
 				Id likeId=new Id(p.getId(), currentUser.getUsername());
@@ -129,8 +122,6 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 				holder.miPiaceProdottoItem.setText(String.valueOf(p.getLikes()));
 			else
 				holder.miPiaceProdottoItem.setText("");
-
-			//prodottoController.update(p);
 		};
 	}
 

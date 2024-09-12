@@ -29,6 +29,7 @@ public class InboxFragment extends Fragment {
 
 		InboxPagerAdapter inboxPagerAdapter=new InboxPagerAdapter(this);
 		viewPager.setAdapter(inboxPagerAdapter);
+		viewPager.setUserInputEnabled(false);
 
 		new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
 			switch (position) {

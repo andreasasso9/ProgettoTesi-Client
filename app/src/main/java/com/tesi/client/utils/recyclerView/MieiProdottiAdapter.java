@@ -15,6 +15,7 @@ import com.tesi.entity.Prodotto;
 import com.tesi.entity.User;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MieiProdottiAdapter extends ProdottoAdapter {
 	public MieiProdottiAdapter(List<Prodotto> prodotti, User currentUser) {
@@ -43,7 +44,7 @@ public class MieiProdottiAdapter extends ProdottoAdapter {
 
 		holder.userProdottoItem.setText(p.getProprietario());
 		holder.titoloProdottoItem.setText(p.getTitolo());
-		holder.prezzoProdottoItem.setText(String.valueOf(p.getPrezzo()));
+		holder.prezzoProdottoItem.setText(String.format(Locale.ITALIAN, "€%.2f", p.getPrezzo()));
 		LinearLayout miPiaceParent= (LinearLayout) holder.miPiaceProdottoItem.getParent();
 		miPiaceParent.setVisibility(View.GONE);
 		if (p.isBought())
@@ -58,8 +59,9 @@ public class MieiProdottiAdapter extends ProdottoAdapter {
 				holder.itemView.getContext().startActivity(i);
 				return true;
 			} else if (title.equalsIgnoreCase("elimina")) {
-				//fotoController.deleteByIdProdotto(p.getId());
 				prodottoController.deleteById(p.getId());
+				notifyItemRemoved(holder.getAdapterPosition());
+				prodotti.remove(p);
 				return true;
 			}
 

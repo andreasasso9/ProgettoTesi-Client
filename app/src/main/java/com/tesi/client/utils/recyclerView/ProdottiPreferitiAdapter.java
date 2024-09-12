@@ -14,6 +14,7 @@ import com.tesi.entity.Prodotto;
 import com.tesi.entity.User;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ProdottiPreferitiAdapter extends ProdottoAdapter {
 	public ProdottiPreferitiAdapter(User currentUser) {
@@ -30,7 +31,6 @@ public class ProdottiPreferitiAdapter extends ProdottoAdapter {
 			FotoByteArray foto=fotoController.findFirst(p.getId());
 
 			activity.runOnUiThread(()->{
-				//holder.fotoProdottoItem.setImageResource(R.drawable.icons8_nessuna_immagine_50);
 				if (foto!=null) {
 					holder.fotoProdottoItem.setImageBitmap(BitmapFactory.decodeByteArray(foto.getValue(), 0, foto.getValue().length));
 					holder.fotoProdottoItem.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -40,8 +40,8 @@ public class ProdottiPreferitiAdapter extends ProdottoAdapter {
 		}).start();
 
 		holder.titoloProdottoItem.setText(p.getTitolo());
-		holder.prezzoProdottoItem.setText(p.getPrezzo()+"");
-		holder.miPiaceProdottoItem.setText(p.getLikes()+"");
+		holder.prezzoProdottoItem.setText(String.format(Locale.ITALIAN, "€%.2f", p.getPrezzo()));
+		holder.miPiaceProdottoItem.setText(String.valueOf(p.getLikes()));
 		holder.userProdottoItem.setText(p.getProprietario());
 
 		holder.iconaMiPiace.setImageResource(R.drawable.icons8_loading_heart_50);

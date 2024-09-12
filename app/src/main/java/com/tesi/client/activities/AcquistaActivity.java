@@ -128,13 +128,15 @@ public class AcquistaActivity extends AppCompatActivity {
 					p.setCompratore(currentUser.getUsername());
 
 					ProdottoController prodottoController= ProdottoControllerImpl.getInstance();
-					prodottoController.update(p);
-					FotoByteArray fotoNotifica=FotoProdottoControllerImpl.getInstance().findFirst(p.getId());
-					Notifica notifica=new Notifica(currentUser.getUsername(), p.getProprietario(), String.format("%s ha acquistato il tuo articolo %s", currentUser.getUsername(), p.getTitolo()), fotoNotifica.getValue());
-					NotificheControllerImpl.getInstance().save(notifica);
-					Toast.makeText(this, "Il pagamento è andato a buon fine", Toast.LENGTH_SHORT).show();
+					if (prodottoController.update(p)) {
+						FotoByteArray fotoNotifica = FotoProdottoControllerImpl.getInstance().findFirst(p.getId());
+						Notifica notifica = new Notifica(currentUser.getUsername(), p.getProprietario(), String.format("%s ha acquistato il tuo articolo %s", currentUser.getUsername(), p.getTitolo()), fotoNotifica.getValue());
+						NotificheControllerImpl.getInstance().save(notifica);
+						Toast.makeText(this, "Il pagamento è andato a buon fine", Toast.LENGTH_SHORT).show();
+					} else
+						Toast.makeText(this, "C'è stato un errore😢", Toast.LENGTH_SHORT).show();
 
-					Intent intent=new Intent(this, MainActivity.class);
+					Intent intent = new Intent(this, MainActivity.class);
 					startActivity(intent);
 				}, 100);
 

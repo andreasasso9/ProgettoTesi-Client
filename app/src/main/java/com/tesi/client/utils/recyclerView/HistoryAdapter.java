@@ -10,18 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tesi.client.R;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
+import com.tesi.client.utils.Session;
 
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryHolder> {
 	private final List<String> history;
-	private SearchView searchView;
-	private SearchBar searchBar;
+	private final SearchView searchView;
 
-	public HistoryAdapter(List<String> history, SearchView searchView, SearchBar searchBar) {
+	public HistoryAdapter(List<String> history, SearchView searchView) {
 		this.history = history;
 		this.searchView = searchView;
-		this.searchBar = searchBar;
 	}
 
 	@NonNull
@@ -38,9 +37,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryHolder> {
 
 			holder.ricerca.setText(ricerca);
 
-			holder.ricerca.setOnClickListener(l->{
-				searchView.setText(ricerca);
-			});
+			holder.ricerca.setOnClickListener(l->searchView.setText(ricerca));
+
+			Session session=Session.getInstance(holder.itemView.getContext());
+			int textWidth = (int) (session.getScreenWidth() * 0.75);
+			int eliminaWidth = (int) (session.getScreenWidth() * 0.25);
+
+			holder.ricerca.getLayoutParams().width=textWidth;
+			holder.elimina.getLayoutParams().width=eliminaWidth;
 
 			holder.elimina.setOnClickListener(l->{
 				if (holder.getAdapterPosition()>=0) {
