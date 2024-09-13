@@ -16,11 +16,13 @@ public class UpdateMethod implements Runnable {
 	private List<Prodotto> list;
 	private final String username;
 	private final String method;
+	private Integer page;
 
-	public UpdateMethod(String username, String method) {
+	public UpdateMethod(String username, String method, Integer page) {
 		this.list = new ArrayList<>();
 		this.username = username;
 		this.method = method;
+		this.page = page;
 	}
 
 	@Override
@@ -28,8 +30,12 @@ public class UpdateMethod implements Runnable {
 		ProdottoController prodottoController= ProdottoControllerImpl.getInstance();
 		switch (method) {
 			case GET_ALL_NOT_OWNED_BY:
-				list=prodottoController.getAllNotOwnedBy(username);
-				return;
+				if (page != null) {
+					list = prodottoController.getAllNotOwnedBy(username, page++);
+					if (list.isEmpty())
+						page--;
+					return;
+				}
 
 			case FIND_BY_PROPRIETARIO:
 				list=prodottoController.findByProprietario(username);

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -26,6 +25,8 @@ public class MieiProdottiAdapter extends ProdottoAdapter {
 	public void onBindViewHolder(@NonNull ProdottoHolder holder, int position) {
 		Prodotto p=prodotti.get(holder.getAdapterPosition());
 
+		holder.acquistato.setVisibility(View.GONE);
+
 		if (!p.isBought())
 			holder.menu.setVisibility(View.VISIBLE);
 
@@ -45,8 +46,7 @@ public class MieiProdottiAdapter extends ProdottoAdapter {
 		holder.userProdottoItem.setText(p.getProprietario());
 		holder.titoloProdottoItem.setText(p.getTitolo());
 		holder.prezzoProdottoItem.setText(String.format(Locale.ITALIAN, "€%.2f", p.getPrezzo()));
-		LinearLayout miPiaceParent= (LinearLayout) holder.miPiaceProdottoItem.getParent();
-		miPiaceParent.setVisibility(View.GONE);
+		holder.miPiaceProdottoItem.setOnClickListener(null);
 		if (p.isBought())
 			holder.acquistato.setVisibility(View.VISIBLE);
 

@@ -25,7 +25,6 @@ public class Refresh {
 					prodotti.addAll(newProdotti);
 
 					diffResult.dispatchUpdatesTo(adapter);
-					//Snackbar.make(activity, refreshLayout, "reload", BaseTransientBottomBar.LENGTH_SHORT).show();
 				});
 			}
 			refreshLayout.setRefreshing(false);

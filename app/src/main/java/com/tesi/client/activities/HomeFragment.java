@@ -31,6 +31,7 @@ public class HomeFragment extends Fragment {
 	private User currentUser;
 	private ProdottoAdapter adapter;
 	private SwipeRefreshLayout refreshLayout;
+	public static Integer page=0;
 
 	@Nullable
 	@Override
@@ -43,14 +44,38 @@ public class HomeFragment extends Fragment {
 		refreshLayout=v.findViewById(R.id.refreshLayout);
 
 		RecyclerView list_prodotti = v.findViewById(R.id.list_prodotti);
-		list_prodotti.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+		GridLayoutManager gridLayoutManager=new GridLayoutManager(requireContext(), 2);
+		list_prodotti.setLayoutManager(gridLayoutManager);
+		list_prodotti.addOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+				super.onScrolled(recyclerView, dx, dy);
+				if (dy>0) {
+					int lastPosition=gridLayoutManager.findLastVisibleItemPosition();
+					int itemCount= adapter.getItemCount();
+					if (itemCount <= lastPosition+1 && itemCount >= lastPosition-1) {
+						refreshLayout.setRefreshing(true);
+						new Thread(()->{
+							List<Prodotto> l=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), ++page);
+							if (!l.isEmpty()) {
+								prodotti.addAll(l);
+								requireActivity().runOnUiThread(() -> adapter.notifyItemRangeInserted(itemCount - 1, l.size()));
+							}
+
+							refreshLayout.setRefreshing(false);
+						}).start();
+
+					}
+				}
+			}
+		});
 
 		currentUser=Session.getInstance(requireContext()).getCurrentUser();
 
 		new Thread(()->{
 			refreshLayout.setRefreshing(true);
 			prodottoController=ProdottoControllerImpl.getInstance();
-			prodotti=prodottoController.getAllNotOwnedBy(currentUser.getUsername());
+			prodotti=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), 0);
 
 			requireActivity().runOnUiThread(()->{
 				adapter = new ProdottoAdapter(prodotti, currentUser, true);
@@ -59,7 +84,7 @@ public class HomeFragment extends Fragment {
 			refreshLayout.setRefreshing(false);
 		}).start();
 
-		UpdateMethod method=new UpdateMethod(currentUser.getUsername(), UpdateMethod.GET_ALL_NOT_OWNED_BY);
+		UpdateMethod method=new UpdateMethod(currentUser.getUsername(), UpdateMethod.GET_ALL_NOT_OWNED_BY, page);
 		refreshLayout.setOnRefreshListener(() -> Refresh.run(requireActivity(), prodotti, adapter, refreshLayout, method));
 
 		return v;

@@ -18,9 +18,6 @@ import com.tesi.client.utils.Session;
 import com.tesi.client.utils.recyclerView.ProdottiPreferitiAdapter;
 import com.tesi.client.utils.recyclerView.refresh.Refresh;
 import com.tesi.client.utils.recyclerView.refresh.UpdateMethod;
-import com.tesi.entity.Prodotto;
-
-import java.util.Set;
 
 public class ArticoliPreferitiFragment extends Fragment {
 	@Nullable
@@ -41,7 +38,7 @@ public class ArticoliPreferitiFragment extends Fragment {
 		SwipeRefreshLayout refreshLayout=v.findViewById(R.id.refreshLayout);
 		refreshLayout.setEnabled(false);
 
-		UpdateMethod method=new UpdateMethod(Session.getInstance(requireContext()).getCurrentUser().getUsername(), UpdateMethod.FIND_BY_LIKED_BY);
+		UpdateMethod method=new UpdateMethod(Session.getInstance(requireContext()).getCurrentUser().getUsername(), UpdateMethod.FIND_BY_LIKED_BY, null);
 		refreshLayout.setOnRefreshListener(()-> Refresh.run(requireActivity(), adapter.getProdotti(), adapter, refreshLayout, method));
 		return v;
 	}

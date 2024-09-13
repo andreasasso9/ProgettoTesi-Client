@@ -55,7 +55,7 @@ public class IMieiAcquistiFragment extends Fragment {
 			swipeRefreshLayout.setRefreshing(false);
 		}).start();
 
-		UpdateMethod method=new UpdateMethod(currentUser.getUsername(), UpdateMethod.FIND_BY_COMPRATORE);
+		UpdateMethod method=new UpdateMethod(currentUser.getUsername(), UpdateMethod.FIND_BY_COMPRATORE, null);
 		swipeRefreshLayout.setOnRefreshListener(()-> Refresh.run(requireActivity(), acquisti, adapter, swipeRefreshLayout, method));
 
 		return v;

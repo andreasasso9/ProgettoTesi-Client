@@ -4,7 +4,6 @@
     android:layout_width="180dp"
     android:layout_height="320dp"
     android:orientation="vertical"
-    android:padding="10dp"
     android:layout_marginVertical="10dp"
     android:backgroundTint="@color/white">
 
@@ -26,14 +25,46 @@
             android:contentDescription="@null"
             android:src="@drawable/icons8_nessuna_immagine_50"/>
 
+
+
+        <LinearLayout android:id="@+id/acquistato"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:background="#1C9801"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Acquistato"
+                android:textSize="@dimen/text_view_size"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView android:id="@+id/titolo_prodotto_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_view_size"
+            android:text="titolo"
+            android:layout_gravity="bottom"
+            android:textColor="@color/black"
+            android:layout_weight="1"/>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
             android:background="@drawable/shape_preferiti"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_weight="0">
 
             <RelativeLayout
                 android:layout_width="30dp"
@@ -61,31 +92,7 @@
                 android:gravity="center" />
 
         </LinearLayout>
-
-        <LinearLayout android:id="@+id/acquistato"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:background="#1C9801"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Acquistato"
-                android:textSize="@dimen/text_view_size"
-                android:textColor="@color/white"/>
-        </LinearLayout>
-    </RelativeLayout>
-
-    <TextView android:id="@+id/titolo_prodotto_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_view_size"
-        android:text="titolo"
-        android:layout_gravity="bottom"
-        android:textColor="@color/black" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

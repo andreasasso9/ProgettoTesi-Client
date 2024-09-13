@@ -82,8 +82,8 @@ public class ProdottoControllerImpl implements ProdottoController {
 	}
 
 	@Override
-	public List<Prodotto> getAllNotOwnedBy(String user) {
-		Call<List<Prodotto>> call=prodottoServiceRetrofit.getAllNotOwnedBy(user);
+	public List<Prodotto> getAllNotOwnedBy(String user, int page) {
+		Call<List<Prodotto>> call=prodottoServiceRetrofit.getAllNotOwnedBy(user, page);
 		CompletableFuture<List<Prodotto>> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<List<Prodotto>> response=call.execute();

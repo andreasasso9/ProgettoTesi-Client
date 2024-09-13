@@ -20,7 +20,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -30,6 +29,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.tesi.client.R;
 import com.tesi.client.control.FotoProdottoController;
 import com.tesi.client.control.FotoProdottoControllerImpl;
@@ -58,6 +59,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 	private FotoProdottoController fotoProdottoController;
 	private Button buttonCaricaFoto;
 	private Map<String, TextView> textViews;
+	private ViewGroup mainContainer;
 
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -143,7 +145,6 @@ public class FormProdottoActivity extends AppCompatActivity {
 
 			update(uploadButton, prodotto);
 		}
-
 	}
 
 	private void createAddFotoLauncher() {
@@ -325,7 +326,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 				}).start();
 			} else {
 				progressBar.hide();
-				Toast.makeText(FormProdottoActivity.this, "Inserisci tutti i campi", Toast.LENGTH_SHORT).show();
+				Snackbar.make(this, containerFoto, "Inserisci tutti i campi", BaseTransientBottomBar.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -354,7 +355,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 				}).start();
 			} else {
 				progressBar.hide();
-				Toast.makeText(FormProdottoActivity.this, "Inserisci tutti i campi", Toast.LENGTH_SHORT).show();
+				Snackbar.make(this, containerFoto, "Inserisci tutti i campi", BaseTransientBottomBar.LENGTH_SHORT).show();
 			}
 		});
 	}

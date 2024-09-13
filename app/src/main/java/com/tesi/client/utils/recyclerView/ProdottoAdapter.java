@@ -28,8 +28,6 @@ import com.tesi.entity.likes.Id;
 import com.tesi.entity.Prodotto;
 import com.tesi.entity.User;
 
-
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,9 +42,6 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 
 	public ProdottoAdapter(List<Prodotto> prodotti, User currentUser, boolean miPiaceEnabled) {
 		this.prodotti=prodotti;
-		if (prodotti!=null)
-			this.prodotti.sort(Comparator.comparingInt(Prodotto::getLikes));
-
 		this.currentUser=currentUser;
 		notificheController= NotificheControllerImpl.getInstance();
 		prodottoController= ProdottoControllerImpl.getInstance();
@@ -64,7 +59,14 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 
 	@Override
 	public void onBindViewHolder(@NonNull ProdottoHolder holder, int position) {
-		Prodotto p=prodotti.get(position);
+		Prodotto p=prodotti.get(holder.getAdapterPosition());
+
+		holder.miPiaceProdottoItem.setText("");
+		holder.userProdottoItem.setText("");
+		holder.fotoProdottoItem.setImageBitmap(null);
+		holder.prezzoProdottoItem.setText("");
+		holder.titoloProdottoItem.setText("");
+
 		FragmentActivity activity= (FragmentActivity) holder.itemView.getContext();
 		new Thread(()->{
 			FotoByteArray foto=fotoController.findFirst(p.getId());

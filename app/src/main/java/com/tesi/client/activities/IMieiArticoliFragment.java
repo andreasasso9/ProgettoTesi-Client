@@ -57,7 +57,7 @@ public class IMieiArticoliFragment extends Fragment {
 			refreshLayout.setRefreshing(false);
 		}).start();
 
-		UpdateMethod method=new UpdateMethod(currentUser.getUsername(), UpdateMethod.FIND_BY_PROPRIETARIO);
+		UpdateMethod method=new UpdateMethod(currentUser.getUsername(), UpdateMethod.FIND_BY_PROPRIETARIO, null);
 		refreshLayout.setOnRefreshListener(()-> Refresh.run(requireActivity(), prodotti, adapter, refreshLayout, method));
 
 		return v;

@@ -19,7 +19,8 @@ public interface ProdottoServiceRetrofit {
 	Call<List<Prodotto>> getAll(@Body int limit);
 
 	@POST("getAllNotOwnedBy")
-	Call<List<Prodotto>> getAllNotOwnedBy(@Body String user);
+	@FormUrlEncoded
+	Call<List<Prodotto>> getAllNotOwnedBy(@Field("user") String user, @Field("page") int page);
 
 	@POST("update")
 	Call<Boolean> update(@Body Long idProdotto);
