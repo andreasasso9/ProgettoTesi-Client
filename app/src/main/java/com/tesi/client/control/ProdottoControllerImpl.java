@@ -104,8 +104,8 @@ public class ProdottoControllerImpl implements ProdottoController {
 	}
 
 	@Override
-	public boolean update(Prodotto prodotto) {
-		Call<Boolean> call=prodottoServiceRetrofit.update(prodotto);
+	public boolean update(Long idProdotto) {
+		Call<Boolean> call=prodottoServiceRetrofit.update(idProdotto);
 		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
 			try {
 				Response<Boolean> response=call.execute();
@@ -195,7 +195,7 @@ public class ProdottoControllerImpl implements ProdottoController {
 	}
 
 	@Override
-	public boolean deleteById(Long id) {
+	public void deleteById(Long id) {
 		Call<Void> call=prodottoServiceRetrofit.deleteById(id);
 		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
 			try {
@@ -207,9 +207,9 @@ public class ProdottoControllerImpl implements ProdottoController {
 		});
 
 		try {
-			return future.get();
+			future.get();
 		} catch (InterruptedException | ExecutionException e) {
-			return false;
+			return;
 		}
 	}
 
@@ -231,6 +231,33 @@ public class ProdottoControllerImpl implements ProdottoController {
 			return future.get();
 		} catch (ExecutionException | InterruptedException e) {
 			return null;
+		}
+	}
+
+	@Override
+	public boolean acquista(String username, Long idProdotto) {
+		Call<Boolean> call=prodottoServiceRetrofit.acquista(username, idProdotto);
+		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<Boolean> response=call.execute();
+				if (response.isSuccessful()) {
+					Log.println(Log.INFO, "ACQUISTA PRODOTTO", "SUCCESS");
+					return response.body();
+				} else {
+					Log.println(Log.ERROR, "ACQUISTA PRODOTTO", "FAILED 1");
+					return false;
+				}
+			} catch (IOException e) {
+				Log.println(Log.ERROR, "ACQUISTA PRODOTTO", "FAILED 2");
+				return false;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			Log.println(Log.ERROR, "ACQUISTA PRODOTTO", Arrays.toString(e.getStackTrace()));
+			return false;
 		}
 	}
 }

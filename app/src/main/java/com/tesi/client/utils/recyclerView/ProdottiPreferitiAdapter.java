@@ -58,7 +58,7 @@ public class ProdottiPreferitiAdapter extends ProdottoAdapter {
 				String descrizione=String.format("%s ha messo mi piace al tuo articolo %s", currentUser.getUsername(), p.getTitolo());
 				notificheController.delete(descrizione, likeId);
 
-				prodottoController.update(p);
+				prodottoController.update(p.getId());
 			}
 		});
 		holder.itemView.setOnClickListener(createVisualizzaProdottoListener(p));

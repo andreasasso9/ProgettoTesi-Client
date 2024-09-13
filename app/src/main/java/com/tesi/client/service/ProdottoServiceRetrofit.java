@@ -22,7 +22,7 @@ public interface ProdottoServiceRetrofit {
 	Call<List<Prodotto>> getAllNotOwnedBy(@Body String user);
 
 	@POST("update")
-	Call<Boolean> update(@Body Prodotto prodotto);
+	Call<Boolean> update(@Body Long idProdotto);
 
 	@POST("findByIdProprietario")
 	Call<List<Prodotto>> findByProprietario(@Body String idProprietario);
@@ -39,4 +39,8 @@ public interface ProdottoServiceRetrofit {
 
 	@POST("findByLikedBy")
 	Call<Set<Prodotto>> findByLikedBy(@Body String username);
+
+	@POST("acquista")
+	@FormUrlEncoded
+	Call<Boolean> acquista(@Field("username") String username, @Field("idProdotto") Long idProdotto);
 }

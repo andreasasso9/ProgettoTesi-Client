@@ -20,6 +20,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -55,6 +56,8 @@ public class FormProdottoActivity extends AppCompatActivity {
 	private RadioGroup opzioniCategoria, opzioniBrand, opzioniCondizioni;
 	private ProdottoController prodottoController;
 	private FotoProdottoController fotoProdottoController;
+	private Button buttonCaricaFoto;
+	private Map<String, TextView> textViews;
 
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,6 +70,12 @@ public class FormProdottoActivity extends AppCompatActivity {
 		else
 			prodotto= (Prodotto) i.getSerializableExtra("prodotto");
 
+		ViewGroup mainContainer= findViewById(R.id.mainContainer);
+		textViews=new HashMap<>();
+		for (int x=1; x<7; x++) {
+			TextView t=mainContainer.findViewWithTag("nameForm"+x);
+			textViews.put(t.getText().toString().toLowerCase(), t);
+		}
 
 		prodottoController = ProdottoControllerImpl.getInstance();
 		fotoProdottoController = FotoProdottoControllerImpl.getInstance();
@@ -92,15 +101,18 @@ public class FormProdottoActivity extends AppCompatActivity {
 
 		createAddFotoLauncher();
 
-		formTitolo.addTextChangedListener(createContatoreEditTextListener(contatoreTitolo));
-		formDescrizione.addTextChangedListener(createContatoreEditTextListener(contatoreDescrizione));
+		formTitolo.addTextChangedListener(createContatoreEditTextListener(contatoreTitolo, textViews.get("titolo")));
+		formDescrizione.addTextChangedListener(createContatoreEditTextListener(contatoreDescrizione, textViews.get("descrivi il tuo articolo")));
 
-		createScelte(sceltaCategoria, opzioniCategoria, prodotto, altreCategorie, Prodotto.categorie);
-		createScelte(sceltaBrand, opzioniBrand, prodotto, altriBrand, Prodotto.brands);
-		createScelte(sceltaCondizioni, opzioniCondizioni, prodotto, null, Prodotto.condizioni);
+		createScelte(sceltaCategoria, opzioniCategoria, prodotto, altreCategorie, textViews.get("categoria"), Prodotto.categorie);
+		createScelte(sceltaBrand, opzioniBrand, prodotto, altriBrand, textViews.get("brand"), Prodotto.brands);
+		createScelte(sceltaCondizioni, opzioniCondizioni, prodotto, null, textViews.get("condizioni"), Prodotto.condizioni);
 
-		Button buttonCaricaFoto = findViewById(R.id.buttonCaricaFoto);
-		buttonCaricaFoto.setOnClickListener(l -> scegliImmaginiLauncher.launch(new Intent()));
+		buttonCaricaFoto = findViewById(R.id.buttonCaricaFoto);
+		buttonCaricaFoto.setOnClickListener(l -> {
+			buttonCaricaFoto.setBackgroundColor(getResources().getColor(R.color.blue, null));
+			scegliImmaginiLauncher.launch(new Intent());
+		});
 
 		createSceltaPrezzo();
 
@@ -186,7 +198,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 		return cancel;
 	}
 
-	private TextWatcher createContatoreEditTextListener(TextView contatore) {
+	private TextWatcher createContatoreEditTextListener(TextView contatore, TextView t) {
 		return new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -195,6 +207,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				t.setTextColor(getResources().getColor(R.color.black, null));
 				contatore.setText("Caratteri: "+s.length());
 			}
 
@@ -205,10 +218,12 @@ public class FormProdottoActivity extends AppCompatActivity {
 		};
 	}
 	
-	private void createScelte(LinearLayout layout, RadioGroup optionsGroup, Prodotto p, EditText altro, String... opzioni) {
+	private void createScelte(LinearLayout layout, RadioGroup optionsGroup, Prodotto p, EditText altro, TextView textView, String... opzioni) {
 		TextView t=createTextView();
 
 		layout.addView(t);
+
+		optionsGroup.setOnCheckedChangeListener((group, checkedId) -> textView.setTextColor(getResources().getColor(R.color.black, null)));
 
 		for (String o:opzioni) {
 			RadioButton rb=new RadioButton(FormProdottoActivity.this);
@@ -267,7 +282,7 @@ public class FormProdottoActivity extends AppCompatActivity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+				textViews.get("prezzo").setTextColor(getResources().getColor(R.color.black, null));
 			}
 
 			@Override
@@ -293,56 +308,105 @@ public class FormProdottoActivity extends AppCompatActivity {
 	private void upload(Button b) {
 		b.setOnClickListener(l->{
 			ContentLoadingProgressBar progressBar=findViewById(R.id.progressBar);
-			progressBar.setVisibility(View.VISIBLE);
+			progressBar.show();
 
 			Map<String, String> values=getValues();
-			StringBuilder errorMessage=new StringBuilder();
 
-			double prezzo;
-			String s=values.get("prezzo");
-			if (s != null)
-				prezzo=Double.parseDouble(s);
-			else {
-				errorMessage.append("Inserisci un prezzo\n");
-				return;
+			if (isValid(values)) {
+				double prezzo=Double.parseDouble(values.get("prezzo"));
+				Prodotto prodotto = new Prodotto(Session.getInstance(this).getCurrentUser().getUsername(), values.get("titolo"), values.get("descrizione"), values.get("categoria"), values.get("brand"), values.get("condizioni"), prezzo);
+
+				new Thread(() -> {
+					Prodotto response = prodottoController.add(prodotto);
+					foto.forEach(f -> f.setIdProdotto(response.getId()));
+					fotoProdottoController.add(foto);
+
+					goToHome();
+				}).start();
+			} else {
+				progressBar.hide();
+				Toast.makeText(FormProdottoActivity.this, "Inserisci tutti i campi", Toast.LENGTH_SHORT).show();
 			}
-
-			//todo completare controllo campi non vuoti
-			Prodotto prodotto=new Prodotto(Session.getInstance(this).getCurrentUser().getUsername(), values.get("titolo"), values.get("descrizione"), values.get("categoria"), values.get("brand"), values.get("condizioni"), prezzo);
-
-			new Thread(()->{
-				Prodotto response=prodottoController.add(prodotto);
-				foto.forEach(f->f.setIdProdotto(response.getId()));
-				fotoProdottoController.add(foto);
-
-				goToHome();
-			}).start();
 		});
 	}
 
 	private void update(Button button, Prodotto prodotto) {
 		button.setOnClickListener(v->{
 			ContentLoadingProgressBar progressBar=findViewById(R.id.progressBar);
-			progressBar.setVisibility(View.VISIBLE);
+			progressBar.show();
 
 			Map<String,String> values=getValues();
 
-			prodotto.setTitolo(values.get("titolo"));
-			prodotto.setDescrizione(values.get("descrizione"));
-			prodotto.setPrezzo(Double.parseDouble(values.get("prezzo")));
-			prodotto.setBrand(values.get("brand"));
-			prodotto.setCategoria(values.get("categoria"));
-			prodotto.setCondizione(values.get("condizioni"));
+			if (isValid(values)) {
+				prodotto.setTitolo(values.get("titolo"));
+				prodotto.setDescrizione(values.get("descrizione"));
+				prodotto.setPrezzo(Double.parseDouble(values.get("prezzo")));
+				prodotto.setBrand(values.get("brand"));
+				prodotto.setCategoria(values.get("categoria"));
+				prodotto.setCondizione(values.get("condizioni"));
 
-			new Thread(()->{
-				prodottoController.update(prodotto);
-				foto.forEach(f->f.setIdProdotto(prodotto.getId()));
-				fotoProdottoController.add(foto);
+				new Thread(() -> {
+					prodottoController.update(prodotto.getId());
+					foto.forEach(f -> f.setIdProdotto(prodotto.getId()));
+					fotoProdottoController.add(foto);
 
-				goToHome();
-			}).start();
-
+					goToHome();
+				}).start();
+			} else {
+				progressBar.hide();
+				Toast.makeText(FormProdottoActivity.this, "Inserisci tutti i campi", Toast.LENGTH_SHORT).show();
+			}
 		});
+	}
+
+	private boolean isValid(Map<String, String> values) {
+		boolean valid=true;
+
+		String s;
+
+		s=values.get("titolo");
+		if (s==null || s.isEmpty()) {
+			textViews.get("titolo").setTextColor(getResources().getColor(R.color.red, null));
+			valid=false;
+		}
+
+		s=values.get("descrizione");
+		if (s==null || s.isEmpty()) {
+			textViews.get("descrivi il tuo articolo").setTextColor(getResources().getColor(R.color.red, null));
+			valid=false;
+		}
+
+		s=values.get("categoria");
+		if (s==null || s.isEmpty()) {
+			textViews.get("categoria").setTextColor(getResources().getColor(R.color.red, null));
+			valid=false;
+		}
+
+		s=values.get("brand");
+		if (s==null || s.isEmpty()) {
+			textViews.get("brand").setTextColor(getResources().getColor(R.color.red, null));
+			valid=false;
+		}
+
+		s=values.get("condizioni");
+		if (s==null || s.isEmpty()){
+			textViews.get("condizioni").setTextColor(getResources().getColor(R.color.red, null));
+			valid=false;
+		}
+
+		if (foto==null || foto.isEmpty()) {
+			buttonCaricaFoto.setBackgroundColor(getResources().getColor(R.color.red, null));
+			valid=false;
+		}
+
+		double prezzo=0;
+		s=values.get("prezzo");
+		if (s == null || s.isEmpty()) {
+			textViews.get("prezzo").setTextColor(getResources().getColor(R.color.red, null));
+			valid=false;
+		}
+
+		return valid;
 	}
 
 	private Map<String, String> getValues() {
@@ -357,21 +421,24 @@ public class FormProdottoActivity extends AppCompatActivity {
 		rbBrand=findViewById(opzioniBrand.getCheckedRadioButtonId());
 		rbCondizioni=findViewById(opzioniCondizioni.getCheckedRadioButtonId());
 
-		String categoria;
-		String brand;
-		String condizioni;
+		String categoria = null;
+		String brand = null;
+		String condizioni = null;
 
-		if (rbCategoria.getText().toString().equalsIgnoreCase("altro"))
-			categoria=String.valueOf(altreCategorie.getText()).trim();
-		else
-			categoria=String.valueOf(rbCategoria.getText()).trim();
+		if (rbCategoria != null)
+			if (String.valueOf(rbCategoria.getText()).equalsIgnoreCase("altro"))
+				categoria=String.valueOf(altreCategorie.getText()).trim();
+			else
+				categoria=String.valueOf(rbCategoria.getText()).trim();
 
-		if (rbBrand.getText().toString().equalsIgnoreCase("altro"))
-			brand= String.valueOf(altriBrand.getText()).trim();
-		else
-			brand=String.valueOf(rbBrand.getText()).trim();
+		if (rbBrand != null)
+			if (String.valueOf(rbBrand.getText()).equalsIgnoreCase("altro"))
+				brand= String.valueOf(altriBrand.getText()).trim();
+			else
+				brand=String.valueOf(rbBrand.getText()).trim();
 
-		condizioni=String.valueOf(rbCondizioni.getText()).trim();
+		if (rbCondizioni != null)
+			condizioni=String.valueOf(rbCondizioni.getText()).trim();
 
 		//ottengo prezzo
 		String prezzo=String.valueOf(formPrezzo.getText()).replace("€", "");

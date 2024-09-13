@@ -125,10 +125,9 @@ public class AcquistaActivity extends AppCompatActivity {
 						p= (Prodotto) i.getSerializableExtra("prodotto");
 
 					assert p != null;
-					p.setCompratore(currentUser.getUsername());
 
 					ProdottoController prodottoController= ProdottoControllerImpl.getInstance();
-					if (prodottoController.update(p)) {
+					if (prodottoController.acquista(currentUser.getUsername(), p.getId())) {
 						FotoByteArray fotoNotifica = FotoProdottoControllerImpl.getInstance().findFirst(p.getId());
 						Notifica notifica = new Notifica(currentUser.getUsername(), p.getProprietario(), String.format("%s ha acquistato il tuo articolo %s", currentUser.getUsername(), p.getTitolo()), fotoNotifica.getValue());
 						NotificheControllerImpl.getInstance().save(notifica);

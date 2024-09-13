@@ -9,11 +9,11 @@ public interface ProdottoController {
 	Prodotto add(Prodotto prodotto);
 	List<Prodotto> getAll(int limit);
 	List<Prodotto> getAllNotOwnedBy(String user);
-	boolean update(Prodotto prodotto);
+	boolean update(Long idProdotto);
 	List<Prodotto> findByProprietario(String proprietario);
 	List<Prodotto> findByRicerca(String user, String text);
 	List<Prodotto> findByCompratore(String compratore);
-	boolean deleteById(Long id);
+	void deleteById(Long id);
 	Set<Prodotto> findByLikedBy(String username);
-
+	boolean acquista(String username, Long idProdotto);
 }

@@ -47,7 +47,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_view_size"
         app:drawableStartCompat="@drawable/icons8_cestino_64"
-        android:background="#B71C1C"
+        android:background="@color/red"
         android:gravity="center"
         android:padding="10dp"
         android:layout_weight="1" />

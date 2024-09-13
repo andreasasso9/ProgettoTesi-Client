@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:id="@+id/mainContainer">
 
         <RelativeLayout android:id="@+id/cancelContainer"
             android:layout_width="match_parent"
@@ -71,11 +72,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <TextView android:tag="nameForm1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Titolo"
                         android:textSize="@dimen/text_view_size"
+                        android:textStyle="bold"
                         android:textColor="@color/black"/>
 
                     <TextView android:id="@+id/contatoreTitolo"
@@ -106,11 +108,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <TextView android:tag="nameForm2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Descrivi il tuo articolo"
                         android:textSize="@dimen/text_view_size"
+                        android:textStyle="bold"
                         android:textColor="@color/black"/>
 
                     <TextView android:id="@+id/contatoreDescrizione"
@@ -134,7 +137,7 @@
                     android:padding="17dp"
                     android:layout_marginBottom="15dp"
                     android:textColor="@color/black"
-                    android:backgroundTint="@color/platinum"/>
+                    android:backgroundTint="@color/platinum" />
 
             </LinearLayout>
 
@@ -143,11 +146,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <TextView android:tag="nameForm3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Categoria"
-                    android:textSize="30dp"
+                    android:textSize="@dimen/text_view_size"
                     android:textStyle="bold"
                     android:layout_weight="1"
                     android:textColor="@color/black"/>
@@ -173,11 +176,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <TextView android:tag="nameForm4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Brand"
-                    android:textSize="30dp"
+                    android:textSize="@dimen/text_view_size"
                     android:textStyle="bold"
                     android:layout_weight="1"
                     android:textColor="@color/black"/>
@@ -203,11 +206,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <TextView android:tag="nameForm5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Condizioni"
-                    android:textSize="30dp"
+                    android:textSize="@dimen/text_view_size"
                     android:textStyle="bold"
                     android:layout_weight="1"
                     android:textColor="@color/black"/>
@@ -225,11 +228,11 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp">
 
-                <TextView
+                <TextView android:tag="nameForm6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Prezzo"
-                    android:textSize="30dp"
+                    android:textSize="@dimen/text_view_size"
                     android:textStyle="bold"
                     android:layout_weight="1"
                     android:textColor="@color/black"/>
