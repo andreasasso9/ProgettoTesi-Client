@@ -61,4 +61,12 @@ public class UpdateMethod implements Runnable {
 	public void setList(List<Prodotto> list) {
 		this.list = list;
 	}
+
+	public String getMethod() {
+		return method;
+	}
+
+	public String getUsername() {
+		return username;
+	}
 }

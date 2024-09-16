@@ -39,6 +39,7 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 	protected final FotoProdottoController fotoController;
 	protected final UserController userController;
 	protected boolean miPiaceEnabled;
+	private int page;
 
 	public ProdottoAdapter(List<Prodotto> prodotti, User currentUser, boolean miPiaceEnabled) {
 		this.prodotti=prodotti;
@@ -48,6 +49,7 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 		fotoController= FotoProdottoControllerImpl.getInstance();
 		userController= UserControllerImpl.getInstance();
 		this.miPiaceEnabled=miPiaceEnabled;
+		this.page=page;
 	}
 
 	@NonNull
@@ -66,6 +68,10 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 		holder.fotoProdottoItem.setImageBitmap(null);
 		holder.prezzoProdottoItem.setText("");
 		holder.titoloProdottoItem.setText("");
+
+		holder.iconaMiPiace.setImageResource(R.drawable.icons8_caricamento_cuore_50);
+		holder.switcMiPiace.setOnCheckedChangeListener(null);
+		holder.switcMiPiace.setChecked(false);
 
 		FragmentActivity activity= (FragmentActivity) holder.itemView.getContext();
 		new Thread(()->{

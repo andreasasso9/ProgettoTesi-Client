@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +24,9 @@ import com.tesi.client.utils.recyclerView.ProdottoAdapter;
 import com.tesi.client.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class HomeFragment extends Fragment {
 	private ProdottoController prodottoController;
@@ -31,7 +34,7 @@ public class HomeFragment extends Fragment {
 	private User currentUser;
 	private ProdottoAdapter adapter;
 	private SwipeRefreshLayout refreshLayout;
-	public static Integer page=0;
+	private Integer page=0;
 
 	@Nullable
 	@Override
@@ -46,36 +49,13 @@ public class HomeFragment extends Fragment {
 		RecyclerView list_prodotti = v.findViewById(R.id.list_prodotti);
 		GridLayoutManager gridLayoutManager=new GridLayoutManager(requireContext(), 2);
 		list_prodotti.setLayoutManager(gridLayoutManager);
-		list_prodotti.addOnScrollListener(new RecyclerView.OnScrollListener() {
-			@Override
-			public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-				super.onScrolled(recyclerView, dx, dy);
-				if (dy>0) {
-					int lastPosition=gridLayoutManager.findLastVisibleItemPosition();
-					int itemCount= adapter.getItemCount();
-					if (itemCount <= lastPosition+1 && itemCount >= lastPosition-1) {
-						refreshLayout.setRefreshing(true);
-						new Thread(()->{
-							List<Prodotto> l=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), ++page);
-							if (!l.isEmpty()) {
-								prodotti.addAll(l);
-								requireActivity().runOnUiThread(() -> adapter.notifyItemRangeInserted(itemCount - 1, l.size()));
-							}
-
-							refreshLayout.setRefreshing(false);
-						}).start();
-
-					}
-				}
-			}
-		});
 
 		currentUser=Session.getInstance(requireContext()).getCurrentUser();
 
 		new Thread(()->{
 			refreshLayout.setRefreshing(true);
 			prodottoController=ProdottoControllerImpl.getInstance();
-			prodotti=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), 0);
+			prodotti=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), page++);
 
 			requireActivity().runOnUiThread(()->{
 				adapter = new ProdottoAdapter(prodotti, currentUser, true);
@@ -86,6 +66,51 @@ public class HomeFragment extends Fragment {
 
 		UpdateMethod method=new UpdateMethod(currentUser.getUsername(), UpdateMethod.GET_ALL_NOT_OWNED_BY, page);
 		refreshLayout.setOnRefreshListener(() -> Refresh.run(requireActivity(), prodotti, adapter, refreshLayout, method));
+
+		Button vediAltro=v.findViewById(R.id.vediAltro);
+		vediAltro.setOnClickListener(view->{
+			new Thread(()->{
+				List<Prodotto> list=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), page++);
+				if (!list.isEmpty()) {
+					int oldSize=prodotti.size();
+					prodotti.addAll(list);
+					requireActivity().runOnUiThread(()->adapter.notifyItemRangeInserted(oldSize, list.size()));
+//				else {
+//					page=1;
+//					List<Prodotto> l=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), page++);
+//					if (!l.isEmpty())
+//						prodotti.addAll(l);
+//				}
+//					Set<Prodotto> noDuplicates = new HashSet<>(prodotti);
+//					int oldSize = prodotti.size();
+//					prodotti.clear();
+//					requireActivity().runOnUiThread(() -> adapter.notifyItemRangeRemoved(0, oldSize));
+//					prodotti.addAll(noDuplicates);
+//					requireActivity().runOnUiThread(() -> adapter.notifyItemRangeInserted(0, prodotti.size()));
+				} else {
+					page=0;
+//					List<Prodotto> l=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), page++);
+//					if (!l.isEmpty()) {
+//						int oldSize=prodotti.size();
+//						prodotti.addAll(l);
+//						requireActivity().runOnUiThread(()->adapter.notifyItemRangeInserted(oldSize, l.size()));
+//					}
+				}
+
+			}).start();
+		});
+
+		list_prodotti.addOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+				super.onScrolled(recyclerView, dx, dy);
+				int lastVisibleItemPosition=gridLayoutManager.findLastVisibleItemPosition();
+				if (lastVisibleItemPosition <= prodotti.size() && lastVisibleItemPosition >= prodotti.size()-1)
+					vediAltro.setVisibility(View.VISIBLE);
+				else
+					vediAltro.setVisibility(View.GONE);
+			}
+		});
 
 		return v;
 	}

@@ -8,7 +8,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.tesi.entity.Prodotto;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Refresh {
 
@@ -20,9 +22,11 @@ public class Refresh {
 			if (newProdotti !=null && !newProdotti.isEmpty()) {
 				activity.runOnUiThread(()->{
 					DiffUtil.DiffResult diffResult=DiffUtil.calculateDiff(new ProdottoDiffCallback(prodotti, newProdotti));
+					Set<Prodotto> noDuplicates=new HashSet<>(newProdotti);
+					noDuplicates.addAll(prodotti);
 
 					prodotti.clear();
-					prodotti.addAll(newProdotti);
+					prodotti.addAll(noDuplicates);
 
 					diffResult.dispatchUpdatesTo(adapter);
 				});
