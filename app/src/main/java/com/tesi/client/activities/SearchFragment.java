@@ -1,17 +1,28 @@
 package com.tesi.client.activities;
 
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.tesi.client.R;
 import com.tesi.client.control.ProdottoController;
 import com.tesi.client.control.ProdottoControllerImpl;
@@ -25,6 +36,7 @@ import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -33,6 +45,8 @@ public class SearchFragment extends Fragment {
 	private ProdottoController prodottoController;
 	private List<Prodotto> prodottiCercati;
 	private User currentUser;
+	private ProdottoAdapter prodottoAdapter;
+	private RecyclerView prodotti;
 
 	@Nullable
 	@Override
@@ -53,17 +67,20 @@ public class SearchFragment extends Fragment {
 
 		historySearch.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
-		RecyclerView prodotti=v.findViewById(R.id.list_prodotti);
+		prodotti=v.findViewById(R.id.list_prodotti);
 		prodotti.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
 		prodottiCercati=new ArrayList<>();
-		ProdottoAdapter prodottoAdapter=new ProdottoAdapter(prodottiCercati, currentUser, true);
+		prodottoAdapter=new ProdottoAdapter(prodottiCercati, currentUser, true);
 		prodotti.setAdapter(prodottoAdapter);
 
 		HistoryAdapter historyAdapter; historyAdapter=new HistoryAdapter(listHistory, searchView);
 		historySearch.setAdapter(historyAdapter);
 
 		searchView.getEditText().setOnEditorActionListener((t, actionId, event) -> {
+			if (!prodottoAdapter.getProdotti().equals(prodottiCercati)) {
+				prodottoAdapter.setProdotti(prodottiCercati);
+			}
 			prodotti.setVisibility(View.VISIBLE);
 
 			String ricerca=t.getText()+"";
@@ -89,8 +106,35 @@ public class SearchFragment extends Fragment {
 				prodottiCercati.clear();
 			}
 
+			searchBar.getMenu().getItem(0/*Prezzo*/).setOnMenuItemClickListener(item -> {
+				EditText maxEditText=new EditText(requireContext());
+				maxEditText.setHint("Prezzo massimo");
+				maxEditText.setHintTextColor(getResources().getColor(R.color.gray, null));
+				maxEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+				AlertDialog.Builder builder=new AlertDialog.Builder(requireContext())
+						.setView(maxEditText)
+						.setPositiveButton("Applica", (dialog, which) -> {
+							double maxPrezzo=Double.parseDouble(maxEditText.getText().toString());
+							List<Prodotto> prodottiFiltered=new LinkedList<>();
+							for (Prodotto p:prodottiCercati) {
+								if (p.getPrezzo() <= maxPrezzo)
+									prodottiFiltered.add(p);
+							}
+							prodottoAdapter.setProdotti(prodottiFiltered);
+							prodottoAdapter.notifyDataSetChanged();
+						}).setNegativeButton("Annulla", (dialog, which) -> {
+							prodottoAdapter.setProdotti(prodottiCercati);
+							prodottoAdapter.notifyDataSetChanged();
+						});
+
+				builder.show();
+				return true;
+			});
+
 			return true;
 		});
+
 
 		return v;
 	}
@@ -106,6 +150,5 @@ public class SearchFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 		Session.getInstance(requireContext()).setSearchHistory(listHistory);
-
 	}
 }

@@ -120,5 +120,6 @@ public class HomeFragment extends Fragment {
 		super.onResume();
 		BottomNavigationView navbar=requireActivity().findViewById(R.id.navbar);
 		navbar.getMenu().getItem(0).setChecked(true).setIcon(R.drawable.casa_selected);
+		page=0;
 	}
 }
