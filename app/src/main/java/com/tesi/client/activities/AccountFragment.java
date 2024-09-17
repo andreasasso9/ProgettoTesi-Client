@@ -10,14 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.tesi.client.R;
-import com.tesi.client.utils.InboxPagerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.tesi.client.R;
+import com.tesi.client.utils.AccountPagerAdapter;
 
-public class InboxFragment extends Fragment {
-
+public class AccountFragment extends Fragment {
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -27,17 +26,17 @@ public class InboxFragment extends Fragment {
 		TabLayout tabLayout=v.findViewById(R.id.tabLayout);
 		ViewPager2 viewPager=v.findViewById(R.id.viewPager);
 
-		InboxPagerAdapter inboxPagerAdapter=new InboxPagerAdapter(this);
-		viewPager.setAdapter(inboxPagerAdapter);
+		AccountPagerAdapter accountPagerAdapter=new AccountPagerAdapter(this);
+		viewPager.setAdapter(accountPagerAdapter);
 		viewPager.setUserInputEnabled(true);
 
 		new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
 			switch (position) {
 				case 0:
-					tab.setText("Notifiche");
+					tab.setText("Armadio");
 					break;
 				case 1:
-					tab.setText("Messaggi");
+					tab.setText("Informazioni");
 					break;
 			}
 		}).attach();
@@ -49,6 +48,6 @@ public class InboxFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		BottomNavigationView navbar=requireActivity().findViewById(R.id.navbar);
-		navbar.getMenu().getItem(3).setChecked(true).setIcon(R.drawable.inbox_selected);
+		navbar.getMenu().getItem(4).setChecked(true).setIcon(R.drawable.profilo_selected);
 	}
 }

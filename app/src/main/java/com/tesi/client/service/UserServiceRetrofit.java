@@ -29,4 +29,7 @@ public interface UserServiceRetrofit {
 
 	@POST("findUserById")
 	Call<User> findById(@Body UUID id);
+
+	@POST("checkEmail")
+	Call<Boolean> checkEmail(@Body String Email);
 }

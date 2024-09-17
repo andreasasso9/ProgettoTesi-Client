@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView android:id="@+id/foto"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/profilo_unselected"
+        android:background="@color/gray"
+        android:scaleType="fitCenter"
+        android:contentDescription="@null"
+        android:layout_weight="4"/>
+
+    <Button android:id="@+id/caricaFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Carica foto profilo"
+        android:textSize="20dp"
+        android:backgroundTint="@color/blue"/>
+
+
+    <TextView android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="username"
+        android:textSize="@dimen/text_view_size"
+        android:textColor="@color/black"
+        android:padding="10dp"
+        android:layout_weight="1"
+        android:gravity="center|start"/>
+
+    <com.tesi.client.utils.InfoTextView android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="email"
+        android:textSize="@dimen/text_view_size"
+        android:textColor="@color/black"
+        android:padding="10dp"
+        android:layout_weight="1"
+        android:gravity="center|start" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:gravity="center">
+
+        <EditText android:id="@+id/editEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textSize="20dp"
+            android:autofillHints="emailAddress"
+            android:hint="Cambia email"
+            android:background="@drawable/shape_edittext"
+            android:backgroundTint="@color/platinum"
+            android:textColorHint="@color/gray"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/updateEmailButton" />
+
+        <Button android:id="@+id/updateEmailButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
+            android:layout_alignParentEnd="true"
+            android:text="Modifica"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <com.tesi.client.utils.InfoTextView android:id="@+id/indirizzo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="indirizzo"
+        android:textSize="@dimen/text_view_size"
+        android:textColor="@color/black"
+        android:padding="10dp"
+        android:layout_weight="1"
+        android:gravity="center|start" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:gravity="center">
+
+        <EditText android:id="@+id/editIndirizzo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textSize="20dp"
+            android:autofillHints="postalAddress"
+            android:hint="Cambia indirizzo"
+            android:background="@drawable/shape_edittext"
+            android:backgroundTint="@color/platinum"
+            android:textColorHint="@color/gray"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/updateIndirizzoButton" />
+
+        <Button android:id="@+id/updateIndirizzoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/blue"
+            android:text="Modifica"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+</LinearLayout>

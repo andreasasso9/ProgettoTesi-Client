@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,7 @@ import com.tesi.entity.Token;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfiloFragment extends Fragment {
-	private IMieiArticoliFragment iMieiArticoliFragment;
+	private AccountFragment accountFragment;
 	private MainActivity mainActivity;
 	private ArticoliPreferitiFragment articoliPreferitiFragment;
 	private IMieiAcquistiFragment iMieiAcquistiFragment;
@@ -33,17 +34,22 @@ public class ProfiloFragment extends Fragment {
 
 		mainActivity= (MainActivity) getActivity();
 
-		TextView logout, articoli, preferiti, iMieiAcquisti;
+		TextView logout, preferiti, iMieiAcquisti, user;
 		ContentLoadingProgressBar progressBar;
+		LinearLayout account;
 
 		logout=v.findViewById(R.id.logout);
-		articoli=v.findViewById(R.id.articoli);
+		account=v.findViewById(R.id.account);
 		preferiti=v.findViewById(R.id.preferiti);
 		iMieiAcquisti=v.findViewById(R.id.iMieiAcquisti);
 		progressBar=v.findViewById(R.id.progressBar);
+		user=v.findViewById(R.id.user);
+
+		String username=Session.getInstance(requireContext()).getCurrentUser().getUsername();
+		user.setText(username);
 
 		createLogoutListener(logout, progressBar);
-		createIMieiArticoliListener(articoli);
+		createAccountListener(account);
 		createArticoliPreferitiListener(preferiti);
 		createIMieiAcquistiListener(iMieiAcquisti);
 
@@ -79,15 +85,15 @@ public class ProfiloFragment extends Fragment {
 		});
 	}
 
-	private void createIMieiArticoliListener(TextView articoli) {
-		articoli.setOnClickListener(l->{
+	private void createAccountListener(LinearLayout account) {
+		account.setOnClickListener(l->{
 			assert mainActivity != null;
 
-			if (iMieiArticoliFragment==null)
-				iMieiArticoliFragment=new IMieiArticoliFragment();
+			if (accountFragment ==null)
+				accountFragment =new AccountFragment();
 
-			mainActivity.currentFragment=iMieiArticoliFragment;
-			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, iMieiArticoliFragment).addToBackStack(null).commit();
+			mainActivity.currentFragment= accountFragment;
+			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, accountFragment).addToBackStack(null).commit();
 		});
 	}
 

@@ -97,10 +97,10 @@ public class UserControllerImpl implements UserController{
 
 	@Override
 	public User findById(UUID id) {
-		Call<User> call=userServiceRetrofit.findById(id);
-		CompletableFuture<User> future=CompletableFuture.supplyAsync(()->{
+		Call<User> call = userServiceRetrofit.findById(id);
+		CompletableFuture<User> future = CompletableFuture.supplyAsync(() -> {
 			try {
-				Response<User> response=call.execute();
+				Response<User> response = call.execute();
 				if (response.isSuccessful())
 					return response.body();
 				return null;
@@ -113,6 +113,27 @@ public class UserControllerImpl implements UserController{
 			return future.get();
 		} catch (InterruptedException | ExecutionException e) {
 			return null;
+		}
+	}
+
+	@Override
+	public boolean checkEmail(String email) {
+		Call<Boolean> call=userServiceRetrofit.checkEmail(email);
+		CompletableFuture<Boolean> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<Boolean> response=call.execute();
+				if (response.isSuccessful())
+					return response.body();
+				return false;
+			} catch (IOException e) {
+				return false;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			return false;
 		}
 	}
 

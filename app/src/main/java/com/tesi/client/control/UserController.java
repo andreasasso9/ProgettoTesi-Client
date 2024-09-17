@@ -9,4 +9,5 @@ public interface UserController {
 	boolean saveUser(String email, String username, String password, String indirizzo);
 	boolean update(User user);
 	User findById(UUID id);
+	boolean checkEmail(String email);
 }

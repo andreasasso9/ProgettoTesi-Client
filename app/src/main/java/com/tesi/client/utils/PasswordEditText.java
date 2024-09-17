@@ -50,6 +50,5 @@ public class PasswordEditText extends AppCompatEditText {
 	@Override
 	public boolean performClick() {
 		return super.performClick();
-
 	}
 }

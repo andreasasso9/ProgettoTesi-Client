@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +24,7 @@ import com.tesi.client.utils.recyclerView.MieiProdottiAdapter;
 
 import java.util.List;
 
-public class IMieiArticoliFragment extends Fragment {
+public class ArmadioFragment extends Fragment {
 	private List<Prodotto> prodotti;
 	private MieiProdottiAdapter adapter;
 
@@ -35,9 +34,7 @@ public class IMieiArticoliFragment extends Fragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v=inflater.inflate(R.layout.lista_di_prodotti_layout, container, false);
 
-		ImageButton indietro=v.findViewById(R.id.indietro);
-
-		createIndietroListener(indietro);
+		v.findViewById(R.id.indietro).setVisibility(View.GONE);
 
 		RecyclerView recyclerView = v.findViewById(R.id.list_prodotti);
 		recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
@@ -61,16 +58,5 @@ public class IMieiArticoliFragment extends Fragment {
 		refreshLayout.setOnRefreshListener(()-> Refresh.run(requireActivity(), prodotti, adapter, refreshLayout, method));
 
 		return v;
-	}
-
-	private void createIndietroListener(ImageButton indietro) {
-		indietro.setOnClickListener(l->{
-			MainActivity mainActivity= (MainActivity) getActivity();
-			assert mainActivity != null;
-			if (mainActivity.profiloFragment==null)
-				mainActivity.profiloFragment=new ProfiloFragment();
-			mainActivity.currentFragment=mainActivity.profiloFragment;
-			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, mainActivity.currentFragment).addToBackStack(null).commit();
-		});
 	}
 }
