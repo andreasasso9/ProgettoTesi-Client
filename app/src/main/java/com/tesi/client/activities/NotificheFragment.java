@@ -55,7 +55,7 @@ public class NotificheFragment extends Fragment {
 				});
 			} else {
 				NotificheAdapter adapter=new NotificheAdapter(new LinkedList<>());
-				listaNotifiche.setAdapter(adapter);
+				requireActivity().runOnUiThread(()->listaNotifiche.setAdapter(adapter));
 			}
 		}).start();
 

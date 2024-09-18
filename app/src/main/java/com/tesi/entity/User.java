@@ -14,7 +14,7 @@ public class User implements Serializable {
 	private String password;
 	private UUID id;
 	private String indirizzo;
-//	private Set<Likes> likes;
+	private byte[] foto;
 
 	public User(){}
 
@@ -23,7 +23,6 @@ public class User implements Serializable {
 		this.username = username;
 		this.password = password;
 		this.indirizzo =indirizzo;
-//		likes=new HashSet<>();
 	}
 
 	public String getEmail() {
@@ -85,11 +84,11 @@ public class User implements Serializable {
 		return Objects.hash(email, username, password, id, indirizzo);
 	}
 
-//	public Set<Likes> getLikes() {
-//		return likes;
-//	}
-//
-//	public void setLikes(Set<Likes> likes) {
-//		this.likes = likes;
-//	}
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
 }

@@ -43,25 +43,6 @@ public class MainActivity extends AppCompatActivity {
 			}
 		}
 
-//		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//		if (!notificationManager.areNotificationsEnabled()) {
-//			new AlertDialog.Builder(this)
-//					.setTitle("Notifiche Disabilitate")
-//					.setMessage("Le notifiche per questa applicazione sono disabilitate. Vuoi abilitarle nelle impostazioni?")
-//					.setPositiveButton("Sì", new DialogInterface.OnClickListener() {
-//						public void onClick(DialogInterface dialog, int which) {
-//							// Apri le impostazioni dell'app
-//							Intent intent = new Intent();
-//							intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//							Uri uri = Uri.fromParts("package", getPackageName(), null);
-//							intent.setData(uri);
-//							startActivity(intent);
-//						}
-//					})
-//					.setNegativeButton("No", null)
-//					.show();
-//		}
-
 		new Thread(()->{
 			String username, deviceToken;
 			username=session.getCurrentUser().getUsername();
@@ -81,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 		fragmentManager.beginTransaction().replace(R.id.fragmentContainer, homeFragment).addToBackStack(null).commit();
 
 		createNavBarItemListener();
-
 	}
 
 	private void createNavBarItemListener() {

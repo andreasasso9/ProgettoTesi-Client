@@ -10,4 +10,5 @@ public interface UserController {
 	boolean update(User user);
 	User findById(UUID id);
 	boolean checkEmail(String email);
+	byte[] findFoto(String username);
 }

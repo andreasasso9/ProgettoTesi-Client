@@ -4,6 +4,7 @@ import com.tesi.entity.User;
 
 import java.util.UUID;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -28,8 +29,11 @@ public interface UserServiceRetrofit {
 	Call<Boolean> update(@Body User user);
 
 	@POST("findUserById")
-	Call<User> findById(@Body UUID id);
+	Call<ResponseBody> findById(@Body UUID id);
 
 	@POST("checkEmail")
 	Call<Boolean> checkEmail(@Body String Email);
+
+	@POST("findFoto")
+	Call<ResponseBody> findFoto(@Body String username);
 }

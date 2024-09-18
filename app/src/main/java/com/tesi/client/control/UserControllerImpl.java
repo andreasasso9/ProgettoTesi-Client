@@ -1,5 +1,9 @@
 package com.tesi.client.control;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.tesi.client.utils.ByteArrayDeserializer;
+import com.tesi.client.utils.UserDeserializer;
 import com.tesi.entity.User;
 import com.tesi.client.service.UserServiceRetrofit;
 
@@ -8,6 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -97,12 +102,21 @@ public class UserControllerImpl implements UserController{
 
 	@Override
 	public User findById(UUID id) {
-		Call<User> call = userServiceRetrofit.findById(id);
-		CompletableFuture<User> future = CompletableFuture.supplyAsync(() -> {
+		Gson gson=new GsonBuilder().registerTypeAdapter(User.class, new UserDeserializer()).create();
+
+		Call<ResponseBody> call=userServiceRetrofit.findById(id);
+		CompletableFuture<User> future=CompletableFuture.supplyAsync(()->{
 			try {
-				Response<User> response = call.execute();
-				if (response.isSuccessful())
-					return response.body();
+				Response<ResponseBody> response=call.execute();
+				if (response.isSuccessful()) {
+					try (ResponseBody body=response.body()) {
+						if (body != null) {
+							String jsonResponse=body.string();
+
+							return gson.fromJson(jsonResponse, User.class);
+						}
+					}
+				}
 				return null;
 			} catch (IOException e) {
 				return null;
@@ -111,7 +125,7 @@ public class UserControllerImpl implements UserController{
 
 		try {
 			return future.get();
-		} catch (InterruptedException | ExecutionException e) {
+		} catch (ExecutionException | InterruptedException e) {
 			return null;
 		}
 	}
@@ -136,5 +150,36 @@ public class UserControllerImpl implements UserController{
 			return false;
 		}
 	}
+
+	@Override
+	public byte[] findFoto(String username) {
+		Gson gson=new GsonBuilder().registerTypeAdapter(User.class, new ByteArrayDeserializer()).create();
+
+		Call<ResponseBody> call=userServiceRetrofit.findFoto(username);
+		CompletableFuture<byte[]> future=CompletableFuture.supplyAsync(()->{
+			try {
+				Response<ResponseBody> response=call.execute();
+				if (response.isSuccessful()) {
+					try (ResponseBody body=response.body()) {
+						if (body != null) {
+							String jsonResponse=body.string();
+
+							return gson.fromJson(jsonResponse, byte[].class);
+						}
+					}
+				}
+				return null;
+			} catch (IOException e) {
+				return null;
+			}
+		});
+
+		try {
+			return future.get();
+		} catch (ExecutionException | InterruptedException e) {
+			return null;
+		}
+	}
+
 
 }

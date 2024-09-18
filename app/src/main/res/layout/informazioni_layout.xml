@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,14 +14,17 @@
         android:contentDescription="@null"
         android:layout_weight="4"/>
 
-    <Button android:id="@+id/caricaFoto"
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/buttonFoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Carica foto profilo"
+        style="@style/Widget.AppCompat.Button"
+        android:thumb="@android:color/transparent"
+        app:track="@android:color/transparent"
         android:textSize="20dp"
-        android:backgroundTint="@color/blue"/>
-
+        android:textColor="@color/white"
+        android:padding="15dp" />
 
     <TextView android:id="@+id/username"
         android:layout_width="match_parent"

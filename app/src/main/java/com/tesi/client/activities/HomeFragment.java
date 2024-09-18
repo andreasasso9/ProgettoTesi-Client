@@ -24,9 +24,7 @@ import com.tesi.client.utils.recyclerView.ProdottoAdapter;
 import com.tesi.client.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class HomeFragment extends Fragment {
 	private ProdottoController prodottoController;
@@ -68,37 +66,17 @@ public class HomeFragment extends Fragment {
 		refreshLayout.setOnRefreshListener(() -> Refresh.run(requireActivity(), prodotti, adapter, refreshLayout, method));
 
 		Button vediAltro=v.findViewById(R.id.vediAltro);
-		vediAltro.setOnClickListener(view->{
-			new Thread(()->{
-				List<Prodotto> list=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), page++);
-				if (!list.isEmpty()) {
-					int oldSize=prodotti.size();
-					prodotti.addAll(list);
-					requireActivity().runOnUiThread(()->adapter.notifyItemRangeInserted(oldSize, list.size()));
-//				else {
-//					page=1;
-//					List<Prodotto> l=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), page++);
-//					if (!l.isEmpty())
-//						prodotti.addAll(l);
-//				}
-//					Set<Prodotto> noDuplicates = new HashSet<>(prodotti);
-//					int oldSize = prodotti.size();
-//					prodotti.clear();
-//					requireActivity().runOnUiThread(() -> adapter.notifyItemRangeRemoved(0, oldSize));
-//					prodotti.addAll(noDuplicates);
-//					requireActivity().runOnUiThread(() -> adapter.notifyItemRangeInserted(0, prodotti.size()));
-				} else {
-					page=0;
-//					List<Prodotto> l=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), page++);
-//					if (!l.isEmpty()) {
-//						int oldSize=prodotti.size();
-//						prodotti.addAll(l);
-//						requireActivity().runOnUiThread(()->adapter.notifyItemRangeInserted(oldSize, l.size()));
-//					}
-				}
+		vediAltro.setOnClickListener(view-> new Thread(()->{
+			List<Prodotto> list=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), page++);
+			if (!list.isEmpty()) {
+				int oldSize=prodotti.size();
+				prodotti.addAll(list);
+				requireActivity().runOnUiThread(()->adapter.notifyItemRangeInserted(oldSize, list.size()));
+			} else {
+				page=0;
+			}
 
-			}).start();
-		});
+		}).start());
 
 		list_prodotti.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override

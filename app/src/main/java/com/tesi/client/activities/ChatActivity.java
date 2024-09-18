@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -31,6 +32,7 @@ import com.tesi.client.R;
 import com.tesi.client.chat.Chat;
 import com.tesi.client.chat.Image;
 import com.tesi.client.chat.Text;
+import com.tesi.client.control.UserControllerImpl;
 import com.tesi.client.utils.File;
 import com.tesi.client.utils.Session;
 import com.tesi.client.utils.recyclerView.TextAdapter;
@@ -72,6 +74,17 @@ public class ChatActivity extends AppCompatActivity {
 		foto=new LinkedList<>();
 
 		currentUser= Session.getInstance(this).getCurrentUser();
+
+		TextView username=findViewById(R.id.username);
+		username.setText(chat.getReceiver());
+
+		byte[] fotoUser=UserControllerImpl.getInstance().findFoto(chat.getReceiver());
+		if (fotoUser!=null) {
+			fotoUser=Base64.getDecoder().decode(fotoUser);
+			ImageView fotoProfiloImageView=findViewById(R.id.fotoUser);
+			Bitmap b=BitmapFactory.decodeByteArray(fotoUser, 0, fotoUser.length);
+			fotoProfiloImageView.setImageBitmap(b);
+		}
 
 		ImageButton indietro=findViewById(R.id.indietro);
 		indietro.setOnClickListener(v-> getOnBackPressedDispatcher().onBackPressed());
