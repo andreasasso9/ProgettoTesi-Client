@@ -45,7 +45,6 @@ public class Prodotto implements Serializable {
 		this.condizione = condizione;
 		this.prezzo = prezzo;
 		likes=0;
-//		likes=new HashSet<>();
 	}
 
 	public String getProprietario() {
@@ -140,16 +139,4 @@ public class Prodotto implements Serializable {
 	public void setLikes(int likes) {
 		this.likes = likes;
 	}
-
-	//	public Set<Likes> getLikes() {
-//		return likes;
-//	}
-//
-//	public void setLikedBy(Set<Likes> likes) {
-//		this.likes = likes;
-//	}
-//
-//	public int getMiPiace() {
-//		return likes.size();
-//	}
 }

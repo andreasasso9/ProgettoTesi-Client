@@ -24,7 +24,10 @@ import com.tesi.client.utils.recyclerView.ProdottoAdapter;
 import com.tesi.client.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class HomeFragment extends Fragment {
 	private ProdottoController prodottoController;
@@ -69,8 +72,12 @@ public class HomeFragment extends Fragment {
 		vediAltro.setOnClickListener(view-> new Thread(()->{
 			List<Prodotto> list=prodottoController.getAllNotOwnedBy(currentUser.getUsername(), page++);
 			if (!list.isEmpty()) {
+				Set<Prodotto> noDuplicates=new HashSet<>(list);
+				noDuplicates.addAll(prodotti);
 				int oldSize=prodotti.size();
-				prodotti.addAll(list);
+
+				prodotti.clear();
+				prodotti.addAll(noDuplicates);
 				requireActivity().runOnUiThread(()->adapter.notifyItemRangeInserted(oldSize, list.size()));
 			} else {
 				page=0;

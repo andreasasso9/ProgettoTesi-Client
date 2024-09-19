@@ -59,13 +59,21 @@ public class UserControllerImpl implements UserController{
 
 	@Override
 	public User loginUser(String username, String password) {
-		Call<User> call=userServiceRetrofit.loginUser(username, password);
+		Gson gson=new GsonBuilder().registerTypeAdapter(User.class, new UserDeserializer()).create();
+
+		Call<ResponseBody> call=userServiceRetrofit.loginUser(username, password);
 		CompletableFuture<User> future=CompletableFuture.supplyAsync(()->{
 			try {
-				Response<User> response=call.execute();
-				if (response.isSuccessful())
-					return response.body();
+				Response<ResponseBody> response=call.execute();
+				if (response.isSuccessful()) {
+					try (ResponseBody body=response.body()) {
+						if (body != null) {
+							String jsonResponse=body.string();
 
+							return gson.fromJson(jsonResponse, User.class);
+						}
+					}
+				}
 				return null;
 			} catch (IOException e) {
 				return null;
@@ -74,7 +82,7 @@ public class UserControllerImpl implements UserController{
 
 		try {
 			return future.get();
-		} catch (InterruptedException | ExecutionException e) {
+		} catch (ExecutionException | InterruptedException e) {
 			return null;
 		}
 	}

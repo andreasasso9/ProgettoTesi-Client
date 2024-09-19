@@ -49,8 +49,8 @@ public class ArticoliPreferitiFragment extends Fragment {
 			assert mainActivity != null;
 			if (mainActivity.profiloFragment==null)
 				mainActivity.profiloFragment=new ProfiloFragment();
-			mainActivity.currentFragment=mainActivity.profiloFragment;
-			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, mainActivity.currentFragment).addToBackStack(null).commit();
+//			mainActivity.currentFragment=mainActivity.profiloFragment;
+			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, mainActivity.profiloFragment).addToBackStack(null).commit();
 		});
 	}
 }

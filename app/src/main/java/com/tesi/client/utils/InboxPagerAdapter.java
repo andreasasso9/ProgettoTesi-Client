@@ -8,8 +8,6 @@ import com.tesi.client.activities.MessaggiFragment;
 import com.tesi.client.activities.NotificheFragment;
 
 public class InboxPagerAdapter extends FragmentStateAdapter {
-	private NotificheFragment notificheFragment;
-	private MessaggiFragment messaggiFragment;
 	public InboxPagerAdapter(@NonNull Fragment fragment) {
 		super(fragment);
 	}
@@ -18,13 +16,10 @@ public class InboxPagerAdapter extends FragmentStateAdapter {
 	@Override
 	public Fragment createFragment(int position) {
 		if (position==0) {
-			if (notificheFragment == null)
-				notificheFragment = new NotificheFragment();
-			return notificheFragment;
+			return new NotificheFragment();
 		} else {
-			if (messaggiFragment==null)
-				messaggiFragment=new MessaggiFragment();
-			return messaggiFragment;
+
+			return new MessaggiFragment();
 		}
 	}
 

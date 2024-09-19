@@ -28,7 +28,7 @@
         </service>
 
         <activity
-            android:name="com.tesi.client.activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,12 +37,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.tesi.client.activities.SignupActivity"/>
-        <activity android:name="com.tesi.client.activities.MainActivity"/>
-        <activity android:name="com.tesi.client.activities.FormProdottoActivity"/>
-        <activity android:name="com.tesi.client.activities.VisualizzaProdottoActivity"/>
-        <activity android:name="com.tesi.client.activities.AcquistaActivity"/>
-        <activity android:name="com.tesi.client.activities.ChatActivity"/>
+        <activity android:name=".activities.SignupActivity"/>
+        <activity android:name=".activities.MainActivity"/>
+        <activity android:name=".activities.FormProdottoActivity"/>
+        <activity android:name=".activities.VisualizzaProdottoActivity"/>
+        <activity android:name=".activities.AcquistaActivity"/>
+        <activity android:name=".activities.ChatActivity"/>
+        <activity android:name=".activities.AccountActivity"/>
     </application>
 
 </manifest>

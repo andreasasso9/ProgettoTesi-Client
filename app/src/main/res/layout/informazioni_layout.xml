@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:src="@drawable/profilo_unselected"
         android:background="@color/gray"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:contentDescription="@null"
         android:layout_weight="4"/>
 

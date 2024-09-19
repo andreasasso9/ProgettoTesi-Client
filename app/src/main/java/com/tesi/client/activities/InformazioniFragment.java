@@ -41,8 +41,8 @@ import java.io.IOException;
 import java.util.Base64;
 
 public class InformazioniFragment extends Fragment {
-
 	private ActivityResultLauncher<Intent> scegliFotoLauncher;
+	private InfoTextView email, indirizzo;
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,7 +91,6 @@ public class InformazioniFragment extends Fragment {
 
 		createAddFoto(foto);
 
-		InfoTextView email, indirizzo;
 		TextView username=v.findViewById(R.id.username);
 		email=v.findViewById(R.id.email);
 		indirizzo=v.findViewById(R.id.indirizzo);
@@ -163,9 +162,10 @@ public class InformazioniFragment extends Fragment {
 				if (id == R.id.editEmail) {
 					if (EmailRegex.match(text)) {
 						boolean result=userController.checkEmail(text);
-						if (result)
+						if (result) {
 							currentUser.setEmail(text);
-						else {
+							email.setText(text);
+						} else {
 							Snackbar.make(requireContext(), button, "Email già esistente", BaseTransientBottomBar.LENGTH_SHORT).show();
 							return;
 						}
@@ -176,6 +176,7 @@ public class InformazioniFragment extends Fragment {
 					}
 				} else if (id == R.id.editIndirizzo) {
 					currentUser.setIndirizzo(text);
+					indirizzo.setText(text);
 				}
 
 				userController.update(currentUser);

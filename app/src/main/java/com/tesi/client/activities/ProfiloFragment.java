@@ -22,7 +22,6 @@ import com.tesi.entity.Token;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfiloFragment extends Fragment {
-	private AccountFragment accountFragment;
 	private MainActivity mainActivity;
 	private ArticoliPreferitiFragment articoliPreferitiFragment;
 	private IMieiAcquistiFragment iMieiAcquistiFragment;
@@ -87,13 +86,10 @@ public class ProfiloFragment extends Fragment {
 
 	private void createAccountListener(LinearLayout account) {
 		account.setOnClickListener(l->{
-			assert mainActivity != null;
 
-			if (accountFragment ==null)
-				accountFragment =new AccountFragment();
 
-			mainActivity.currentFragment= accountFragment;
-			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, accountFragment).addToBackStack(null).commit();
+			Intent i=new Intent(mainActivity, AccountActivity.class);
+			startActivity(i);
 		});
 	}
 
@@ -103,8 +99,8 @@ public class ProfiloFragment extends Fragment {
 
 			if (articoliPreferitiFragment==null)
 				articoliPreferitiFragment=new ArticoliPreferitiFragment();
-			mainActivity.currentFragment=articoliPreferitiFragment;
-			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, mainActivity.currentFragment).addToBackStack(null).commit();
+//			mainActivity.currentFragment=articoliPreferitiFragment;
+			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, articoliPreferitiFragment).addToBackStack(null).commit();
 		});
 	}
 
@@ -114,8 +110,8 @@ public class ProfiloFragment extends Fragment {
 
 			if (iMieiAcquistiFragment==null)
 				iMieiAcquistiFragment=new IMieiAcquistiFragment();
-			mainActivity.currentFragment=iMieiAcquistiFragment;
-			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, mainActivity.currentFragment).addToBackStack(null).commit();
+//			mainActivity.currentFragment=iMieiAcquistiFragment;
+			mainActivity.fragmentManager.beginTransaction().replace(R.id.fragmentContainer, iMieiAcquistiFragment).addToBackStack(null).commit();
 		});
 	}
 

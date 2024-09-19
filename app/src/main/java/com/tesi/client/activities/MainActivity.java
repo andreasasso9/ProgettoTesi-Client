@@ -23,12 +23,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 	public FragmentManager fragmentManager;
-	public Fragment currentFragment;
+	private Fragment currentFragment;
 	private BottomNavigationView navbar;
-	private SearchFragment searchFragment;
-	private HomeFragment homeFragment;
+	public SearchFragment searchFragment;
+	public HomeFragment homeFragment;
 	public ProfiloFragment profiloFragment;
-	private InboxFragment inboxFragment;
+	public InboxFragment inboxFragment;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {

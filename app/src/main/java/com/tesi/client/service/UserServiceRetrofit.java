@@ -23,7 +23,7 @@ public interface UserServiceRetrofit {
 
 	@POST("login")
 	@FormUrlEncoded
-	Call<User> loginUser(@Field("username") String username, @Field("password") String password);
+	Call<ResponseBody> loginUser(@Field("username") String username, @Field("password") String password);
 
 	@POST("update")
 	Call<Boolean> update(@Body User user);

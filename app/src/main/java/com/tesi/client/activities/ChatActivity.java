@@ -133,6 +133,9 @@ public class ChatActivity extends AppCompatActivity {
 				editText.setText("");
 
 				stompClient.send("/app/chat", gson.toJson(text)).retry(0).subscribe();
+
+				File.deleteFile(this, chat.getId());
+				File.saveObjectToFile(this, chat.getId(), chat);
 			}
 		});
 
@@ -167,6 +170,8 @@ public class ChatActivity extends AppCompatActivity {
 
 				stompClient.send("/app/chat", gson.toJson(imageToSend)).subscribe();
 
+				File.deleteFile(this, chat.getId());
+				File.saveObjectToFile(this, chat.getId(), chat);
 			}
 			fotoDaInviareLayout.setVisibility(View.GONE);
 		});

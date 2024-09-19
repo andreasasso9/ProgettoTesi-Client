@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -16,17 +17,17 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.tesi.client.R;
 import com.tesi.client.utils.AccountPagerAdapter;
 
-public class AccountFragment extends Fragment {
-	@Nullable
+public class AccountActivity extends AppCompatActivity {
+
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		View v=inflater.inflate(R.layout.multitab_layout, container, false);
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.multitab_layout);
 
-		TabLayout tabLayout=v.findViewById(R.id.tabLayout);
-		ViewPager2 viewPager=v.findViewById(R.id.viewPager);
+		TabLayout tabLayout=findViewById(R.id.tabLayout);
+		ViewPager2 viewPager=findViewById(R.id.viewPager);
 
-		AccountPagerAdapter accountPagerAdapter=new AccountPagerAdapter(this);
+		AccountPagerAdapter accountPagerAdapter=new AccountPagerAdapter(getSupportFragmentManager(), getLifecycle());
 		viewPager.setAdapter(accountPagerAdapter);
 		viewPager.setUserInputEnabled(true);
 
@@ -40,14 +41,6 @@ public class AccountFragment extends Fragment {
 					break;
 			}
 		}).attach();
-
-		return v;
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		BottomNavigationView navbar=requireActivity().findViewById(R.id.navbar);
-		navbar.getMenu().getItem(4).setChecked(true).setIcon(R.drawable.profilo_selected);
-	}
 }

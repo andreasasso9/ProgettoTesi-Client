@@ -118,6 +118,7 @@ public class ProdottoAdapter extends RecyclerView.Adapter<ProdottoHolder> {
 				holder.iconaMiPiace.setImageResource(R.drawable.icons8_caricamento_cuore_50);
 				p.setLikes(p.getLikes()-1);
 
+
 				Id likeId=new Id(p.getId(), currentUser.getUsername());
 				String descrizione=String.format("%s ha messo mi piace al tuo articolo %s", currentUser.getUsername(), p.getTitolo());
 				notificheController.delete(descrizione, likeId);
