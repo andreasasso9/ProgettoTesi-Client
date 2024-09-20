@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tesi.client.R;
-import com.tesi.client.chat.Image;
-import com.tesi.client.chat.Text;
+import com.tesi.entity.chat.Image;
+import com.tesi.entity.chat.Text;
 import com.tesi.entity.User;
 
 import java.util.Base64;

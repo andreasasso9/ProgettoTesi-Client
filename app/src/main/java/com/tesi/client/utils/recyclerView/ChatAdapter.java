@@ -11,14 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tesi.client.R;
 import com.tesi.client.activities.ChatActivity;
-import com.tesi.client.chat.Chat;
-import com.tesi.client.chat.Image;
-import com.tesi.client.chat.Text;
+import com.tesi.client.control.ChatControllerImpl;
+import com.tesi.entity.chat.Chat;
+import com.tesi.entity.chat.Image;
+import com.tesi.entity.chat.Text;
 import com.tesi.client.utils.File;
 import com.tesi.client.utils.Session;
 import com.tesi.entity.User;
 import com.google.gson.Gson;
 
+import java.util.Arrays;
 import java.util.List;
 
 import ua.naiksoftware.stomp.StompClient;
@@ -42,7 +44,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 	public void onBindViewHolder(@NonNull ChatHolder holder, int position) {
 		if (!chats.isEmpty()) {
 			Chat chat = chats.get(holder.getAdapterPosition());
-			holder.user.setText(chat.getReceiver());
+			String username=Session.getInstance(holder.itemView.getContext()).getCurrentUser().getUsername();
+			String receiver=Arrays.stream(chat.getId().split("-")).filter(s->!s.equalsIgnoreCase(username) && !s.equalsIgnoreCase("chat")).findAny().orElse("");
+			holder.user.setText(receiver);
 			holder.id=chat.getId();
 
 			int indexLastText = chat.getTexts().size() - 1;
@@ -65,12 +69,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 				if (item.getTitle().toString().equalsIgnoreCase("elimina")) {
 					int pos=holder.getAdapterPosition();
 
-					chats.remove(pos);
+					String id=chats.remove(pos).getId();
 					notifyItemRemoved(pos);
 
-					Session.getInstance(holder.itemView.getContext()).getFileChatsNames().remove(chat.getId());
+					ChatControllerImpl.getInstance().delete(id, username);
 
-					File.deleteFile(holder.itemView.getContext(), chat.getId());
+					//Session.getInstance(holder.itemView.getContext()).getFileChatsNames().remove(chat.getId());
+
+//					File.deleteFile(holder.itemView.getContext(), chat.getId());
 				}
 
 				return true;

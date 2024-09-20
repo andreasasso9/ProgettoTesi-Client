@@ -14,7 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.tesi.client.R;
-import com.tesi.client.chat.Chat;
+import com.tesi.client.control.ChatController;
+import com.tesi.client.control.ChatControllerImpl;
+import com.tesi.entity.chat.Chat;
 import com.tesi.client.utils.File;
 import com.tesi.client.control.FotoProdottoControllerImpl;
 import com.tesi.entity.FotoByteArray;
@@ -102,13 +104,20 @@ public class VisualizzaProdottoActivity extends AppCompatActivity {
 			String usernameCurrentUser = Session.getInstance(this).getCurrentUser().getUsername();
 			Button chiediInfo = findViewById(R.id.chiediInfo);
 			chiediInfo.setOnClickListener(v -> {
-				Chat chat = (Chat) File.readObjectFromFile(v.getContext(), "chat-" + usernameCurrentUser + "-" + proprietario);
+				ChatController chatController= ChatControllerImpl.getInstance();
+				String id1="chat-"+usernameCurrentUser+"-"+proprietario;
+				String id2="chat-"+proprietario+"-"+usernameCurrentUser;
+
+				Chat chat=chatController.findById(id1);
+				if (chat==null)
+					chat=chatController.findById(id2);
+
+
+
+//				Chat chat = (Chat) File.readObjectFromFile(v.getContext(), "chat-" + usernameCurrentUser + "-" + proprietario);
 				if (chat == null) {
-					chat = new Chat(proprietario, new ArrayList<>(), "chat-" + usernameCurrentUser + "-" + proprietario);
-					File.saveObjectToFile(v.getContext(), chat.getId(), chat);
-					Session.getInstance(v.getContext()).getFileChatsNames().add("chat-" + usernameCurrentUser + "-" + proprietario);
-					SharedPreferences.Editor editor = v.getContext().getSharedPreferences(Session.SESSION_PREFERENCES, MODE_PRIVATE).edit();
-					editor.putStringSet("fileChatsNames", Session.getInstance(v.getContext()).getFileChatsNames()).apply();
+					chat = new Chat(new ArrayList<>(), "chat-" + usernameCurrentUser + "-" + proprietario, usernameCurrentUser, proprietario);
+					chatController.save(chat);
 				}
 
 				Intent chatIntent = new Intent(v.getContext(), ChatActivity.class);

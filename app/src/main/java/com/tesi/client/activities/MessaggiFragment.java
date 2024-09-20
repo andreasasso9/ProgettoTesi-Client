@@ -12,13 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tesi.client.R;
-import com.tesi.client.chat.Chat;
+import com.tesi.client.control.ChatControllerImpl;
+import com.tesi.entity.chat.Chat;
 import com.tesi.client.utils.File;
 import com.tesi.client.utils.Session;
 import com.tesi.client.utils.recyclerView.ChatAdapter;
 import com.tesi.entity.User;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,18 +39,10 @@ public class MessaggiFragment extends Fragment {
 
 		Session session=Session.getInstance(requireContext());
 
-		List<Chat> chats=new ArrayList<>();
-		Set<String> fileChatsNames=session.getFileChatsNames();
-
 		currentUser=session.getCurrentUser();
-		for (String s:fileChatsNames) {
-			Chat chat= (Chat) File.readObjectFromFile(requireContext(), s);
-			if (chat!=null)
-				if (chat.getId().contains(currentUser.getUsername()) && !chat.getId().endsWith(currentUser.getUsername()))
-					chats.add(chat);
-		}
+		List<Chat> chats=ChatControllerImpl.getInstance().findByUser(currentUser.getUsername());
 
-		ChatAdapter chatAdapter=new ChatAdapter(chats);
+		ChatAdapter chatAdapter = new ChatAdapter(chats);
 		recyclerView.setAdapter(chatAdapter);
 
 		return v;
@@ -57,15 +51,7 @@ public class MessaggiFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		List<Chat> chats=new ArrayList<>();
-		Set<String> fileChatsNames=Session.getInstance(requireContext()).getFileChatsNames();
-
-		for (String s:fileChatsNames) {
-			Chat chat= (Chat) File.readObjectFromFile(requireContext(), s);
-			if (chat!=null)
-				if (chat.getId().contains(currentUser.getUsername()) && !chat.getId().endsWith(currentUser.getUsername()))
-					chats.add(chat);
-		}
+		List<Chat> chats=ChatControllerImpl.getInstance().findByUser(currentUser.getUsername());
 
 		ChatAdapter chatAdapter=new ChatAdapter(chats);
 		recyclerView.setAdapter(chatAdapter);

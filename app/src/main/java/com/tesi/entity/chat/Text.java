@@ -1,17 +1,17 @@
-package com.tesi.client.chat;
+package com.tesi.entity.chat;
 
 import java.io.Serializable;
 
 public class Text implements Serializable {
 	private final String text;
 	protected final String sender, receiver;
-	protected boolean delivered;
+	private String chatId;
 
-	public Text(String text, String sender, String receiver) {
+	public Text(String text, String sender, String receiver, String chatId) {
 		this.text = text;
 		this.sender = sender;
 		this.receiver = receiver;
-		delivered = false;
+		this.chatId = chatId;
 	}
 
 	public String getText() {
@@ -26,11 +26,11 @@ public class Text implements Serializable {
 		return receiver;
 	}
 
-	public boolean isDelivered() {
-		return delivered;
+	public String getChatId() {
+		return chatId;
 	}
 
-	public void setDelivered(boolean delivered) {
-		this.delivered = delivered;
+	public void setChat(String chatId) {
+		this.chatId = chatId;
 	}
 }

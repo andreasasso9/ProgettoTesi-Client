@@ -21,12 +21,11 @@ public class UserDeserializer implements JsonDeserializer<User> {
 		String email=jsonObject.get("email").getAsString();
 		String password=jsonObject.get("password").getAsString();
 		String indirizzo=jsonObject.get("indirizzo").getAsString();
-		String fotoBase64=jsonObject.get("foto").getAsString();
-		byte[] foto= Base64.getDecoder().decode(fotoBase64);
+		//byte[] foto=jsonObject.get("foto").getAsBigInteger().toByteArray();
 
 		User user=new User(email, username, password, indirizzo);
 		user.setId(id);
-		user.setFoto(foto);
+		//user.setFoto(foto);
 
 		return user;
 	}

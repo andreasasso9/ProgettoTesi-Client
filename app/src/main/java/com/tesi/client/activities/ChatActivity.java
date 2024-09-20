@@ -29,9 +29,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tesi.client.R;
-import com.tesi.client.chat.Chat;
-import com.tesi.client.chat.Image;
-import com.tesi.client.chat.Text;
+import com.tesi.client.control.ChatControllerImpl;
+import com.tesi.entity.chat.Chat;
+import com.tesi.entity.chat.Image;
+import com.tesi.entity.chat.Text;
 import com.tesi.client.control.UserControllerImpl;
 import com.tesi.client.utils.File;
 import com.tesi.client.utils.Session;
@@ -42,6 +43,7 @@ import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
@@ -64,6 +66,8 @@ public class ChatActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chat_layout);
 
+		currentUser= Session.getInstance(this).getCurrentUser();
+
 		gson=new Gson();
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
@@ -71,14 +75,14 @@ public class ChatActivity extends AppCompatActivity {
 		else
 			chat= (Chat) getIntent().getSerializableExtra("chat");
 
+		String receiver=Arrays.stream(chat.getId().split("-")).filter(s->!s.equalsIgnoreCase(currentUser.getUsername()) && !s.equalsIgnoreCase("chat")).findAny().orElse("");
+
 		foto=new LinkedList<>();
 
-		currentUser= Session.getInstance(this).getCurrentUser();
-
 		TextView username=findViewById(R.id.username);
-		username.setText(chat.getReceiver());
+		username.setText(receiver);
 
-		byte[] fotoUser=UserControllerImpl.getInstance().findFoto(chat.getReceiver());
+		byte[] fotoUser=UserControllerImpl.getInstance().findFoto(receiver);
 		if (fotoUser!=null) {
 			fotoUser=Base64.getDecoder().decode(fotoUser);
 			ImageView fotoProfiloImageView=findViewById(R.id.fotoUser);
@@ -125,17 +129,14 @@ public class ChatActivity extends AppCompatActivity {
 		send.setOnClickListener(v->{
 			String textString=editText.getText()+"";
 			if (!textString.isEmpty()) {
-				Text text = new Text(textString, currentUser.getUsername(), chat.getReceiver());
+				Text text = new Text(textString, currentUser.getUsername(), receiver, chat.getId());
 				chat.getTexts().add(text);
 				textAdapter.notifyItemInserted(textAdapter.getItemCount());
 				recyclerView.scrollToPosition(textAdapter.getItemCount()-1);
 
 				editText.setText("");
 
-				stompClient.send("/app/chat", gson.toJson(text)).retry(0).subscribe();
-
-				File.deleteFile(this, chat.getId());
-				File.saveObjectToFile(this, chat.getId(), chat);
+				stompClient.send("/app/send", gson.toJson(text)).retry(0).subscribe();
 			}
 		});
 
@@ -159,7 +160,7 @@ public class ChatActivity extends AppCompatActivity {
 				byte[] imageByte=stream.toByteArray();
 				String imageString= Base64.getEncoder().encodeToString(imageByte);
 
-				Image imageToSend=new Image(imageString, currentUser.getUsername(), chat.getReceiver());
+				Image imageToSend=new Image(imageString, currentUser.getUsername(), receiver, chat.getId());
 
 				chat.getTexts().add(imageToSend);
 
@@ -182,8 +183,7 @@ public class ChatActivity extends AppCompatActivity {
 	@Override
 	protected void onPause() {
 		//Log.d("chat on pause", "pause");
-		File.deleteFile(this, chat.getId());
-		File.saveObjectToFile(this, chat.getId(), chat);
+		ChatControllerImpl.getInstance().save(chat);
 		super.onPause();
 	}
 

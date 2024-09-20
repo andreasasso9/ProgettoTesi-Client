@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.Nullable;
 
-import com.tesi.client.chat.Chat;
-import com.tesi.client.chat.Image;
-import com.tesi.client.chat.Text;
+import com.tesi.entity.chat.Chat;
+import com.tesi.entity.chat.Image;
+import com.tesi.entity.chat.Text;
 import com.tesi.entity.Prodotto;
 import com.tesi.entity.User;
 import com.google.gson.Gson;
@@ -30,7 +30,7 @@ public class Session {
 	private static Session instance;
 	public static final String SESSION_PREFERENCES="session_preferences";
 	private final Gson gson;
-	private Set<String> fileChatsNames;
+	//private Set<String> fileChatsNames;
 	private StompClient stompClient;
 	private Set<Prodotto> likedBy;
 
@@ -42,7 +42,7 @@ public class Session {
 
 		gson=new Gson();
 
-		fileChatsNames=preferences.getStringSet("fileChatsNames", new HashSet<>());
+		//fileChatsNames=preferences.getStringSet("fileChatsNames", new HashSet<>());
 		likedBy=new HashSet<>();
 	}
 
@@ -94,15 +94,15 @@ public class Session {
 		editor.putString("history "+currentUser.getId(), jsonHistory).commit();
 	}
 
-	public Set<String> getFileChatsNames() {
-		return fileChatsNames;
-	}
+//	public Set<String> getFileChatsNames() {
+//		return fileChatsNames;
+//	}
 
-	public void setFileChatsNames(Set<String> fileChatsNames) {
-		this.fileChatsNames = fileChatsNames;
-
-		editor.putStringSet("fileChatsNames", fileChatsNames).apply();
-	}
+//	public void setFileChatsNames(Set<String> fileChatsNames) {
+//		this.fileChatsNames = fileChatsNames;
+//
+//		editor.putStringSet("fileChatsNames", fileChatsNames).apply();
+//	}
 
 	public StompClient getStompClient() {
 		return stompClient;
@@ -113,51 +113,47 @@ public class Session {
 	}
 
 	@SuppressLint("CheckResult")
-	public void createStompClient(Context context) {
+	public void createStompClient() {
 		stompClient= Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://10.0.2.2:8080/cloneVinted/websocket");
 		stompClient.connect();
 
-		stompClient.topic("/queue/user/"+currentUser.getUsername()).retry(5).subscribe(message->{
-			Text text=gson.fromJson(message.getPayload(), Text.class);
-			Image image=null;
+//		stompClient.topic("/queue/user/"+currentUser.getUsername()).retry(5).subscribe(message->{
+//			Text text=gson.fromJson(message.getPayload(), Text.class);
+//			Image image=null;
+//
+//			String nameChat="chat-"+text.getReceiver()+"-"+text.getSender();
+//			Chat chat;
+//
+//			if (text.getText()==null) {
+//				image = gson.fromJson(message.getPayload(), Image.class);
+//				text=null;
+//			}
+//
+//
 
-			String nameChat="chat-"+text.getReceiver()+"-"+text.getSender();
-			Chat chat;
-
-			if (text.getText()==null) {
-				image = gson.fromJson(message.getPayload(), Image.class);
-				text=null;
-			}
-
-			if (fileChatsNames.contains(nameChat)) {
-				chat = (Chat) File.readObjectFromFile(context, nameChat);
-				if (chat!=null)
-					if (text!=null)
-						chat.getTexts().add(text);
-					else
-						chat.getTexts().add(image);
-			} else {
-				fileChatsNames.add(nameChat);
-				List<Text> texts=new ArrayList<>();
-				String sender;
-				if (text!=null) {
-					texts.add(text);
-					sender=text.getSender();
-				} else {
-					texts.add(image);
-					sender=image.getSender();
-				}
-				chat=new Chat(sender, texts, nameChat);
-			}
-
-			setFileChatsNames(fileChatsNames);
-
-			File.deleteFile(context, nameChat);
-			File.saveObjectToFile(context, nameChat, chat);
-		});
+//			if (fileChatsNames.contains(nameChat)) {
+//				chat = (Chat) File.readObjectFromFile(context, nameChat);
+//				if (chat!=null)
+//					if (text!=null)
+//						chat.getTexts().add(text);
+//					else
+//						chat.getTexts().add(image);
+//			} else {
+//				List<Text> texts=new ArrayList<>();
+//				if (text!=null)
+//					texts.add(text);
+//				else
+//					texts.add(image);
+//				chat=new Chat(texts, nameChat);
+//			}
+//
+//			setFileChatsNames(fileChatsNames);
 
 
-		stompClient.send("/app/synchronize", currentUser.getUsername()).retry(0).subscribe();
+//		});
+
+
+		//stompClient.send("/app/synchronize", currentUser.getUsername()).retry(0).subscribe();
 	}
 
 	public String getToken() {
