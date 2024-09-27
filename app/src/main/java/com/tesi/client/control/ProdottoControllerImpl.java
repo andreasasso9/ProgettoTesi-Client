@@ -8,6 +8,7 @@ import com.tesi.client.service.ProdottoServiceRetrofit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -139,16 +140,16 @@ public class ProdottoControllerImpl implements ProdottoController {
 				if (response.isSuccessful())
 					return response.body();
 
-				return null;
+				return new LinkedList<>();
 			} catch (IOException e) {
-				return null;
+				return new LinkedList<>();
 			}
 		});
 
 		try {
 			return future.get();
 		} catch (InterruptedException | ExecutionException e) {
-			return null;
+			return new LinkedList<>();
 		}
 	}
 

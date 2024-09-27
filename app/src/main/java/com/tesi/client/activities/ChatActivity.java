@@ -115,14 +115,16 @@ public class ChatActivity extends AppCompatActivity {
 		stompClient.topic("/queue/user/"+currentUser.getUsername()).retry(5).subscribe(message->{
 
 			Text text=gson.fromJson(message.getPayload(), Text.class);
+			if (text.getSender().equalsIgnoreCase(chat.getUser1()) || text.getSender().equalsIgnoreCase(chat.getUser2())) {
 
-			if (text.getText()==null) {
-				Image image = gson.fromJson(message.getPayload(), Image.class);
-				chat.getTexts().add(image);
-			} else
-				chat.getTexts().add(text);
+				if (text.getText() == null) {
+					Image image = gson.fromJson(message.getPayload(), Image.class);
+					chat.getTexts().add(image);
+				} else
+					chat.getTexts().add(text);
 
-			runOnUiThread(()-> textAdapter.notifyItemInserted(textAdapter.getItemCount()));
+				runOnUiThread(() -> textAdapter.notifyItemInserted(textAdapter.getItemCount()));
+			}
 		});
 
 		ImageButton send=findViewById(R.id.send);
