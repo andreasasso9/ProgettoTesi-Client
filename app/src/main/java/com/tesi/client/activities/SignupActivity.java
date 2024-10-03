@@ -23,6 +23,7 @@ import com.tesi.client.utils.CheckNotEmptyStrings;
 import com.tesi.client.R;
 import com.tesi.client.utils.EmailRegex;
 import com.tesi.client.utils.PasswordEditText;
+import com.tesi.client.utils.PasswordEncrypter;
 import com.tesi.client.utils.Session;
 
 public class SignupActivity extends AppCompatActivity {
@@ -51,8 +52,6 @@ public class SignupActivity extends AppCompatActivity {
 
 		createToLoginListener();
 		createSignupListener();
-
-
 	}
 
 	private void createSignupListener() {
@@ -101,7 +100,7 @@ public class SignupActivity extends AppCompatActivity {
 
 			if (valid) {
 				new Handler(Looper.getMainLooper()).postDelayed(()->{
-					boolean result = userController.saveUser(email, username, password, indirizzo);
+					boolean result = userController.saveUser(email, username, PasswordEncrypter.encrypt(password), indirizzo);
 					if (!result) {
 						progressBar.setVisibility(View.GONE);
 

@@ -23,6 +23,7 @@ import com.tesi.client.utils.File;
 import com.tesi.client.control.UserController;
 import com.tesi.client.control.UserControllerImpl;
 import com.tesi.client.utils.PasswordEditText;
+import com.tesi.client.utils.PasswordEncrypter;
 import com.tesi.entity.User;
 import com.tesi.client.utils.Session;
 
@@ -97,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
 				imm.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), 0);
 
 			String username=loginUsername.getText()+"";
-			String password=loginPassword.getText()+"";
+			String password=PasswordEncrypter.encrypt(loginPassword.getText()+"");
 
 
 			new Handler(Looper.getMainLooper()).postDelayed(()->{
