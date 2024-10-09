@@ -64,6 +64,7 @@ public class TextAdapter extends RecyclerView.Adapter<TextHolder> {
 				Image image = (Image) text;
 				byte[] imageByte = Base64.getDecoder().decode(image.getFoto());
 				holder.image.setImageBitmap(BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length));
+				holder.image.setVisibility(View.VISIBLE);
 				holder.text.setVisibility(View.GONE);
 			}
 			else {

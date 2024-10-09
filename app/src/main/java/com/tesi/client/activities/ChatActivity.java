@@ -34,7 +34,6 @@ import com.tesi.entity.chat.Chat;
 import com.tesi.entity.chat.Image;
 import com.tesi.entity.chat.Text;
 import com.tesi.client.control.UserControllerImpl;
-import com.tesi.client.utils.File;
 import com.tesi.client.utils.Session;
 import com.tesi.client.utils.recyclerView.TextAdapter;
 import com.tesi.entity.FotoByteArray;
@@ -43,7 +42,6 @@ import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
@@ -75,7 +73,10 @@ public class ChatActivity extends AppCompatActivity {
 		else
 			chat= (Chat) getIntent().getSerializableExtra("chat");
 
-		String receiver=Arrays.stream(chat.getId().split("-")).filter(s->!s.equalsIgnoreCase(currentUser.getUsername()) && !s.equalsIgnoreCase("chat")).findAny().orElse("");
+		if (chat == null)
+			return;
+
+		String receiver=chat.getUser1().equals(currentUser.getUsername())?chat.getUser2():chat.getUser1();
 
 		foto=new LinkedList<>();
 
@@ -113,7 +114,11 @@ public class ChatActivity extends AppCompatActivity {
 
 		stompClient=Session.getInstance(this).getStompClient();
 		stompClient.topic("/queue/user/"+currentUser.getUsername()).retry(5).subscribe(message->{
-
+//			try {
+//
+//			} catch (ClassCastException e) {
+//
+//			}
 			Text text=gson.fromJson(message.getPayload(), Text.class);
 			if (text.getSender().equalsIgnoreCase(chat.getUser1()) || text.getSender().equalsIgnoreCase(chat.getUser2())) {
 
@@ -171,10 +176,7 @@ public class ChatActivity extends AppCompatActivity {
 
 				editText.setText("");
 
-				stompClient.send("/app/chat", gson.toJson(imageToSend)).subscribe();
-
-				File.deleteFile(this, chat.getId());
-				File.saveObjectToFile(this, chat.getId(), chat);
+				stompClient.send("/app/send", gson.toJson(imageToSend)).subscribe();
 			}
 			fotoDaInviareLayout.setVisibility(View.GONE);
 		});

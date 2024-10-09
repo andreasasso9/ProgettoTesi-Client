@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.tesi.entity.chat.Chat;
+import com.tesi.entity.chat.Image;
 import com.tesi.entity.chat.Text;
 
 import java.lang.reflect.Type;
@@ -30,7 +31,11 @@ public class ChatDeserializer implements JsonDeserializer<Chat> {
 
 		for (JsonElement element : textsArray) {
 			Text text = gson.fromJson(element, Text.class);
-			texts.add(text);
+			if (text.getText()==null) {
+				Image image = gson.fromJson(element, Image.class);
+				texts.add(image);
+			}else
+				texts.add(text);
 		}
 
 		return new Chat(texts, id, user1, user2);
